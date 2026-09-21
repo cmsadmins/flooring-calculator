@@ -1,0 +1,368 @@
+/**
+ * Mengenrechner, funktionales Grundlayout.
+ *
+ * Bewusst zurueckhaltend: Farben und Rahmen kommen aus Variablen, damit ein
+ * Shop sie ueberschreiben kann, ohne Selektoren zu jagen. Das Mengenfeld in
+ * der rechten Spalte gehoert dem Theme und wird nur eingebettet, nicht
+ * umgestaltet.
+ */
+
+.caqc {
+	--caqc-border: var(--caqc-border-color, rgba(0, 0, 0, 0.12));
+	--caqc-accent: var(--caqc-accent-color, #ff6800);
+	--caqc-muted: var(--caqc-muted-color, #6b6b6b);
+	--caqc-bg: var(--caqc-bg-color, #fff);
+
+	border: 1px solid var(--caqc-border);
+	background: var(--caqc-bg);
+	margin-bottom: 15px;
+}
+
+.caqc-grid {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.caqc-field {
+	flex: 1 1 50%;
+	min-width: 180px;
+	padding: 18px 20px;
+	box-sizing: border-box;
+}
+
+.caqc-field--amount + .caqc-field--qty {
+	border-left: 1px solid var(--caqc-border);
+}
+
+.caqc-label {
+	display: block;
+	margin-bottom: 10px;
+	font-size: 1.05em;
+	line-height: 1.3;
+}
+
+.caqc-input-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.caqc-stepper {
+	display: flex;
+	flex: 1 1 auto;
+	align-items: stretch;
+	min-width: 0;
+	max-width: 190px;
+	/* Gleiche Höhe wie das Mengenfeld rechts, sonst stehen die beiden
+	   Spalten sichtbar versetzt. */
+	min-height: var(--caqc-field-height, 47px);
+	border: 1px solid var(--caqc-border);
+	background: var(--caqc-bg);
+}
+
+.caqc-step {
+	flex: 0 0 auto;
+	width: 40px;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: inherit;
+	font-size: 1.2em;
+	line-height: 1;
+	cursor: pointer;
+}
+
+.caqc-step:hover,
+.caqc-step:focus {
+	background: rgba(0, 0, 0, 0.04);
+}
+
+/* Themes setzen Eingabefeldern gern eine feste Breite. Die Angaben hier
+   brauchen deshalb etwas mehr Gewicht als eine einzelne Klasse. */
+.caqc .caqc-input-row .caqc-amount {
+	flex: 1 1 auto;
+	width: auto;
+	min-width: 0;
+	height: auto;
+	margin: 0;
+	padding: 8px 4px;
+	border: 0;
+	border-left: 1px solid var(--caqc-border);
+	border-right: 1px solid var(--caqc-border);
+	border-radius: 0;
+	background: transparent;
+	box-shadow: none;
+	text-align: center;
+	font-size: 1.15em;
+	font-weight: 600;
+}
+
+.caqc .caqc-input-row .caqc-amount:focus {
+	outline: 2px solid var(--caqc-accent);
+	outline-offset: -2px;
+}
+
+.caqc-unit {
+	flex: 0 0 auto;
+	white-space: nowrap;
+}
+
+.caqc-hint,
+.caqc-note {
+	display: block;
+	margin-top: 8px;
+	min-height: 1.2em;
+	color: var(--caqc-muted);
+	font-size: 0.85em;
+	line-height: 1.3;
+}
+
+.caqc-note:empty,
+.caqc-hint:empty {
+	margin-top: 0;
+	min-height: 0;
+}
+
+/*
+ * Das Mengenfeld in der rechten Spalte gehört dem Theme. Damit beide Spalten
+ * gleich aussehen, bekommt es hier die Maße und die Optik des linken Steppers.
+ * Themes bauen dieses Feld sehr unterschiedlich, deshalb die ausführlichen
+ * Angaben und das Zurücksetzen von Position und Breite.
+ */
+.caqc .caqc-field--qty .quantity {
+	display: flex;
+	align-items: stretch;
+	width: auto;
+	max-width: 190px;
+	height: auto;
+	min-height: var(--caqc-field-height, 47px);
+	margin: 0;
+	padding: 0;
+	float: none;
+	border: 1px solid var(--caqc-border);
+	border-radius: 0;
+	background: var(--caqc-bg);
+}
+
+.caqc .caqc-field--qty .quantity input.qty {
+	order: 2;
+	flex: 1 1 auto;
+	width: auto;
+	min-width: 0;
+	height: auto;
+	margin: 0;
+	padding: 8px 4px;
+	border: 0;
+	border-left: 1px solid var(--caqc-border);
+	border-right: 1px solid var(--caqc-border);
+	border-radius: 0;
+	background: transparent;
+	box-shadow: none;
+	text-align: center;
+	font-size: 1.15em;
+	font-weight: 600;
+	line-height: 1.4;
+	-moz-appearance: textfield;
+}
+
+.caqc .caqc-field--qty .quantity input.qty::-webkit-outer-spin-button,
+.caqc .caqc-field--qty .quantity input.qty::-webkit-inner-spin-button {
+	margin: 0;
+	-webkit-appearance: none;
+}
+
+.caqc .caqc-field--qty .quantity .minus,
+.caqc .caqc-field--qty .quantity .plus,
+.caqc .caqc-field--qty .quantity input[type="button"] {
+	position: static;
+	flex: 0 0 auto;
+	width: 40px;
+	height: auto;
+	min-height: 0;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	color: inherit;
+	font-size: 1.2em;
+	line-height: 1;
+	cursor: pointer;
+	transform: none;
+	opacity: 1;
+}
+
+.caqc .caqc-field--qty .quantity .minus,
+.caqc .caqc-field--qty .quantity input[type="button"].minus {
+	order: 1;
+}
+
+.caqc .caqc-field--qty .quantity .plus,
+.caqc .caqc-field--qty .quantity input[type="button"].plus {
+	order: 3;
+}
+
+.caqc .caqc-field--qty .quantity .minus:hover,
+.caqc .caqc-field--qty .quantity .plus:hover,
+.caqc .caqc-field--qty .quantity input[type="button"]:hover {
+	background: rgba(0, 0, 0, 0.04);
+	color: inherit;
+}
+
+.caqc .caqc-field--qty .screen-reader-text {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+}
+
+.caqc-waste {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 14px 20px;
+	border-top: 1px solid var(--caqc-border);
+}
+
+.caqc-waste label {
+	margin: 0;
+	cursor: pointer;
+}
+
+.caqc-waste-input {
+	margin: 0;
+}
+
+.caqc-room {
+	border-top: 1px solid var(--caqc-border);
+	padding: 0 20px 14px;
+}
+
+.caqc-room > summary {
+	padding: 14px 0;
+	cursor: pointer;
+	list-style: revert;
+}
+
+.caqc-room-inputs {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	gap: 12px;
+}
+
+.caqc-room-label {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	font-size: 0.9em;
+}
+
+.caqc-room-label input {
+	width: 110px;
+	margin: 0;
+	padding: 7px 8px;
+	border: 1px solid var(--caqc-border);
+	background: var(--caqc-bg);
+	box-shadow: none;
+}
+
+.caqc-room-label span {
+	color: var(--caqc-muted);
+	font-size: 0.85em;
+}
+
+.caqc-room-apply {
+	padding: 8px 16px;
+	border: 1px solid var(--caqc-border);
+	background: transparent;
+	color: inherit;
+	cursor: pointer;
+}
+
+.caqc-room-result {
+	margin: 10px 0 0;
+	color: var(--caqc-muted);
+	font-size: 0.9em;
+}
+
+.caqc-room-result:empty {
+	margin: 0;
+}
+
+/* Preisbox und Warenkorb-Schaltflaeche nebeneinander. */
+.caqc-footer {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: stretch;
+	gap: 12px;
+	margin-bottom: 15px;
+}
+
+.caqc-total {
+	display: flex;
+	flex: 1 1 240px;
+	align-items: baseline;
+	gap: 8px;
+	padding: 14px 18px;
+	border: 1px solid var(--caqc-accent);
+	background: var(--caqc-bg);
+	box-sizing: border-box;
+}
+
+.caqc-total-label {
+	color: var(--caqc-muted);
+}
+
+.caqc-total-value {
+	flex: 1 1 auto;
+	font-size: 1.7em;
+	font-weight: 700;
+	line-height: 1.1;
+	text-align: right;
+}
+
+.caqc-total-note {
+	color: var(--caqc-muted);
+	font-size: 0.8em;
+	white-space: nowrap;
+}
+
+.caqc-footer .single_add_to_cart_button {
+	flex: 1 1 240px;
+	margin: 0;
+}
+
+.caqc-price-suffix {
+	color: var(--caqc-muted);
+	font-size: 0.8em;
+}
+
+/* Ohne gewaehlte Variante steht die Groesse noch nicht fest. */
+.caqc--no-variation .caqc-field--amount {
+	opacity: 0.55;
+}
+
+.caqc-cart-size {
+	display: block;
+	color: var(--caqc-muted, #6b6b6b);
+	font-size: 0.85em;
+	line-height: 1.3;
+}
+
+@media (max-width: 600px) {
+	.caqc-field {
+		flex: 1 1 100%;
+	}
+
+	.caqc-field--amount + .caqc-field--qty {
+		border-left: 0;
+		border-top: 1px solid var(--caqc-border);
+	}
+
+	.caqc-total-value {
+		font-size: 1.4em;
+	}
+}
