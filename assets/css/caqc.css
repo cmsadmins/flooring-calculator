@@ -222,17 +222,26 @@
 	display: flex;
 	align-items: center;
 	gap: 10px;
-	padding: 14px 20px;
+	min-height: 48px;
+	padding: 4px 20px;
 	border-top: 1px solid var(--caqc-border);
 }
 
+/* Die Beschriftung trägt die Trefferfläche. Die Checkbox allein ist auf
+   einem Handy zu klein, um sie sicher zu treffen. */
 .caqc-waste label {
+	flex: 1 1 auto;
 	margin: 0;
+	padding: 12px 0;
 	cursor: pointer;
 }
 
-.caqc-waste-input {
+.caqc .caqc-waste-input {
+	flex: 0 0 auto;
+	width: 20px;
+	height: 20px;
 	margin: 0;
+	cursor: pointer;
 }
 
 .caqc-room {
@@ -360,6 +369,37 @@
 	.caqc-field--amount + .caqc-field--qty {
 		border-left: 0;
 		border-top: 1px solid var(--caqc-border);
+	}
+
+	/* Untereinander steht die volle Breite zur Verfügung. Ein 109 Pixel
+	   breites Feld in einer 360 Pixel breiten Spalte sieht verloren aus
+	   und trifft sich schlechter. */
+	.caqc-stepper,
+	.caqc .caqc-field--qty .quantity {
+		max-width: none;
+	}
+
+	.caqc-step,
+	.caqc .caqc-field--qty .quantity .minus,
+	.caqc .caqc-field--qty .quantity .plus,
+	.caqc .caqc-field--qty .quantity input[type="button"] {
+		width: 56px;
+	}
+
+	.caqc-room-label input {
+		width: 100%;
+	}
+
+	.caqc-room-label {
+		flex: 1 1 130px;
+	}
+
+	/* Das Theme setzt Schaltflächen eine eigene Höhe, deshalb hier mit
+	   etwas mehr Gewicht auf Fingermaß. */
+	.caqc .caqc-room-apply,
+	.caqc .caqc-room-label input {
+		flex: 1 1 100%;
+		min-height: 44px;
 	}
 
 	.caqc-total-value {

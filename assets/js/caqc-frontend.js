@@ -40,6 +40,11 @@
 		this.size  = this.toSize( this.data.sizePerPiece );
 		this.price = 'number' === typeof this.data.price ? this.data.price : null;
 
+		// Solange wir die Menge selbst setzen, ist die Gegenrichtung gesperrt.
+		// Sonst schreibt das ausgelöste change die Fläche zurück, die der
+		// Kunde gerade eintippt, und das Feld springt unter den Fingern weg.
+		this.schreibtMenge = false;
+
 		this.bind();
 		this.renderHint();
 		this.syncFromQuantity();
@@ -114,6 +119,17 @@
 			this.qtyEl.addEventListener( 'input', function () {
 				self.syncFromQuantity();
 			} );
+
+			// Themes lösen die Änderung meist über jQuery aus. Ein
+			// jQuery-trigger erreicht die Zeilen oben nicht, weil es die
+			// Handler nur in seiner eigenen Liste aufruft. Deshalb hier
+			// zusätzlich über jQuery hören, sonst bleibt die Fläche stehen,
+			// wenn jemand die Plus-Schaltfläche des Themes benutzt.
+			if ( $ ) {
+				$( this.qtyEl ).on( 'change.caqc input.caqc', function () {
+					self.syncFromQuantity();
+				} );
+			}
 		}
 
 		if ( this.wasteEl ) {
@@ -263,7 +279,7 @@
 	 * Menge wurde bearbeitet: Flaeche nachziehen.
 	 */
 	Calculator.prototype.syncFromQuantity = function () {
-		if ( ! this.qtyEl ) {
+		if ( ! this.qtyEl || this.schreibtMenge ) {
 			return;
 		}
 
@@ -438,11 +454,18 @@
 			return quantity;
 		}
 
+		this.schreibtMenge = true;
 		this.qtyEl.value = String( quantity );
 
 		// Andere Skripte, etwa das Theme, hoeren auf change.
-		if ( $ ) {
-			$( this.qtyEl ).trigger( 'change' );
+		try {
+			if ( $ ) {
+				$( this.qtyEl ).trigger( 'change' );
+			} else {
+				this.qtyEl.dispatchEvent( new Event( 'change', { bubbles: true } ) );
+			}
+		} finally {
+			this.schreibtMenge = false;
 		}
 
 		return quantity;

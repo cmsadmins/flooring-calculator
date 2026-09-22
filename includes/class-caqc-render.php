@@ -95,7 +95,7 @@ final class CAQC_Render {
 		}
 
 		if ( CAQC_Types::ROOM_NONE !== $config['room'] ) {
-			self::room_field( (string) $config['room'] );
+			self::room_field( (string) $config['room'], (string) ( $config['room_label'] ?? '' ) );
 		}
 
 		echo '</div>'; // .caqc
@@ -183,12 +183,11 @@ final class CAQC_Render {
 	/**
 	 * Raumrechner als aufklappbarer Bereich.
 	 *
-	 * @param string $mode ROOM_PERIMETER oder ROOM_AREA.
+	 * @param string $mode  ROOM_PERIMETER oder ROOM_AREA.
+	 * @param string $label Überschrift des Bereichs.
 	 */
-	private static function room_field( string $mode ): void {
-		$summary = CAQC_Types::ROOM_PERIMETER === $mode
-			? __( 'Bedarf aus Raummaßen berechnen', 'cms-quantity-calculator' )
-			: __( 'Bedarf aus Raummaßen berechnen', 'cms-quantity-calculator' );
+	private static function room_field( string $mode, string $label ): void {
+		$summary = '' !== $label ? $label : __( 'Bedarf aus Raummaßen berechnen', 'cms-quantity-calculator' );
 
 		printf( '<details class="caqc-room" data-caqc-room="%s">', esc_attr( $mode ) );
 		printf( '<summary>%s</summary>', esc_html( $summary ) );

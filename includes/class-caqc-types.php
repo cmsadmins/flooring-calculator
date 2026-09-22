@@ -99,6 +99,7 @@ final class CAQC_Types {
 				'waste'        => true,
 				'needs_size'   => true,
 				'room'         => self::ROOM_AREA,
+				'room_label'   => __( 'Paneelbedarf berechnen', 'cms-quantity-calculator' ),
 			),
 			'ms'   => array(
 				'label'        => __( 'Meter / Stückzahl', 'cms-quantity-calculator' ),
@@ -115,6 +116,7 @@ final class CAQC_Types {
 				'waste'        => false,
 				'needs_size'   => true,
 				'room'         => self::ROOM_PERIMETER,
+				'room_label'   => __( 'Bedarf aus Raummaßen berechnen', 'cms-quantity-calculator' ),
 			),
 			'm'    => array(
 				'label'        => __( 'Meter', 'cms-quantity-calculator' ),
@@ -131,6 +133,7 @@ final class CAQC_Types {
 				'waste'        => false,
 				'needs_size'   => false,
 				'room'         => self::ROOM_PERIMETER,
+				'room_label'   => __( 'Bedarf aus Raummaßen berechnen', 'cms-quantity-calculator' ),
 			),
 			'kg'   => array(
 				'label'        => __( 'Verbrauch / Gebinde', 'cms-quantity-calculator' ),
