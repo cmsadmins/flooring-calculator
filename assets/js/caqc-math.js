@@ -73,15 +73,17 @@
 	 *
 	 * @param {number} amount       Flaeche in m² oder Laenge in m.
 	 * @param {number} sizePerPiece Groesse, die in einem Stueck steckt.
-	 * @param {boolean} addWaste    Verschnitt von 5 Prozent aufschlagen.
+	 * @param {boolean} addWaste    Verschnitt aufschlagen.
+	 * @param {number} percent      Verschnitt in Prozent, Vorgabe 5.
 	 * @return {number|null} Ganze Menge ab 1, oder null wenn nicht berechenbar.
 	 */
-	function quantityFromAmount( amount, sizePerPiece, addWaste ) {
+	function quantityFromAmount( amount, sizePerPiece, addWaste, percent ) {
 		if ( ! isUsableSize( sizePerPiece ) || ! isFinite( amount ) || amount <= 0 ) {
 			return null;
 		}
 
-		var needed = addWaste ? amount * 1.05 : amount;
+		var zuschlag = 'number' === typeof percent && isFinite( percent ) && percent >= 0 ? percent : 5;
+		var needed   = addWaste ? amount * ( 1 + zuschlag / 100 ) : amount;
 
 		return Math.max( 1, ceil( needed / sizePerPiece ) );
 	}

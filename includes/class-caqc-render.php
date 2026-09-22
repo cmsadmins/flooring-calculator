@@ -90,7 +90,10 @@ final class CAQC_Render {
 		echo '</div>'; // .caqc-field--qty
 		echo '</div>'; // .caqc-grid
 
-		if ( ! empty( $config['waste'] ) && CAQC_Product::has_calculator( $product ) ) {
+		// Bei null Prozent hat der Haken keinen Zweck.
+		if ( ! empty( $config['waste'] )
+			&& CAQC_Product::has_calculator( $product )
+			&& CAQC_Plugin::waste_percent() > 0 ) {
 			self::waste_field();
 		}
 
@@ -101,7 +104,11 @@ final class CAQC_Render {
 		echo '</div>'; // .caqc
 
 		echo '<div class="caqc-footer">';
-		self::total_box();
+
+		if ( CAQC_Settings::show_total() ) {
+			self::total_box();
+		}
+
 		// Danach gibt WooCommerce die Schaltflaeche aus.
 	}
 
@@ -161,6 +168,10 @@ final class CAQC_Render {
 		$percent = CAQC_Plugin::waste_percent();
 		$id      = 'caqc-waste-' . wp_rand();
 
+		// 5 soll "5" bleiben, 7,5 aber auch "7,5". Ein festes Format wuerde
+		// entweder runden oder unnoetige Nullen anhaengen.
+		$anzeige = number_format_i18n( $percent, floor( $percent ) === $percent ? 0 : 1 );
+
 		echo '<div class="caqc-waste">';
 		printf(
 			'<input type="checkbox" id="%1$s" class="caqc-waste-input" data-caqc-waste value="1">',
@@ -173,7 +184,7 @@ final class CAQC_Render {
 				sprintf(
 					/* translators: %s: Prozentsatz des Verschnitts. */
 					__( '%s %% Verschnitt hinzufügen', 'cms-quantity-calculator' ),
-					number_format_i18n( $percent )
+					$anzeige
 				)
 			)
 		);

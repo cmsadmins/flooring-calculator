@@ -272,7 +272,7 @@
 			return math.quantityFromGlue( amount, this.data.glue.consumption, this.data.glue.pack_size );
 		}
 
-		return math.quantityFromAmount( amount, this.size, this.wasteActive() );
+		return math.quantityFromAmount( amount, this.size, this.wasteActive(), this.data.wastePercent );
 	};
 
 	/**

@@ -3,7 +3,7 @@
  * Plugin Name: CMS ADMINS Mengenrechner
  * Plugin URI:  https://www.cms-admins.de
  * Description: Rechnet auf WooCommerce-Produktseiten zwischen Fläche, Länge und Verkaufseinheit um und zeigt den Gesamtpreis sofort an. Für Bodenbeläge, Unterlagen, Klebstoffe, Leisten, Paneele und Profile.
- * Version:     1.0.0
+ * Version:     1.1.0
  * Author:      CMS ADMINS
  * Author URI:  https://www.cms-admins.de
  * Text Domain: cms-quantity-calculator
@@ -19,7 +19,7 @@ declare( strict_types = 1 );
 
 defined( 'ABSPATH' ) || exit;
 
-defined( 'CAQC_VERSION' ) || define( 'CAQC_VERSION', '1.0.0' );
+defined( 'CAQC_VERSION' ) || define( 'CAQC_VERSION', '1.1.0' );
 defined( 'CAQC_PLUGIN_FILE' ) || define( 'CAQC_PLUGIN_FILE', __FILE__ );
 defined( 'CAQC_PLUGIN_DIR' ) || define( 'CAQC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 defined( 'CAQC_PLUGIN_URL' ) || define( 'CAQC_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -33,13 +33,13 @@ require_once CAQC_PLUGIN_DIR . 'includes/class-caqc-cart.php';
 require_once CAQC_PLUGIN_DIR . 'includes/class-caqc-stock.php';
 require_once CAQC_PLUGIN_DIR . 'includes/class-caqc-assets.php';
 require_once CAQC_PLUGIN_DIR . 'includes/class-caqc-migrate.php';
+require_once CAQC_PLUGIN_DIR . 'includes/class-caqc-settings.php';
+require_once CAQC_PLUGIN_DIR . 'includes/class-caqc-admin.php';
 
 /**
  * Einstiegspunkt.
  */
 final class CAQC_Plugin {
-
-	const OPTION_WASTE = 'caqc_waste_percent';
 
 	/**
 	 * Startet das Plugin, sobald WooCommerce bereit ist.
@@ -58,6 +58,8 @@ final class CAQC_Plugin {
 			return;
 		}
 
+		CAQC_Settings::init();
+		CAQC_Admin::init();
 		CAQC_Product_Meta::init();
 		CAQC_Render::init();
 		CAQC_Cart::init();
@@ -68,21 +70,13 @@ final class CAQC_Plugin {
 	}
 
 	/**
-	 * Verschnitt in Prozent. Der Wert lässt sich je Shop setzen.
+	 * Verschnitt in Prozent.
+	 *
+	 * Liegt in den Einstellungen, hier steht nur die Weiterleitung, damit alter
+	 * Code, der diese Methode kennt, weiter funktioniert.
 	 */
 	public static function waste_percent(): float {
-		$percent = (float) get_option( self::OPTION_WASTE, 5 );
-
-		if ( $percent <= 0 || $percent > 100 ) {
-			$percent = 5.0;
-		}
-
-		/**
-		 * Erlaubt, den Verschnitt je Shop oder je Warengruppe zu ändern.
-		 *
-		 * @param float $percent Prozentsatz.
-		 */
-		return (float) apply_filters( 'caqc_waste_percent', $percent );
+		return CAQC_Settings::waste_percent();
 	}
 
 	/**

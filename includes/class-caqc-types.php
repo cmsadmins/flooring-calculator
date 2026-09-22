@@ -18,6 +18,13 @@ defined( 'ABSPATH' ) || exit;
 final class CAQC_Types {
 
 	/**
+	 * Zwischenspeicher der Typtabelle.
+	 *
+	 * @var array<string, array<string, mixed>>|null
+	 */
+	private static $cache = null;
+
+	/**
 	 * Feldart des linken Eingabeblocks.
 	 */
 	const INPUT_NONE  = 'none';
@@ -26,6 +33,13 @@ final class CAQC_Types {
 	const INPUT_GLUE  = 'glue';   // Zu verklebende Flaeche in m².
 
 	/**
+	 * Weitere Merkmale je Typ, die an mehreren Stellen gebraucht werden:
+	 *
+	 *   stock_in_size  Lagerbestand in der Groesse statt in Stueck anzeigen
+	 *   cart_label     Beschriftung der Angabe im Block-Checkout
+	 *   cart_note      Angabe im Warenkorb ueberhaupt zeigen
+	 *   needs_size     ohne Groesse je Stueck kein Rechner
+	 *
 	 * Art des Hinweises unter dem Mengenfeld.
 	 */
 	const HINT_PIECE  = 'piece';   // "1 Paket = 0,46 m²"
@@ -45,10 +59,8 @@ final class CAQC_Types {
 	 * @return array<string, array<string, mixed>>
 	 */
 	public static function all(): array {
-		static $types = null;
-
-		if ( null !== $types ) {
-			return $types;
+		if ( null !== self::$cache ) {
+			return self::$cache;
 		}
 
 		$types = array(
@@ -62,6 +74,8 @@ final class CAQC_Types {
 				'unit_many'    => __( 'Pakete', 'cms-quantity-calculator' ),
 				'size_unit'    => __( 'm²', 'cms-quantity-calculator' ),
 				'price_suffix' => __( '/&nbsp;Paket', 'cms-quantity-calculator' ),
+				'stock_in_size' => true,
+				'cart_label'   => __( 'Fläche', 'cms-quantity-calculator' ),
 				'hint'         => self::HINT_PIECE,
 				'cart_note'    => true,
 				'waste'        => true,
@@ -78,6 +92,8 @@ final class CAQC_Types {
 				'unit_many'    => __( 'Rollen', 'cms-quantity-calculator' ),
 				'size_unit'    => __( 'm²', 'cms-quantity-calculator' ),
 				'price_suffix' => __( '/&nbsp;Rolle', 'cms-quantity-calculator' ),
+				'stock_in_size' => true,
+				'cart_label'   => __( 'Fläche', 'cms-quantity-calculator' ),
 				'hint'         => self::HINT_PIECE,
 				'cart_note'    => true,
 				'waste'        => true,
@@ -94,6 +110,8 @@ final class CAQC_Types {
 				'unit_many'    => __( 'Paneele', 'cms-quantity-calculator' ),
 				'size_unit'    => __( 'm²', 'cms-quantity-calculator' ),
 				'price_suffix' => __( '/&nbsp;Paneel', 'cms-quantity-calculator' ),
+				'stock_in_size' => true,
+				'cart_label'   => __( 'Fläche', 'cms-quantity-calculator' ),
 				'hint'         => self::HINT_PIECE,
 				'cart_note'    => true,
 				'waste'        => true,
@@ -111,6 +129,8 @@ final class CAQC_Types {
 				'unit_many'    => __( 'Stück', 'cms-quantity-calculator' ),
 				'size_unit'    => __( 'm', 'cms-quantity-calculator' ),
 				'price_suffix' => __( '/&nbsp;Stück', 'cms-quantity-calculator' ),
+				'stock_in_size' => false,
+				'cart_label'   => __( 'Menge', 'cms-quantity-calculator' ),
 				'hint'         => self::HINT_PIECE,
 				'cart_note'    => true,
 				'waste'        => false,
@@ -128,6 +148,8 @@ final class CAQC_Types {
 				'unit_many'    => __( 'Meter', 'cms-quantity-calculator' ),
 				'size_unit'    => __( 'm', 'cms-quantity-calculator' ),
 				'price_suffix' => __( '/&nbsp;Meter', 'cms-quantity-calculator' ),
+				'stock_in_size' => false,
+				'cart_label'   => __( 'Menge', 'cms-quantity-calculator' ),
 				'hint'         => self::HINT_LENGTH,
 				'cart_note'    => false,
 				'waste'        => false,
@@ -145,6 +167,8 @@ final class CAQC_Types {
 				'unit_many'    => __( 'Gebinde', 'cms-quantity-calculator' ),
 				'size_unit'    => __( 'kg', 'cms-quantity-calculator' ),
 				'price_suffix' => __( '/&nbsp;Gebinde', 'cms-quantity-calculator' ),
+				'stock_in_size' => false,
+				'cart_label'   => __( 'Menge', 'cms-quantity-calculator' ),
 				'hint'         => self::HINT_NONE,
 				'cart_note'    => false,
 				'waste'        => false,
@@ -161,6 +185,8 @@ final class CAQC_Types {
 				'unit_many'    => __( 'Stück', 'cms-quantity-calculator' ),
 				'size_unit'    => '',
 				'price_suffix' => '',
+				'stock_in_size' => false,
+				'cart_label'   => __( 'Menge', 'cms-quantity-calculator' ),
 				'hint'         => self::HINT_NONE,
 				'cart_note'    => false,
 				'waste'        => false,
@@ -176,7 +202,16 @@ final class CAQC_Types {
 		 */
 		$types = apply_filters( 'caqc_types', $types );
 
+		self::$cache = $types;
+
 		return $types;
+	}
+
+	/**
+	 * Verwirft den Zwischenspeicher, etwa nach einer Einstellungsaenderung.
+	 */
+	public static function flush(): void {
+		self::$cache = null;
 	}
 
 	/**
@@ -210,12 +245,25 @@ final class CAQC_Types {
 	/**
 	 * Auswahlliste fuer das Backend-Dropdown.
 	 *
+	 * Ein Shop braucht selten alle Warengruppen. Was unter den Einstellungen
+	 * abgewaehlt ist, erscheint hier nicht mehr. Die Logik kennt die Typen
+	 * weiterhin, damit bereits gepflegte Produkte nicht umkippen.
+	 *
+	 * @param bool $alle Auch abgewaehlte Typen aufnehmen.
 	 * @return array<string, string>
 	 */
-	public static function options(): array {
+	public static function options( bool $alle = false ): array {
+		$erlaubt = $alle || ! class_exists( 'CAQC_Settings' )
+			? array()
+			: CAQC_Settings::enabled_types();
+
 		$options = array();
 
 		foreach ( self::all() as $key => $type ) {
+			if ( ! empty( $erlaubt ) && ! in_array( $key, $erlaubt, true ) ) {
+				continue;
+			}
+
 			$options[ $key ] = (string) $type['label'];
 		}
 

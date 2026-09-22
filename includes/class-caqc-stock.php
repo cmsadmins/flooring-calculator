@@ -54,9 +54,19 @@ final class CAQC_Stock {
 		$config = CAQC_Product::type_config( $owner['product_id'] );
 		$unit   = (string) $config['size_unit'];
 
-		// Nur Flaechenware bekommt eine andere Einheit. Meter- und Stueckware
+		// Nur Warengruppen, deren Typ das vorsieht. Meter- und Stueckware
 		// zeigen ohnehin schon die Zahl, die im Warenkorb landet.
-		if ( 'm²' !== $unit ) {
+		if ( empty( $config['stock_in_size'] ) || '' === $unit ) {
+			return $text;
+		}
+
+		/**
+		 * Erlaubt, die Umrechnung des Lagertextes abzuschalten.
+		 *
+		 * @param bool       $an      Umrechnen.
+		 * @param WC_Product $product Produkt.
+		 */
+		if ( ! apply_filters( 'caqc_stock_in_size', CAQC_Settings::stock_in_size(), $product ) ) {
 			return $text;
 		}
 

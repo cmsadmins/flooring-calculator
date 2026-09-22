@@ -126,9 +126,7 @@ final class CAQC_Cart {
 		$config = CAQC_Product::type_config( (int) ( $cart_item['product_id'] ?? 0 ) );
 
 		$item_data[] = array(
-			'key'     => 'm²' === (string) $config['size_unit']
-				? __( 'Fläche', 'cms-quantity-calculator' )
-				: __( 'Menge', 'cms-quantity-calculator' ),
+			'key'     => (string) ( $config['cart_label'] ?? __( 'Menge', 'cms-quantity-calculator' ) ),
 			'value'   => $value,
 			'display' => '',
 		);

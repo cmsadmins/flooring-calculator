@@ -41,6 +41,22 @@ check( 'Verschnitt schlaegt 5 Prozent auf, nicht 5,26', function () {
 	assert.strictEqual( m.quantityFromAmount( 100, 1, true ), 105 );
 } );
 
+check( 'der Verschnitt folgt dem eingestellten Prozentsatz', function () {
+	// Ohne Parameter bleibt es bei fuenf Prozent.
+	assert.strictEqual( m.quantityFromAmount( 100, 1, true ), 105 );
+	assert.strictEqual( m.quantityFromAmount( 100, 1, true, 5 ), 105 );
+	// Ein anderer Satz muss auch wirklich ankommen. Genau das fehlte, solange
+	// die 1,05 im Rechenkern fest verdrahtet war.
+	assert.strictEqual( m.quantityFromAmount( 100, 1, true, 10 ), 110 );
+	assert.strictEqual( m.quantityFromAmount( 50, 0.46, true, 7.5 ), 117 );
+	assert.strictEqual( m.quantityFromAmount( 100, 1, true, 0 ), 100 );
+	// Unsinnige Angaben fallen auf fuenf Prozent zurueck.
+	assert.strictEqual( m.quantityFromAmount( 100, 1, true, -3 ), 105 );
+	assert.strictEqual( m.quantityFromAmount( 100, 1, true, NaN ), 105 );
+	// Ohne Haken spielt der Satz keine Rolle.
+	assert.strictEqual( m.quantityFromAmount( 100, 1, false, 50 ), 100 );
+} );
+
 check( 'exaktes Vielfaches rundet nicht eine Einheit zu hoch', function () {
 	// 139 * 0,36 = 50.040000000000006 in Gleitkomma. Ohne Toleranz waeren das 140.
 	assert.strictEqual( m.quantityFromAmount( 50.04, 0.36, false ), 139 );
