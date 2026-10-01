@@ -25,7 +25,9 @@ final class CAQC_Cart {
 	 */
 	public static function init(): void {
 		add_filter( 'woocommerce_cart_item_quantity', array( __CLASS__, 'cart_quantity' ), 10, 3 );
-		add_filter( 'woocommerce_checkout_cart_item_quantity', array( __CLASS__, 'checkout_quantity' ), 10, 3 );
+		// Kein eigener Filter auf die Mengenspalte der klassischen Kasse: dort
+		// erscheint die Angabe bereits als Positionsdatum (siehe unten), ein
+		// zweiter Weg zeigte dieselbe Zahl zweimal.
 		// Bestellübersicht und E-Mail bekommen die Angabe als Positionsdatum
 		// unter dem Artikelnamen. Der Filter auf die Mengenspalte wäre der
 		// kürzere Weg, aber WooCommerce verwendet dieselbe Zeichenkette auch
@@ -57,24 +59,6 @@ final class CAQC_Cart {
 	}
 
 	/**
-	 * Kasse: Hinweis hinter der Menge.
-	 *
-	 * @param string $html      Ausgabe der Menge.
-	 * @param array  $cart_item Zeilendaten.
-	 * @param string $cart_item_key Schluessel der Zeile.
-	 * @return string
-	 */
-	public static function checkout_quantity( $html, $cart_item, $cart_item_key ) {
-		$note = self::size_note( $cart_item );
-
-		if ( '' === $note ) {
-			return $html;
-		}
-
-		return $html . ' <span class="caqc-cart-size">' . esc_html( '(' . $note . ')' ) . '</span>';
-	}
-
-	/**
 	 * Bestelluebersicht, Danke-Seite und E-Mail.
 	 *
 	 * @param int           $item_id Positions-ID.
@@ -97,7 +81,7 @@ final class CAQC_Cart {
 	}
 
 	/**
-	 * Positionsdatum fuer Block-Checkout, Mini-Warenkorb und Store API.
+	 * Positionsdatum fuer Kasse (klassisch und Block), Mini-Warenkorb und Store API.
 	 *
 	 * Ausgenommen ist allein die klassische Warenkorbseite. Dort steht die
 	 * Angabe bereits unter dem Mengenfeld und bewegt sich beim Aendern der
@@ -214,8 +198,10 @@ final class CAQC_Cart {
 			return '';
 		}
 
-		$total  = round( $quantity * $size, 2 );
-		$amount = wc_format_localized_decimal( (string) $total ) . ' ' . (string) $config['size_unit'];
+		// Zwei Nachkommastellen wie auf der Produktseite, damit aus 19,2 m
+		// im Warenkorb nicht eine andere Zahl wird als die 19,20 m davor.
+		$total  = wc_format_decimal( $quantity * $size, 2 );
+		$amount = wc_format_localized_decimal( $total ) . ' ' . (string) $config['size_unit'];
 
 		if ( ! $with_label ) {
 			return $amount;

@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.1
+
+- Klassische Kasse zeigte die Fläche zweimal (hinter der Menge und als
+  Positionsdatum). Der Filter auf die Mengenspalte entfällt
+- Fläche im Warenkorb mit zwei Nachkommastellen wie auf der Produktseite
+- Klebstoffe fragen nach Gebinden, nicht nach Stück
+
 ## 1.2.0
 
 Rückmeldungen aus dem ersten Kundentest.

@@ -165,7 +165,7 @@ final class CAQC_Types {
 				'input'        => self::INPUT_GLUE,
 				'input_label'  => __( 'Zu verklebende Fläche?', 'cms-quantity-calculator' ),
 				'input_unit'   => __( 'm²', 'cms-quantity-calculator' ),
-				'qty_label'    => __( 'Wie viel Stück benötigen Sie?', 'cms-quantity-calculator' ),
+				'qty_label'    => __( 'Wie viele Gebinde benötigen Sie?', 'cms-quantity-calculator' ),
 				'unit_one'     => __( 'Gebinde', 'cms-quantity-calculator' ),
 				'unit_many'    => __( 'Gebinde', 'cms-quantity-calculator' ),
 				'size_unit'    => __( 'kg', 'cms-quantity-calculator' ),
