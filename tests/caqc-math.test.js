@@ -120,6 +120,15 @@ check( 'Raumflaeche fuer Paneele', function () {
 	assert.strictEqual( m.roomArea( 5, 0 ), null );
 } );
 
+check( 'Verschnitt hin und zurueck', function () {
+	assert.strictEqual( m.amountWithWaste( 50, 10 ), 55 );
+	assert.strictEqual( m.amountWithWaste( 50, 5 ), 52.5 );
+	assert.strictEqual( m.amountWithoutWaste( 55, 10 ), 50 );
+	assert.strictEqual( m.amountWithoutWaste( 55.2, 10 ), 50.18 );
+	assert.strictEqual( m.amountWithWaste( 0, 10 ), null );
+	assert.strictEqual( m.amountWithWaste( 50, -1 ), null );
+} );
+
 check( 'Gesamtpreis', function () {
 	assert.strictEqual( m.total( 10, 29.99 ), 299.9 );
 	assert.strictEqual( m.total( 2, 39.9 ), 79.8 );

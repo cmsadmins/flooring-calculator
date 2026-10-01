@@ -33,6 +33,7 @@
 		this.noteEl    = root.querySelector( '[data-caqc-note]' );
 		this.hintEl    = root.querySelector( '[data-caqc-hint]' );
 		this.wasteEl   = root.querySelector( '[data-caqc-waste]' );
+		this.wasteOut  = root.querySelector( '[data-caqc-waste-result]' );
 		this.roomEl    = root.querySelector( '[data-caqc-room]' );
 		this.qtyEl     = this.findQuantityInput();
 		this.totalEl   = this.findTotalValue();
@@ -224,7 +225,38 @@
 		}
 
 		this.renderHint();
+		this.renderWaste();
 		this.renderTotal();
+	};
+
+	/**
+	 * Zeile neben dem Verschnitt-Haken: was aus der Eingabe mit Aufschlag wird.
+	 * Die Eingabe selbst bleibt unangetastet, sonst weiss der Kunde nach dem
+	 * zweiten Umschalten nicht mehr, was er eingetippt hat.
+	 */
+	Calculator.prototype.renderWaste = function () {
+		if ( ! this.wasteOut ) {
+			return;
+		}
+
+		var amount = this.amountEl ? math.parseNumber( this.amountEl.value ) : NaN;
+		var gross  = this.wasteActive() ? math.amountWithWaste( amount, this.data.wastePercent ) : null;
+
+		if ( null === gross || ! this.qtyEl || ! this.data.i18n ) {
+			this.wasteOut.textContent = '';
+
+			return;
+		}
+
+		var quantity  = math.parseNumber( this.qtyEl.value );
+		var separator = this.data.priceFormat ? this.data.priceFormat.thousandSeparator : '.';
+
+		this.wasteOut.textContent = this.data.i18n.wasteResult
+			.replace( '%1$s', math.formatNumber( this.data.wastePercent, { decimals: 0, thousandSeparator: separator } ) )
+			.replace( '%2$s', math.formatNumber( gross, this.data.priceFormat ) )
+			.replace( '%3$s', this.data.inputUnit || '' )
+			.replace( '%4$s', math.formatNumber( quantity, { decimals: 0, thousandSeparator: separator } ) )
+			.replace( '%5$s', quantity > 1 ? this.data.unitMany : this.data.unitOne );
 	};
 
 	/**
@@ -288,12 +320,20 @@
 		if ( this.amountEl && isFinite( quantity ) && quantity > 0 && 'glue' !== this.data.input ) {
 			var amount = math.amountFromQuantity( quantity, this.size );
 
+			// Mit Verschnitt deckt die Menge die Flaeche samt Aufschlag ab. Im
+			// Feld steht die Flaeche ohne Aufschlag, die Zeile am Haken zeigt
+			// den Rest. Sonst widersprechen sich Feld und Zeile.
+			if ( null !== amount && this.wasteActive() ) {
+				amount = math.amountWithoutWaste( amount, this.data.wastePercent );
+			}
+
 			if ( null !== amount ) {
 				this.amountEl.value = math.formatNumber( amount, this.data.priceFormat );
 			}
 		}
 
 		this.renderHint();
+		this.renderWaste();
 		this.renderTotal();
 	};
 
@@ -485,15 +525,23 @@
 			return;
 		}
 
-		if ( ! this.size ) {
+		if ( ! this.size && ! ( 'length' === this.data.hint && this.data.lengthHint ) ) {
 			this.hintEl.textContent = '';
 
 			return;
 		}
 
 		// Meterware wird nach Mass verkauft. Dort ist die hinterlegte Groesse
-		// die Laenge einer Leiste, keine Verkaufseinheit.
+		// die Laenge einer Leiste, keine Verkaufseinheit. Ein fester Text aus
+		// den Einstellungen geht vor, etwa wenn die Laengen je Lieferung
+		// schwanken und eine Spanne genannt werden soll.
 		if ( 'length' === this.data.hint ) {
+			if ( this.data.lengthHint ) {
+				this.hintEl.textContent = this.data.lengthHint;
+
+				return;
+			}
+
 			this.hintEl.textContent = this.data.i18n.soldByLength
 				.replace( '%1$s', math.formatNumber( this.size, this.data.priceFormat ) )
 				.replace( '%2$s', this.data.sizeUnit || '' );

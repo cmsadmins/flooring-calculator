@@ -39,6 +39,8 @@ final class CAQC_Types {
 	 *   cart_label     Beschriftung der Angabe im Block-Checkout
 	 *   cart_note      Angabe im Warenkorb ueberhaupt zeigen
 	 *   needs_size     ohne Groesse je Stueck kein Rechner
+	 *   qty_unit       Einheit rechts neben dem Mengenfeld, wenn die Menge
+	 *                  selbst ein Mass ist (Meterware)
 	 *
 	 * Art des Hinweises unter dem Mengenfeld.
 	 */
@@ -122,7 +124,7 @@ final class CAQC_Types {
 			'ms'   => array(
 				'label'        => __( 'Meter / Stückzahl', 'cms-quantity-calculator' ),
 				'input'        => self::INPUT_METER,
-				'input_label'  => __( 'Welche Menge benötigen Sie?', 'cms-quantity-calculator' ),
+				'input_label'  => __( 'Wie viel Meter benötigen Sie?', 'cms-quantity-calculator' ),
 				'input_unit'   => __( 'm', 'cms-quantity-calculator' ),
 				'qty_label'    => __( 'Wie viel Stück benötigen Sie?', 'cms-quantity-calculator' ),
 				'unit_one'     => __( 'Stück', 'cms-quantity-calculator' ),
@@ -143,7 +145,8 @@ final class CAQC_Types {
 				'input'        => self::INPUT_NONE,
 				'input_label'  => '',
 				'input_unit'   => '',
-				'qty_label'    => __( 'Welche Menge benötigen Sie?', 'cms-quantity-calculator' ),
+				'qty_label'    => __( 'Wie viel Meter benötigen Sie?', 'cms-quantity-calculator' ),
+				'qty_unit'     => __( 'm', 'cms-quantity-calculator' ),
 				'unit_one'     => __( 'Meter', 'cms-quantity-calculator' ),
 				'unit_many'    => __( 'Meter', 'cms-quantity-calculator' ),
 				'size_unit'    => __( 'm', 'cms-quantity-calculator' ),

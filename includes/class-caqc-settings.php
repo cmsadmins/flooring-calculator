@@ -24,6 +24,7 @@ final class CAQC_Settings {
 	const OPTION_TYPES       = 'caqc_enabled_types';
 	const OPTION_SHOW_TOTAL  = 'caqc_show_total';
 	const OPTION_STOCK       = 'caqc_stock_in_size';
+	const OPTION_LENGTH_HINT = 'caqc_length_hint';
 
 	/**
 	 * Haengt die Seite in die WooCommerce-Einstellungen.
@@ -114,6 +115,15 @@ final class CAQC_Settings {
 				'desc_tip' => __( 'Aus "534 vorrätig" wird "534,06 m² vorrätig". Betrifft nur Warengruppen mit Flächenangabe.', 'cms-quantity-calculator' ),
 			),
 			array(
+				'title'       => __( 'Hinweis bei Meterware', 'cms-quantity-calculator' ),
+				'desc'        => __( 'Fester Text unter dem Mengenfeld der Warengruppe Meter. Leer lassen, dann steht dort die Leistenlänge des Produkts.', 'cms-quantity-calculator' ),
+				'id'          => self::OPTION_LENGTH_HINT,
+				'type'        => 'text',
+				'default'     => '',
+				'placeholder' => __( 'Meterweise bestellbar. Leistenlänge ca. 2,40 – 2,70 Meter.', 'cms-quantity-calculator' ),
+				'css'         => 'min-width: 340px;',
+			),
+			array(
 				'title'    => __( 'Verfügbare Mengenangaben', 'cms-quantity-calculator' ),
 				'desc'     => __( 'Nur die ausgewählten erscheinen im Produkt-Dropdown. Bereits gesetzte Werte bleiben erhalten.', 'cms-quantity-calculator' ),
 				'id'       => self::OPTION_TYPES,
@@ -192,6 +202,14 @@ final class CAQC_Settings {
 		 * @param float $percent Prozentsatz.
 		 */
 		return (float) apply_filters( 'caqc_waste_percent', $percent );
+	}
+
+	/**
+	 * Fester Hinweistext bei Meterware, leer wenn die Produktlänge gezeigt
+	 * werden soll.
+	 */
+	public static function length_hint(): string {
+		return trim( (string) get_option( self::OPTION_LENGTH_HINT, '' ) );
 	}
 
 	/**

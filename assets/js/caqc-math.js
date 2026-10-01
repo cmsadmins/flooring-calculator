@@ -89,6 +89,36 @@
 	}
 
 	/**
+	 * Flaeche einschliesslich Verschnitt.
+	 *
+	 * @param {number} amount  Eingegebene Flaeche.
+	 * @param {number} percent Verschnitt in Prozent.
+	 * @return {number|null} Wert auf zwei Nachkommastellen, oder null.
+	 */
+	function amountWithWaste( amount, percent ) {
+		if ( ! isFinite( amount ) || amount <= 0 || ! isFinite( percent ) || percent < 0 ) {
+			return null;
+		}
+
+		return round2( amount * ( 1 + percent / 100 ) );
+	}
+
+	/**
+	 * Flaeche ohne Verschnitt, die Umkehrung von amountWithWaste.
+	 *
+	 * @param {number} amount  Flaeche mit Verschnitt.
+	 * @param {number} percent Verschnitt in Prozent.
+	 * @return {number|null} Wert auf zwei Nachkommastellen, oder null.
+	 */
+	function amountWithoutWaste( amount, percent ) {
+		if ( ! isFinite( amount ) || amount <= 0 || ! isFinite( percent ) || percent < 0 ) {
+			return null;
+		}
+
+		return round2( amount / ( 1 + percent / 100 ) );
+	}
+
+	/**
 	 * Flaeche oder Laenge, die eine Menge abdeckt.
 	 *
 	 * @param {number} quantity     Menge in Stueck.
@@ -227,6 +257,8 @@
 		parseNumber: parseNumber,
 		quantityFromAmount: quantityFromAmount,
 		amountFromQuantity: amountFromQuantity,
+		amountWithWaste: amountWithWaste,
+		amountWithoutWaste: amountWithoutWaste,
 		quantityFromGlue: quantityFromGlue,
 		glueWeight: glueWeight,
 		perimeter: perimeter,

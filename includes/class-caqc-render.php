@@ -70,6 +70,12 @@ final class CAQC_Render {
 
 		echo '<div class="caqc-field caqc-field--qty">';
 		printf( '<span class="caqc-label">%s</span>', esc_html( (string) $config['qty_label'] ) );
+
+		// Ist die Menge selbst ein Mass, steht die Einheit daneben wie in der
+		// linken Spalte. Der Rahmen schliesst in close_fields().
+		if ( ! empty( $config['qty_unit'] ) ) {
+			echo '<div class="caqc-input-row">';
+		}
 		// Danach gibt WooCommerce das Mengenfeld aus.
 	}
 
@@ -85,6 +91,11 @@ final class CAQC_Render {
 
 		$type   = CAQC_Product::type( $product );
 		$config = CAQC_Types::get( $type );
+
+		if ( ! empty( $config['qty_unit'] ) ) {
+			printf( '<span class="caqc-unit">%s</span>', esc_html( (string) $config['qty_unit'] ) );
+			echo '</div>'; // .caqc-input-row
+		}
 
 		echo '<span class="caqc-hint" data-caqc-hint></span>';
 		echo '</div>'; // .caqc-field--qty
@@ -188,6 +199,9 @@ final class CAQC_Render {
 				)
 			)
 		);
+		// Die Eingabe des Kunden bleibt stehen, das Ergebnis mit Verschnitt
+		// steht hier daneben.
+		echo '<span class="caqc-waste-result" data-caqc-waste-result></span>';
 		echo '</div>';
 	}
 
@@ -263,6 +277,7 @@ final class CAQC_Render {
 			'wastePercent'  => CAQC_Plugin::waste_percent(),
 			'room'          => (string) $config['room'],
 			'hint'          => (string) $config['hint'],
+			'lengthHint'    => CAQC_Settings::length_hint(),
 			'hasCalculator' => CAQC_Product::has_calculator( $product ),
 			'price'         => null,
 			'glue'          => $glue,
@@ -276,6 +291,7 @@ final class CAQC_Render {
 				'minimum'       => __( 'Mindestabnahme: %1$s %2$s.', 'cms-quantity-calculator' ),
 				'roomResult'    => __( 'Benötigt: %1$s %2$s', 'cms-quantity-calculator' ),
 				'glueWeight'    => __( 'Bedarf: %1$s kg', 'cms-quantity-calculator' ),
+				'wasteResult'   => __( 'inkl. %1$s %% Verschnitt: %2$s %3$s, %4$s %5$s', 'cms-quantity-calculator' ),
 			),
 		);
 
