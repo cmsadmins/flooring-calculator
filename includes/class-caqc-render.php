@@ -291,7 +291,7 @@ final class CAQC_Render {
 				'minimum'       => __( 'Mindestabnahme: %1$s %2$s.', 'cms-quantity-calculator' ),
 				'roomResult'    => __( 'Benötigt: %1$s %2$s', 'cms-quantity-calculator' ),
 				'glueWeight'    => __( 'Bedarf: %1$s kg', 'cms-quantity-calculator' ),
-				'wasteResult'   => __( 'inkl. %1$s %% Verschnitt: %2$s %3$s, %4$s %5$s', 'cms-quantity-calculator' ),
+				'wasteResult'   => __( 'inkl. %1$s % Verschnitt: %2$s %3$s, %4$s %5$s', 'cms-quantity-calculator' ),
 			),
 		);
 
