@@ -546,13 +546,20 @@
 		// weil der Kunde vor der Variantenwahl getippt hat, bleibt sie und
 		// bestimmt die Menge. Sonst wuerde die Wahl der Variante die Eingabe
 		// mit "1 Stueck" ueberschreiben.
-		var amount = this.amountEl ? math.parseNumber( this.amountEl.value ) : NaN;
+		// WooCommerce und das Theme setzen das Mengenfeld nach show_variation
+		// selbst noch einmal auf das Minimum. Deshalb einen Tick spaeter, sonst
+		// steht rechts wieder 1, waehrend der Preis schon fuer 16 rechnet.
+		var self = this;
 
-		if ( isFinite( amount ) && amount > 0 ) {
-			this.syncFromAmount();
-		} else {
-			this.syncFromQuantity();
-		}
+		window.setTimeout( function () {
+			var amount = self.amountEl ? math.parseNumber( self.amountEl.value ) : NaN;
+
+			if ( isFinite( amount ) && amount > 0 ) {
+				self.syncFromAmount();
+			} else {
+				self.syncFromQuantity();
+			}
+		}, 0 );
 	};
 
 	/**
