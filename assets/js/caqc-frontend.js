@@ -401,6 +401,19 @@
 
 		var quantity = math.parseNumber( this.qtyEl.value );
 
+		// Passt die Flaeche im Feld bereits zu dieser Menge, bleibt sie stehen.
+		// Sonst macht ein nachgereichtes change des Themes aus 37,5 m² erst
+		// 37,82 m² und beim naechsten Durchlauf eine Menge mehr.
+		var current = this.amountEl ? math.parseNumber( this.amountEl.value ) : NaN;
+
+		if ( isFinite( current ) && current > 0 && this.quantityFor( current ) === quantity ) {
+			this.renderHint();
+			this.renderWaste();
+			this.renderTotal();
+
+			return;
+		}
+
 		if ( this.amountEl && isFinite( quantity ) && quantity > 0 && 'glue' !== this.data.input ) {
 			var amount = math.amountFromQuantity( quantity, this.size );
 

@@ -82,7 +82,8 @@ final class CAQC_Types {
 				'cart_note'    => true,
 				'waste'        => true,
 				'needs_size'   => true,
-				'room'         => self::ROOM_NONE,
+				'room'         => self::ROOM_AREA,
+				'room_label'   => __( 'Bedarf aus Raummaßen berechnen', 'cms-quantity-calculator' ),
 			),
 			'qmsr' => array(
 				'label'        => __( 'Quadratmeter / Rollen', 'cms-quantity-calculator' ),
@@ -100,7 +101,8 @@ final class CAQC_Types {
 				'cart_note'    => true,
 				'waste'        => true,
 				'needs_size'   => true,
-				'room'         => self::ROOM_NONE,
+				'room'         => self::ROOM_AREA,
+				'room_label'   => __( 'Bedarf aus Raummaßen berechnen', 'cms-quantity-calculator' ),
 			),
 			'qmst' => array(
 				'label'        => __( 'Quadratmeter / Paneele', 'cms-quantity-calculator' ),
@@ -176,7 +178,8 @@ final class CAQC_Types {
 				'cart_note'    => false,
 				'waste'        => false,
 				'needs_size'   => false,
-				'room'         => self::ROOM_NONE,
+				'room'         => self::ROOM_AREA,
+				'room_label'   => __( 'Fläche aus Raummaßen berechnen', 'cms-quantity-calculator' ),
 			),
 			'stk'  => array(
 				'label'        => __( 'Stückzahl (Standard)', 'cms-quantity-calculator' ),

@@ -12,6 +12,10 @@ Zwei Dinge, die den Vergleich zwischen Produkten leichter machen.
 - Bei reduzierten Artikeln steht unter dem Gesamtpreis der reguläre Preis
   und die Ersparnis, etwa "statt 864,00 €, Sie sparen 156,00 €". Bei
   Varianten folgt die Angabe der gewählten Variante
+- Der Raumrechner (Länge mal Breite) steht jetzt auch bei Böden, Unterlagen
+  und Klebstoffen, nicht nur bei Paneelen und Leisten
+- Eine eingegebene Fläche bleibt bei der Variantenwahl erhalten und wird
+  nicht mehr aus der Menge zurückgerechnet, solange sie zur Menge passt
 
 ## 1.2.1
 
