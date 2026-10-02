@@ -541,7 +541,18 @@
 		this.root.classList.remove( 'caqc--no-variation' );
 		this.renderNote( '' );
 		this.renderHint();
-		this.syncFromQuantity();
+
+		// Steht schon eine Flaeche im Feld, etwa aus dem vorigen Produkt oder
+		// weil der Kunde vor der Variantenwahl getippt hat, bleibt sie und
+		// bestimmt die Menge. Sonst wuerde die Wahl der Variante die Eingabe
+		// mit "1 Stueck" ueberschreiben.
+		var amount = this.amountEl ? math.parseNumber( this.amountEl.value ) : NaN;
+
+		if ( isFinite( amount ) && amount > 0 ) {
+			this.syncFromAmount();
+		} else {
+			this.syncFromQuantity();
+		}
 	};
 
 	/**
