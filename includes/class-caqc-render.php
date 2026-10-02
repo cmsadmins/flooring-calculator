@@ -249,6 +249,8 @@ final class CAQC_Render {
 		printf( '<span class="caqc-total-label">%s</span>', esc_html__( 'Gesamtpreis', 'cms-quantity-calculator' ) );
 		echo '<span class="caqc-total-value" data-caqc-total-value>&ndash;</span>';
 		printf( '<span class="caqc-total-note">%s</span>', esc_html__( 'inkl. MwSt.', 'cms-quantity-calculator' ) );
+		// Bei reduzierten Artikeln: regulärer Gesamtpreis und Ersparnis.
+		echo '<span class="caqc-total-saving" data-caqc-total-saving></span>';
 		echo '</div>';
 	}
 
@@ -280,6 +282,7 @@ final class CAQC_Render {
 			'lengthHint'    => CAQC_Settings::length_hint(),
 			'hasCalculator' => CAQC_Product::has_calculator( $product ),
 			'price'         => null,
+			'regularPrice'  => null,
 			'glue'          => $glue,
 			'priceFormat'   => self::price_format(),
 			'i18n'          => array(
@@ -292,11 +295,19 @@ final class CAQC_Render {
 				'roomResult'    => __( 'Benötigt: %1$s %2$s', 'cms-quantity-calculator' ),
 				'glueWeight'    => __( 'Bedarf: %1$s kg', 'cms-quantity-calculator' ),
 				'wasteResult'   => __( 'inkl. %1$s % Verschnitt: %2$s %3$s, %4$s %5$s', 'cms-quantity-calculator' ),
+				'saving'        => __( 'statt %1$s, Sie sparen %2$s', 'cms-quantity-calculator' ),
 			),
 		);
 
 		if ( ! $product->is_type( 'variable' ) ) {
 			$data['price'] = (float) wc_get_price_including_tax( $product );
+
+			if ( $product->is_on_sale() && '' !== (string) $product->get_regular_price() ) {
+				$data['regularPrice'] = (float) wc_get_price_including_tax(
+					$product,
+					array( 'price' => $product->get_regular_price() )
+				);
+			}
 		}
 
 		return $data;

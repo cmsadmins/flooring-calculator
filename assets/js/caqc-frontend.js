@@ -37,9 +37,11 @@
 		this.roomEl    = root.querySelector( '[data-caqc-room]' );
 		this.qtyEl     = this.findQuantityInput();
 		this.totalEl   = this.findTotalValue();
+		this.savingEl  = this.findInFooter( '[data-caqc-total-saving]' );
 
-		this.size  = this.toSize( this.data.sizePerPiece );
-		this.price = 'number' === typeof this.data.price ? this.data.price : null;
+		this.size    = this.toSize( this.data.sizePerPiece );
+		this.price   = 'number' === typeof this.data.price ? this.data.price : null;
+		this.regular = 'number' === typeof this.data.regularPrice ? this.data.regularPrice : null;
 
 		// Solange wir die Menge selbst setzen, ist die Gegenrichtung gesperrt.
 		// Sonst schreibt das ausgelöste change die Fläche zurück, die der
@@ -49,7 +51,77 @@
 		this.bind();
 		this.renderHint();
 		this.syncFromQuantity();
+		this.restore();
 	}
+
+	/**
+	 * Schluessel im sessionStorage, je Einheit. Wer 37,5 m² Boden eingibt,
+	 * sieht dieselbe Flaeche auch beim naechsten Boden und beim Kleber, bei
+	 * Leisten dagegen die zuletzt eingegebenen Meter.
+	 *
+	 * @return {string|null} Schluessel, null wenn es nichts zu merken gibt.
+	 */
+	Calculator.prototype.storageKey = function () {
+		if ( ! this.amountEl || ! this.data.inputUnit ) {
+			return null;
+		}
+
+		return 'caqc:amount:' + this.data.inputUnit;
+	};
+
+	/**
+	 * Merkt sich Eingabe und Verschnitt fuer die naechste Produktseite.
+	 */
+	Calculator.prototype.remember = function () {
+		var key = this.storageKey();
+
+		if ( ! key ) {
+			return;
+		}
+
+		try {
+			var amount = math.parseNumber( this.amountEl.value );
+
+			if ( isFinite( amount ) && amount > 0 ) {
+				window.sessionStorage.setItem( key, this.amountEl.value );
+			}
+
+			if ( this.wasteEl ) {
+				window.sessionStorage.setItem( 'caqc:waste', this.wasteEl.checked ? '1' : '0' );
+			}
+		} catch ( e ) {
+			// Privater Modus oder gesperrter Speicher: dann eben nicht merken.
+		}
+	};
+
+	/**
+	 * Holt die letzte Eingabe zurueck, wenn sie zur Einheit dieser Seite passt.
+	 */
+	Calculator.prototype.restore = function () {
+		var key = this.storageKey();
+
+		if ( ! key ) {
+			return;
+		}
+
+		try {
+			var stored = window.sessionStorage.getItem( key );
+			var waste  = window.sessionStorage.getItem( 'caqc:waste' );
+
+			if ( this.wasteEl && null !== waste ) {
+				this.wasteEl.checked = '1' === waste;
+			}
+
+			if ( null !== stored && '' !== stored && isFinite( math.parseNumber( stored ) ) ) {
+				this.amountEl.value = stored;
+				this.syncFromAmount();
+			} else if ( this.wasteEl ) {
+				this.renderWaste();
+			}
+		} catch ( e ) {
+			// siehe remember()
+		}
+	};
 
 	/**
 	 * Das Mengenfeld liegt zwischen den Hooks und gehoert dem Theme.
@@ -67,13 +139,23 @@
 	 * @return {HTMLElement|null} Anzeigeelement.
 	 */
 	Calculator.prototype.findTotalValue = function () {
+		return this.findInFooter( '[data-caqc-total-value]' );
+	};
+
+	/**
+	 * Sucht ein Element in der Fusszeile hinter dem Rechner.
+	 *
+	 * @param {string} selector CSS-Selektor.
+	 * @return {HTMLElement|null} Element.
+	 */
+	Calculator.prototype.findInFooter = function ( selector ) {
 		var footer = this.root.nextElementSibling;
 
 		if ( footer && footer.classList.contains( 'caqc-footer' ) ) {
-			return footer.querySelector( '[data-caqc-total-value]' );
+			return footer.querySelector( selector );
 		}
 
-		return this.form.querySelector ? this.form.querySelector( '[data-caqc-total-value]' ) : null;
+		return this.form.querySelector ? this.form.querySelector( selector ) : null;
 	};
 
 	/**
@@ -136,6 +218,7 @@
 		if ( this.wasteEl ) {
 			this.wasteEl.addEventListener( 'change', function () {
 				self.syncFromAmount( true );
+				self.remember();
 			} );
 		}
 
@@ -227,6 +310,7 @@
 		this.renderHint();
 		this.renderWaste();
 		this.renderTotal();
+		this.remember();
 	};
 
 	/**
@@ -447,6 +531,13 @@
 			this.price = variation.display_price;
 		}
 
+		this.regular = null;
+
+		if ( 'number' === typeof variation.display_regular_price
+			&& variation.display_regular_price > this.price ) {
+			this.regular = variation.display_regular_price;
+		}
+
 		this.root.classList.remove( 'caqc--no-variation' );
 		this.renderNote( '' );
 		this.renderHint();
@@ -461,8 +552,9 @@
 			return;
 		}
 
-		this.size  = null;
-		this.price = null;
+		this.size    = null;
+		this.price   = null;
+		this.regular = null;
 
 		this.root.classList.add( 'caqc--no-variation' );
 		this.renderHint();
@@ -595,6 +687,7 @@
 
 		if ( null === this.price || ! this.qtyEl ) {
 			this.totalEl.innerHTML = '&ndash;';
+			this.renderSaving( null, null );
 
 			return;
 		}
@@ -604,11 +697,37 @@
 
 		if ( null === total ) {
 			this.totalEl.innerHTML = '&ndash;';
+			this.renderSaving( null, null );
 
 			return;
 		}
 
 		this.totalEl.innerHTML = math.formatPrice( total, this.data.priceFormat );
+		this.renderSaving( quantity, total );
+	};
+
+	/**
+	 * Regulaerer Gesamtpreis und Ersparnis bei reduzierten Artikeln.
+	 *
+	 * @param {number|null} quantity Menge.
+	 * @param {number|null} total    Gesamtpreis zum Aktionspreis.
+	 */
+	Calculator.prototype.renderSaving = function ( quantity, total ) {
+		if ( ! this.savingEl ) {
+			return;
+		}
+
+		var regularTotal = null !== this.regular && null !== quantity ? math.total( quantity, this.regular ) : null;
+
+		if ( null === regularTotal || null === total || regularTotal <= total || ! this.data.i18n ) {
+			this.savingEl.innerHTML = '';
+
+			return;
+		}
+
+		this.savingEl.innerHTML = this.data.i18n.saving
+			.replace( '%1$s', '<s>' + math.formatPrice( regularTotal, this.data.priceFormat ) + '</s>' )
+			.replace( '%2$s', '<strong>' + math.formatPrice( regularTotal - total, this.data.priceFormat ) + '</strong>' );
 	};
 
 	/**

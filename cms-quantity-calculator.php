@@ -3,7 +3,7 @@
  * Plugin Name: CMS ADMINS Mengenrechner
  * Plugin URI:  https://www.cms-admins.de
  * Description: Rechnet auf WooCommerce-Produktseiten zwischen Fläche, Länge und Verkaufseinheit um und zeigt den Gesamtpreis sofort an. Für Bodenbeläge, Unterlagen, Klebstoffe, Leisten, Paneele und Profile.
- * Version:     1.2.1
+ * Version:     1.3.0
  * Author:      CMS ADMINS
  * Author URI:  https://www.cms-admins.de
  * Text Domain: cms-quantity-calculator
@@ -19,7 +19,7 @@ declare( strict_types = 1 );
 
 defined( 'ABSPATH' ) || exit;
 
-defined( 'CAQC_VERSION' ) || define( 'CAQC_VERSION', '1.2.1' );
+defined( 'CAQC_VERSION' ) || define( 'CAQC_VERSION', '1.3.0' );
 defined( 'CAQC_PLUGIN_FILE' ) || define( 'CAQC_PLUGIN_FILE', __FILE__ );
 defined( 'CAQC_PLUGIN_DIR' ) || define( 'CAQC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 defined( 'CAQC_PLUGIN_URL' ) || define( 'CAQC_PLUGIN_URL', plugin_dir_url( __FILE__ ) );

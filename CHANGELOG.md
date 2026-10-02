@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.3.0
+
+Zwei Dinge, die den Vergleich zwischen Produkten leichter machen.
+
+- Die eingegebene Fläche (oder Meterzahl) und der Verschnitt-Haken bleiben
+  für die Dauer des Besuchs erhalten. Wer 37,5 m² eingibt und dann drei
+  Böden vergleicht, sieht überall sofort den Gesamtpreis für seinen Raum,
+  beim Kleber gleich die passende Gebindezahl. Gemerkt wird je Einheit
+  (m² und m getrennt), im Browser, nicht auf dem Server
+- Bei reduzierten Artikeln steht unter dem Gesamtpreis der reguläre Preis
+  und die Ersparnis, etwa "statt 864,00 €, Sie sparen 156,00 €". Bei
+  Varianten folgt die Angabe der gewählten Variante
+
 ## 1.2.1
 
 - Klassische Kasse zeigte die Fläche zweimal (hinter der Menge und als

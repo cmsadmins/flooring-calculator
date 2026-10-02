@@ -328,6 +328,7 @@
 .caqc-total {
 	display: flex;
 	flex: 1 1 240px;
+	flex-wrap: wrap;
 	align-items: baseline;
 	gap: 8px;
 	padding: 14px 18px;
@@ -352,6 +353,18 @@
 	color: var(--caqc-muted);
 	font-size: 0.8em;
 	white-space: nowrap;
+}
+
+/* Regulärer Preis und Ersparnis in einer eigenen Zeile unter der Summe. */
+.caqc-total-saving {
+	flex: 1 0 100%;
+	color: var(--caqc-muted);
+	font-size: 0.85em;
+	text-align: right;
+}
+
+.caqc-total-saving:empty {
+	display: none;
 }
 
 .caqc-footer .single_add_to_cart_button {
