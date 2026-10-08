@@ -49,6 +49,22 @@ final class CAQC_Cart {
 		// und sie bleibt richtig, wenn sich die Größe am Produkt später ändert.
 		// Klassische Kasse und Block-Kasse laufen beide über diesen Hook.
 		add_action( 'woocommerce_checkout_create_order_line_item', array( __CLASS__, 'save_order_item' ), 10, 3 );
+
+		// Das Backend zeigt auch Schlüssel mit Unterstrich, außer sie stehen auf
+		// dieser Liste.
+		add_filter( 'woocommerce_hidden_order_itemmeta', array( __CLASS__, 'hide_order_itemmeta' ) );
+	}
+
+	/**
+	 * Blendet das Merkzeichen in der Bestellansicht aus.
+	 *
+	 * @param array $keys Ausgeblendete Schlüssel.
+	 * @return array
+	 */
+	public static function hide_order_itemmeta( $keys ) {
+		$keys[] = self::META_STORED;
+
+		return $keys;
 	}
 
 	/**

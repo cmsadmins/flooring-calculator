@@ -4,7 +4,7 @@ Tags: flooring, square meter, area calculator, woocommerce, quantity
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -91,6 +91,9 @@ Map your old meta keys to the plugin's keys with the filter `caqc_migration_map`
 The plugin removes its own settings only. Sizes and quantity types stay with the products, so reinstalling restores everything.
 
 == Changelog ==
+
+= 1.0.2 =
+* Hide the internal marker of saved order lines in the order screen.
 
 = 1.0.1 =
 * The area or length is now saved with each order line, so it shows in the order screen, in the order emails to the shop and on invoices.
