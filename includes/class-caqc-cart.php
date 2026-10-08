@@ -21,6 +21,11 @@ defined( 'ABSPATH' ) || exit;
 final class CAQC_Cart {
 
 	/**
+	 * Merkzeichen an der Bestellposition: Angabe ist gespeichert.
+	 */
+	const META_STORED = '_caqc_size_stored';
+
+	/**
 	 * Haengt die Filter ein.
 	 */
 	public static function init(): void {
@@ -38,6 +43,32 @@ final class CAQC_Cart {
 		// Store API. Die Filter oben laufen dort nicht. Diese Angabe reist als
 		// Positionsdatum mit und erscheint deshalb auch dort unter dem Artikel.
 		add_filter( 'woocommerce_get_item_data', array( __CLASS__, 'store_api_item_data' ), 10, 2 );
+
+		// Beim Bestellabschluss die Angabe fest an die Position schreiben. Nur so
+		// steht sie auch im Backend, in der Mail an den Shop und auf Rechnungen,
+		// und sie bleibt richtig, wenn sich die Größe am Produkt später ändert.
+		// Klassische Kasse und Block-Kasse laufen beide über diesen Hook.
+		add_action( 'woocommerce_checkout_create_order_line_item', array( __CLASS__, 'save_order_item' ), 10, 3 );
+	}
+
+	/**
+	 * Speichert die Angabe als sichtbares Positionsdatum, etwa "Fläche: 41,76 m²".
+	 *
+	 * @param WC_Order_Item_Product $item          Neue Bestellposition.
+	 * @param string                $cart_item_key Schlüssel der Warenkorbzeile.
+	 * @param array                 $values        Warenkorbzeile.
+	 */
+	public static function save_order_item( $item, $cart_item_key, $values ): void {
+		$value = self::size_note( $values, false );
+
+		if ( '' === $value || ! $item instanceof WC_Order_Item_Product ) {
+			return;
+		}
+
+		$config = CAQC_Product::type_config( (int) ( $values['product_id'] ?? 0 ) );
+
+		$item->add_meta_data( (string) ( $config['cart_label'] ?? __( 'Quantity', 'flooring-calculator' ) ), $value, true );
+		$item->add_meta_data( self::META_STORED, '1', true );
 	}
 
 	/**
@@ -171,6 +202,12 @@ final class CAQC_Cart {
 		}
 
 		if ( $item->get_meta( '_is_sample' ) ) {
+			return '';
+		}
+
+		// Gespeicherte Angaben zeigt WooCommerce selbst als Positionsdatum an.
+		// Berechnet wird nur noch für Bestellungen von vor Version 1.0.1.
+		if ( $item->get_meta( self::META_STORED ) ) {
 			return '';
 		}
 
