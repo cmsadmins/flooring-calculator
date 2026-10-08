@@ -4,7 +4,7 @@ Tags: flooring, square meter, area calculator, woocommerce, quantity
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -91,6 +91,9 @@ Map your old meta keys to the plugin's keys with the filter `caqc_migration_map`
 The plugin removes its own settings only. Sizes and quantity types stay with the products, so reinstalling restores everything.
 
 == Changelog ==
+
+= 1.0.3 =
+* The unit stays behind the quantity field when the theme reorders the field (for example Woodmart on variable products).
 
 = 1.0.2 =
 * Hide the internal marker of saved order lines in the order screen.

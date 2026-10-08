@@ -107,6 +107,12 @@
 	white-space: nowrap;
 }
 
+/* Themes wie Woodmart setzen dem Mengenfeld eine order (form.cart div.quantity
+   { order: 5 }). Ohne eigene Reihenfolge rutscht die Einheit davor. */
+.caqc .caqc-input-row > .caqc-unit {
+	order: 99;
+}
+
 .caqc-hint,
 .caqc-note {
 	display: block;
