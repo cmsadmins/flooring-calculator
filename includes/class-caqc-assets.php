@@ -7,7 +7,7 @@
  * Version auf null und hatte ausserdem die Abhaengigkeit von jQuery vergessen,
  * obwohl die Datei mit jQuery(document).ready beginnt.
  *
- * @package CMSQuantityCalculator
+ * @package FlooringCalculator
  */
 
 declare( strict_types = 1 );

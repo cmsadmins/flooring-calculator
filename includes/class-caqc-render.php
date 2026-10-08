@@ -12,7 +12,7 @@
  * Dadurch umschliesst der Rechner das Mengenfeld des Themes, statt es zu
  * ersetzen. Die Plus- und Minus-Schaltflaechen des Themes bleiben nutzbar.
  *
- * @package CMSQuantityCalculator
+ * @package FlooringCalculator
  */
 
 declare( strict_types = 1 );
@@ -153,7 +153,7 @@ final class CAQC_Render {
 		echo '<div class="caqc-stepper">';
 		printf(
 			'<button type="button" class="caqc-step caqc-step--minus" data-caqc-step="-1" aria-label="%s">&minus;</button>',
-			esc_attr__( 'Menge verringern', 'cms-quantity-calculator' )
+			esc_attr__( 'Decrease amount', 'flooring-calculator' )
 		);
 		printf(
 			'<input type="text" class="caqc-amount" data-caqc-amount inputmode="decimal" autocomplete="off" value="" aria-label="%s">',
@@ -161,7 +161,7 @@ final class CAQC_Render {
 		);
 		printf(
 			'<button type="button" class="caqc-step caqc-step--plus" data-caqc-step="1" aria-label="%s">+</button>',
-			esc_attr__( 'Menge erhöhen', 'cms-quantity-calculator' )
+			esc_attr__( 'Increase amount', 'flooring-calculator' )
 		);
 		echo '</div>';
 
@@ -193,8 +193,8 @@ final class CAQC_Render {
 			esc_attr( $id ),
 			esc_html(
 				sprintf(
-					/* translators: %s: Prozentsatz des Verschnitts. */
-					__( '%s %% Verschnitt hinzufügen', 'cms-quantity-calculator' ),
+					/* translators: %s: waste percentage, e.g. "10". */
+					__( 'Add %s%% for waste', 'flooring-calculator' ),
 					$anzeige
 				)
 			)
@@ -212,7 +212,7 @@ final class CAQC_Render {
 	 * @param string $label Überschrift des Bereichs.
 	 */
 	private static function room_field( string $mode, string $label ): void {
-		$summary = '' !== $label ? $label : __( 'Bedarf aus Raummaßen berechnen', 'cms-quantity-calculator' );
+		$summary = '' !== $label ? $label : __( 'Calculate from room dimensions', 'flooring-calculator' );
 
 		printf( '<details class="caqc-room" data-caqc-room="%s">', esc_attr( $mode ) );
 		printf( '<summary>%s</summary>', esc_html( $summary ) );
@@ -221,19 +221,19 @@ final class CAQC_Render {
 
 		printf(
 			'<label class="caqc-room-label">%1$s<input type="text" data-caqc-room-length inputmode="decimal" autocomplete="off" value=""><span>%2$s</span></label>',
-			esc_html__( 'Raumlänge', 'cms-quantity-calculator' ),
-			esc_html__( 'm', 'cms-quantity-calculator' )
+			esc_html__( 'Room length', 'flooring-calculator' ),
+			esc_html__( 'm', 'flooring-calculator' )
 		);
 
 		printf(
 			'<label class="caqc-room-label">%1$s<input type="text" data-caqc-room-width inputmode="decimal" autocomplete="off" value=""><span>%2$s</span></label>',
-			esc_html__( 'Raumbreite', 'cms-quantity-calculator' ),
-			esc_html__( 'm', 'cms-quantity-calculator' )
+			esc_html__( 'Room width', 'flooring-calculator' ),
+			esc_html__( 'm', 'flooring-calculator' )
 		);
 
 		printf(
 			'<button type="button" class="caqc-room-apply" data-caqc-room-apply>%s</button>',
-			esc_html__( 'Übernehmen', 'cms-quantity-calculator' )
+			esc_html__( 'Apply', 'flooring-calculator' )
 		);
 
 		echo '</div>';
@@ -246,9 +246,9 @@ final class CAQC_Render {
 	 */
 	private static function total_box(): void {
 		echo '<div class="caqc-total" data-caqc-total>';
-		printf( '<span class="caqc-total-label">%s</span>', esc_html__( 'Gesamtpreis', 'cms-quantity-calculator' ) );
+		printf( '<span class="caqc-total-label">%s</span>', esc_html__( 'Total price', 'flooring-calculator' ) );
 		echo '<span class="caqc-total-value" data-caqc-total-value>&ndash;</span>';
-		printf( '<span class="caqc-total-note">%s</span>', esc_html__( 'inkl. MwSt.', 'cms-quantity-calculator' ) );
+		printf( '<span class="caqc-total-note">%s</span>', esc_html__( 'incl. VAT', 'flooring-calculator' ) );
 		// Bei reduzierten Artikeln: regulärer Gesamtpreis und Ersparnis.
 		echo '<span class="caqc-total-saving" data-caqc-total-saving></span>';
 		echo '</div>';
@@ -286,16 +286,23 @@ final class CAQC_Render {
 			'glue'          => $glue,
 			'priceFormat'   => self::price_format(),
 			'i18n'          => array(
-				'pieceEquals'   => __( '1 %1$s = %2$s %3$s', 'cms-quantity-calculator' ),
-				'soldByLength'  => __( 'Meterweise bestellbar. Leistenlänge ca. %1$s %2$s.', 'cms-quantity-calculator' ),
-				'totalSize'     => __( '%1$s %2$s gesamt', 'cms-quantity-calculator' ),
-				'chooseVariant' => __( 'Bitte wählen Sie zuerst eine Artikelvariante aus.', 'cms-quantity-calculator' ),
-				'capped'        => __( 'Mehr als %1$s %2$s sind derzeit nicht lieferbar.', 'cms-quantity-calculator' ),
-				'minimum'       => __( 'Mindestabnahme: %1$s %2$s.', 'cms-quantity-calculator' ),
-				'roomResult'    => __( 'Benötigt: %1$s %2$s', 'cms-quantity-calculator' ),
-				'glueWeight'    => __( 'Bedarf: %1$s kg', 'cms-quantity-calculator' ),
-				'wasteResult'   => __( 'inkl. %1$s % Verschnitt: %2$s %3$s, %4$s %5$s', 'cms-quantity-calculator' ),
-				'saving'        => __( 'statt %1$s, Sie sparen %2$s', 'cms-quantity-calculator' ),
+				/* translators: 1: sales unit, e.g. "pack", 2: size of one unit, 3: size unit, e.g. "m²". */
+				'pieceEquals'   => __( '1 %1$s = %2$s %3$s', 'flooring-calculator' ),
+				/* translators: 1: length of one piece, 2: length unit, e.g. "m". */
+				'soldByLength'  => __( 'Sold by the meter. Length per piece approx. %1$s %2$s.', 'flooring-calculator' ),
+				'chooseVariant' => __( 'Please select a product variation first.', 'flooring-calculator' ),
+				/* translators: 1: maximum quantity, 2: sales unit, e.g. "packs". */
+				'capped'        => __( 'More than %1$s %2$s are currently not available.', 'flooring-calculator' ),
+				/* translators: 1: minimum quantity, 2: sales unit, e.g. "rolls". */
+				'minimum'       => __( 'Minimum order: %1$s %2$s.', 'flooring-calculator' ),
+				/* translators: 1: calculated area or length, 2: unit, e.g. "m²". */
+				'roomResult'    => __( 'Required: %1$s %2$s', 'flooring-calculator' ),
+				/* translators: %1$s: adhesive weight. */
+				'glueWeight'    => __( 'Required: %1$s kg', 'flooring-calculator' ),
+				/* translators: 1: waste percentage, 2: area incl. waste, 3: unit, 4: quantity, 5: sales unit. */
+				'wasteResult'   => __( 'incl. %1$s%% waste: %2$s %3$s, %4$s %5$s', 'flooring-calculator' ),
+				/* translators: 1: regular total price, 2: amount saved. */
+				'saving'        => __( 'instead of %1$s, you save %2$s', 'flooring-calculator' ),
 			),
 		);
 
@@ -323,12 +330,10 @@ final class CAQC_Render {
 			'decimals'          => wc_get_price_decimals(),
 			'decimalSeparator'  => wc_get_price_decimal_separator(),
 			'thousandSeparator' => wc_get_price_thousand_separator(),
-			'symbol'            => get_woocommerce_currency_symbol(),
-			'format'            => str_replace(
-				array( '%1$s', '%2$s' ),
-				array( '%1$s', '%2$s' ),
-				get_woocommerce_price_format()
-			),
+			// Das Skript setzt Preise als Text ein, Entitäten wie &euro; oder
+			// &nbsp; müssen deshalb schon hier zu Zeichen werden.
+			'symbol'            => html_entity_decode( get_woocommerce_currency_symbol(), ENT_QUOTES, 'UTF-8' ),
+			'format'            => html_entity_decode( get_woocommerce_price_format(), ENT_QUOTES, 'UTF-8' ),
 		);
 	}
 

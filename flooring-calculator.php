@@ -1,25 +1,29 @@
 <?php
 /**
- * Plugin Name: CMS ADMINS Mengenrechner
- * Plugin URI:  https://www.cms-admins.de
- * Description: Rechnet auf WooCommerce-Produktseiten zwischen Fläche, Länge und Verkaufseinheit um und zeigt den Gesamtpreis sofort an. Für Bodenbeläge, Unterlagen, Klebstoffe, Leisten, Paneele und Profile.
- * Version:     1.3.0
- * Author:      CMS ADMINS
- * Author URI:  https://www.cms-admins.de
- * Text Domain: cms-quantity-calculator
- * Domain Path: /languages
- * Requires at least: 6.0
- * Requires PHP: 7.4
- * License: Proprietary
+ * Plugin Name:          Flooring Calculator for WooCommerce
+ * Plugin URI:           https://www.cms-admins.de/
+ * Description:          Converts between area, length and sales unit on WooCommerce product pages and shows the total price instantly. For flooring, underlay, adhesives, skirting boards, panels and profiles.
+ * Version:              1.0.0
+ * Requires at least:    6.2
+ * Requires PHP:         7.4
+ * Requires Plugins:     woocommerce
+ * Author:               CMS ADMINS
+ * Author URI:           https://www.cms-admins.de/
+ * License:              GPL-2.0-or-later
+ * License URI:          https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain:          flooring-calculator
+ * Domain Path:          /languages
+ * WC requires at least: 8.0
+ * WC tested up to:      11.2
  *
- * @package CMSQuantityCalculator
+ * @package FlooringCalculator
  */
 
 declare( strict_types = 1 );
 
 defined( 'ABSPATH' ) || exit;
 
-defined( 'CAQC_VERSION' ) || define( 'CAQC_VERSION', '1.3.0' );
+defined( 'CAQC_VERSION' ) || define( 'CAQC_VERSION', '1.0.0' );
 defined( 'CAQC_PLUGIN_FILE' ) || define( 'CAQC_PLUGIN_FILE', __FILE__ );
 defined( 'CAQC_PLUGIN_DIR' ) || define( 'CAQC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 defined( 'CAQC_PLUGIN_URL' ) || define( 'CAQC_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -46,10 +50,11 @@ final class CAQC_Plugin {
 	 */
 	public static function boot(): void {
 		add_action( 'plugins_loaded', array( __CLASS__, 'init' ), 20 );
+		add_action( 'before_woocommerce_init', array( __CLASS__, 'declare_compatibility' ) );
 	}
 
 	/**
-	 * Haengt alle Bestandteile ein.
+	 * Hängt alle Bestandteile ein.
 	 */
 	public static function init(): void {
 		if ( ! class_exists( 'WooCommerce' ) ) {
@@ -65,8 +70,19 @@ final class CAQC_Plugin {
 		CAQC_Cart::init();
 		CAQC_Stock::init();
 		CAQC_Assets::init();
+	}
 
-		self::update_checker();
+	/**
+	 * Das Plugin liest Bestellungen nur über die WooCommerce-API und verträgt
+	 * deshalb HPOS und den Block-Checkout.
+	 */
+	public static function declare_compatibility(): void {
+		if ( ! class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+			return;
+		}
+
+		\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', CAQC_PLUGIN_FILE, true );
+		\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'cart_checkout_blocks', CAQC_PLUGIN_FILE, true );
 	}
 
 	/**
@@ -80,34 +96,11 @@ final class CAQC_Plugin {
 	}
 
 	/**
-	 * Bindet das Plugin an den Update-Server von CMS ADMINS.
-	 */
-	private static function update_checker(): void {
-		$library = CAQC_PLUGIN_DIR . 'vendor/plugin-update-checker/plugin-update-checker.php';
-
-		if ( ! file_exists( $library ) ) {
-			return;
-		}
-
-		require_once $library;
-
-		if ( ! class_exists( 'YahnisElsts\PluginUpdateChecker\v5\PucFactory' ) ) {
-			return;
-		}
-
-		YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
-			'https://update.cms-admins.de/?action=get_metadata&slug=cms-quantity-calculator',
-			CAQC_PLUGIN_FILE,
-			'cms-quantity-calculator'
-		);
-	}
-
-	/**
 	 * Hinweis, wenn WooCommerce fehlt.
 	 */
 	public static function notice_missing_woocommerce(): void {
 		echo '<div class="notice notice-error"><p>'
-			. esc_html__( 'CMS ADMINS Mengenrechner benötigt WooCommerce. Das Plugin bleibt ohne Wirkung.', 'cms-quantity-calculator' )
+			. esc_html__( 'Flooring Calculator for WooCommerce needs WooCommerce to be installed and active.', 'flooring-calculator' )
 			. '</p></div>';
 	}
 

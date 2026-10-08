@@ -6,7 +6,7 @@
  * einstellen. Ohne diese Klasse ist die Einfuehrung in einem neuen Shop
  * Tagesarbeit, mit ihr eine Sache von Minuten.
  *
- * @package CMSQuantityCalculator
+ * @package FlooringCalculator
  */
 
 declare( strict_types = 1 );
@@ -33,7 +33,7 @@ final class CAQC_Admin {
 		add_action( 'woocommerce_product_quick_edit_save', array( __CLASS__, 'save_quick_edit' ) );
 		add_action( 'woocommerce_product_bulk_edit_save', array( __CLASS__, 'save_bulk_edit' ) );
 
-		add_action( 'admin_footer-edit.php', array( __CLASS__, 'quick_edit_script' ) );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'quick_edit_script' ) );
 
 		add_action( 'restrict_manage_posts', array( __CLASS__, 'filter_dropdown' ) );
 		add_filter( 'request', array( __CLASS__, 'filter_query' ) );
@@ -52,12 +52,12 @@ final class CAQC_Admin {
 			$neu[ $key ] = $label;
 
 			if ( 'is_in_stock' === $key ) {
-				$neu['caqc'] = __( 'Mengenangabe', 'cms-quantity-calculator' );
+				$neu['caqc'] = __( 'Quantity type', 'flooring-calculator' );
 			}
 		}
 
 		if ( ! isset( $neu['caqc'] ) ) {
-			$neu['caqc'] = __( 'Mengenangabe', 'cms-quantity-calculator' );
+			$neu['caqc'] = __( 'Quantity type', 'flooring-calculator' );
 		}
 
 		return $neu;
@@ -96,7 +96,7 @@ final class CAQC_Admin {
 			$glue = CAQC_Product::glue( $product );
 
 			if ( null === $glue ) {
-				self::hinweis( __( 'Verbrauch oder Gebinde fehlt', 'cms-quantity-calculator' ) );
+				self::hinweis( __( 'Coverage or container size missing', 'flooring-calculator' ) );
 
 				return;
 			}
@@ -105,8 +105,8 @@ final class CAQC_Admin {
 				'<small>%s</small>',
 				esc_html(
 					sprintf(
-						/* translators: 1: Verbrauch, 2: Gebindeinhalt. */
-						__( '%1$s kg/m², Gebinde %2$s kg', 'cms-quantity-calculator' ),
+						/* translators: 1: coverage in kg per m², 2: container size in kg. */
+						__( '%1$s kg/m², container %2$s kg', 'flooring-calculator' ),
 						wc_format_localized_decimal( (string) $glue['consumption'] ),
 						wc_format_localized_decimal( (string) $glue['pack_size'] )
 					)
@@ -117,7 +117,7 @@ final class CAQC_Admin {
 		}
 
 		if ( CAQC_Product::uses_variation_size( $product ) ) {
-			printf( '<small>%s</small>', esc_html__( 'Größe je Variante', 'cms-quantity-calculator' ) );
+			printf( '<small>%s</small>', esc_html__( 'Size per variation', 'flooring-calculator' ) );
 
 			return;
 		}
@@ -125,7 +125,7 @@ final class CAQC_Admin {
 		$size = CAQC_Product::size_per_piece( $product );
 
 		if ( null === $size ) {
-			self::hinweis( __( 'Größe pro Stück fehlt', 'cms-quantity-calculator' ) );
+			self::hinweis( __( 'Size per unit missing', 'flooring-calculator' ) );
 
 			return;
 		}
@@ -172,14 +172,14 @@ final class CAQC_Admin {
 
 		echo '<div class="inline-edit-group caqc-inline">';
 		echo '<label class="alignleft"><span class="title">'
-			. esc_html__( 'Mengenangabe', 'cms-quantity-calculator' ) . '</span>';
+			. esc_html__( 'Quantity type', 'flooring-calculator' ) . '</span>';
 		echo '<span class="input-text-wrap"><select name="_caqc_type">';
 
 		printf(
 			'<option value="">%s</option>',
 			'bulk' === $modus
-				? esc_html__( '— unverändert —', 'cms-quantity-calculator' )
-				: esc_html__( '— bitte wählen —', 'cms-quantity-calculator' )
+				? esc_html__( '— No change —', 'flooring-calculator' )
+				: esc_html__( '— Select —', 'flooring-calculator' )
 		);
 
 		foreach ( $optionen as $key => $label ) {
@@ -189,11 +189,11 @@ final class CAQC_Admin {
 		echo '</select></span></label>';
 
 		echo '<label class="alignleft"><span class="title">'
-			. esc_html__( 'Größe pro Stück', 'cms-quantity-calculator' ) . '</span>';
+			. esc_html__( 'Size per unit', 'flooring-calculator' ) . '</span>';
 		printf(
 			'<span class="input-text-wrap"><input type="text" name="_caqc_size" class="text" value="" placeholder="%s"></span>',
 			'bulk' === $modus
-				? esc_attr__( 'unverändert', 'cms-quantity-calculator' )
+				? esc_attr__( 'no change', 'flooring-calculator' )
 				: ''
 		);
 		echo '</label>';
@@ -252,7 +252,7 @@ final class CAQC_Admin {
 		}
 
 		if ( isset( $_REQUEST['_caqc_size'] ) ) {
-			$roh = trim( (string) wp_unslash( $_REQUEST['_caqc_size'] ) );
+			$roh = trim( sanitize_text_field( wp_unslash( $_REQUEST['_caqc_size'] ) ) );
 
 			if ( '' !== $roh ) {
 				$size = CAQC_Product::to_float( $roh );
@@ -274,55 +274,34 @@ final class CAQC_Admin {
 	 *
 	 * WordPress liefert dafür keine Daten mit, deshalb werden sie aus der
 	 * Spalte gelesen, die ohnehin in der Tabelle steht.
+	 *
+	 * @param string $hook Aktuelle Admin-Seite.
 	 */
-	public static function quick_edit_script(): void {
+	public static function quick_edit_script( $hook ): void {
+		if ( 'edit.php' !== $hook ) {
+			return;
+		}
+
 		$screen = get_current_screen();
 
 		if ( ! $screen || 'edit-product' !== $screen->id ) {
 			return;
 		}
-		?>
-		<script>
-		( function () {
-			var inlineEdit = window.inlineEditPost && window.inlineEditPost.edit;
 
-			if ( ! inlineEdit ) {
-				return;
-			}
+		wp_enqueue_script(
+			'caqc-admin',
+			CAQC_PLUGIN_URL . 'assets/js/caqc-admin.js',
+			array( 'inline-edit-post' ),
+			CAQC_VERSION,
+			true
+		);
 
-			window.inlineEditPost.edit = function ( id ) {
-				var ergebnis = inlineEdit.apply( this, arguments );
-				var beitrag  = typeof id === 'object' ? this.getId( id ) : id;
-
-				if ( ! beitrag ) {
-					return ergebnis;
-				}
-
-				var zeile   = document.getElementById( 'post-' + beitrag );
-				var formular = document.getElementById( 'edit-' + beitrag );
-
-				if ( ! zeile || ! formular ) {
-					return ergebnis;
-				}
-
-				var typ   = zeile.querySelector( '.caqc-col-type' );
-				var feld  = formular.querySelector( 'select[name="_caqc_type"]' );
-
-				if ( typ && feld ) {
-					feld.value = typ.getAttribute( 'data-type' ) || '';
-				}
-
-				return ergebnis;
-			};
-		}() );
-		</script>
-		<style>
-			.caqc-inline { clear: both; padding-top: 6px; }
-			.caqc-inline label { margin-right: 14px; }
-			.column-caqc { width: 12%; }
-			.caqc-col-missing { color: #b32d2e; }
-		</style>
-		<?php
+		wp_enqueue_style(
+			'caqc-admin',
+			CAQC_PLUGIN_URL . 'assets/css/caqc-admin.css',
+			array(),
+			CAQC_VERSION
+		);
 	}
 
 	/**
@@ -335,12 +314,14 @@ final class CAQC_Admin {
 			return;
 		}
 
+		// Reiner Lesefilter der Produktliste, ändert nichts.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$aktuell = isset( $_GET['caqc_type'] ) ? sanitize_key( wp_unslash( $_GET['caqc_type'] ) ) : '';
 
 		echo '<select name="caqc_type">';
 		printf(
 			'<option value="">%s</option>',
-			esc_html__( 'Alle Mengenangaben', 'cms-quantity-calculator' )
+			esc_html__( 'All quantity types', 'flooring-calculator' )
 		);
 
 		foreach ( CAQC_Types::options( true ) as $key => $label ) {
@@ -355,7 +336,7 @@ final class CAQC_Admin {
 		printf(
 			'<option value="_missing"%s>%s</option>',
 			selected( $aktuell, '_missing', false ),
-			esc_html__( 'Größe pro Stück fehlt', 'cms-quantity-calculator' )
+			esc_html__( 'Size per unit missing', 'flooring-calculator' )
 		);
 
 		echo '</select>';
@@ -370,11 +351,13 @@ final class CAQC_Admin {
 	public static function filter_query( $vars ) {
 		global $typenow;
 
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Lesefilter, siehe filter_dropdown().
 		if ( 'product' !== $typenow || empty( $_GET['caqc_type'] ) ) {
 			return $vars;
 		}
 
 		$wert = sanitize_key( wp_unslash( $_GET['caqc_type'] ) );
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 		if ( '_missing' === $wert ) {
 			// Produkte, deren Typ eine Groesse braucht, aber keine hat.

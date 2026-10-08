@@ -10,7 +10,7 @@
  * passiert nichts, und es wird auch nichts vermerkt, damit eine spaetere
  * Uebernahme noch moeglich bleibt.
  *
- * @package CMSQuantityCalculator
+ * @package FlooringCalculator
  */
 
 declare( strict_types = 1 );
@@ -29,25 +29,27 @@ final class CAQC_Migrate {
 	/**
 	 * Alte auf neue Meta-Keys.
 	 *
-	 * Die alten Namen stammen aus der Child-Theme-Loesung von Munich Floor.
-	 * Wer eine andere Vorgeschichte hat, haengt sich in den Filter.
+	 * Ab Werk leer. Ein Shop, der den Rechner vorher mit eigenen Feldern
+	 * betrieben hat, trägt seine alten Namen über den Filter ein, etwa:
+	 *
+	 *     add_filter( 'caqc_migration_map', function ( $map ) {
+	 *         $map['_my_quantity_type'] = CAQC_Product::META_TYPE;
+	 *         return $map;
+	 *     } );
+	 *
+	 * Feste Namen ab Werk wären gefährlich: ein generischer Schlüssel wie
+	 * _custom_product_quantity_type kann in einem fremden Shop einem anderen
+	 * Plugin gehören.
 	 *
 	 * @return array<string, string>
 	 */
 	public static function map(): array {
-		$map = array(
-			'_custom_product_quantity_type'     => CAQC_Product::META_TYPE,
-			'_custom_product_size_per_piece'    => CAQC_Product::META_SIZE,
-			'_custom_variations_size_per_piece' => CAQC_Product::META_USE_VARIATION,
-			'_custom_field_size_per_piece'      => CAQC_Product::META_VARIATION,
-		);
-
 		/**
-		 * Erlaubt, eigene Altfelder zu uebernehmen.
+		 * Erlaubt, eigene Altfelder zu übernehmen.
 		 *
 		 * @param array<string, string> $map Alter Name zu neuem Namen.
 		 */
-		return (array) apply_filters( 'caqc_migration_map', $map );
+		return (array) apply_filters( 'caqc_migration_map', array() );
 	}
 
 	/**
@@ -61,6 +63,7 @@ final class CAQC_Migrate {
 		$found = array();
 
 		foreach ( array_keys( self::map() ) as $old ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- einmalige Zählung bei Aktivierung und auf der Einstellungsseite.
 			$count = (int) $wpdb->get_var(
 				$wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->postmeta} WHERE meta_key = %s", $old )
 			);
@@ -104,6 +107,9 @@ final class CAQC_Migrate {
 
 		$report = array();
 
+		// Umbenennen über alle Produkte in einem Rutsch, die Meta-API kann das
+		// nicht. Läuft einmal bei der Aktivierung.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		foreach ( self::map() as $old => $new ) {
 			// Zeilen, die den neuen Namen schon tragen, wuerden sonst doppelt
 			// liegen. Sie stammen aus einem bereits gelaufenen Versuch.
@@ -128,133 +134,10 @@ final class CAQC_Migrate {
 
 			$report[ $old ] = (int) $changed;
 		}
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+
+		wp_cache_flush_group( 'post_meta' );
 
 		return $report;
-	}
-
-	/**
-	 * Setzt alle Produkte einer Kategorie auf einen anderen Mengentyp.
-	 *
-	 * Gedacht fuer Warengruppen, deren Einheit zwar stimmt, deren Bezeichnung
-	 * aber nicht. Bei Munich Floor waren das Akustikpaneele, die als Pakete
-	 * gefuehrt wurden, obwohl die hinterlegte Groesse schon die Flaeche eines
-	 * einzelnen Paneels war.
-	 *
-	 * **Laeuft nicht von selbst.** Aufruf ueber die Einstellungsseite oder
-	 * direkt, damit in einem fremden Shop nichts ungefragt umgestellt wird.
-	 *
-	 * @param string $category Name oder Slug der Produktkategorie.
-	 * @param string $from     Bisheriger Typ.
-	 * @param string $to       Neuer Typ.
-	 * @param bool   $dry_run  Nur zaehlen, nichts aendern.
-	 * @return int Anzahl betroffener Produkte.
-	 */
-	public static function convert_category( string $category, string $from, string $to, bool $dry_run = false ): int {
-		if ( ! CAQC_Types::exists( $to ) ) {
-			return 0;
-		}
-
-		$term = get_term_by( 'slug', $category, 'product_cat' );
-
-		if ( ! $term instanceof WP_Term ) {
-			$term = get_term_by( 'name', $category, 'product_cat' );
-		}
-
-		if ( ! $term instanceof WP_Term ) {
-			return 0;
-		}
-
-		$ids = get_posts(
-			array(
-				'post_type'      => 'product',
-				'post_status'    => 'any',
-				'posts_per_page' => -1,
-				'fields'         => 'ids',
-				'tax_query'      => array(
-					array(
-						'taxonomy'         => 'product_cat',
-						'field'            => 'term_id',
-						'terms'            => $term->term_id,
-						'include_children' => true,
-					),
-				),
-				'meta_query'     => array(
-					array(
-						'key'   => CAQC_Product::META_TYPE,
-						'value' => $from,
-					),
-				),
-			)
-		);
-
-		if ( $dry_run ) {
-			return count( $ids );
-		}
-
-		foreach ( $ids as $id ) {
-			update_post_meta( (int) $id, CAQC_Product::META_TYPE, $to );
-		}
-
-		return count( $ids );
-	}
-
-	/**
-	 * Macht die Umbenennung rueckgaengig.
-	 *
-	 * Wird nicht automatisch aufgerufen. Gedacht fuer den Fall, dass ein
-	 * Livegang zurueckgenommen werden muss.
-	 *
-	 * @return array<string, int> Anzahl je Schluessel.
-	 */
-	public static function rollback(): array {
-		global $wpdb;
-
-		$report = array();
-
-		foreach ( self::map() as $old => $new ) {
-			$changed = $wpdb->query(
-				$wpdb->prepare(
-					"UPDATE {$wpdb->postmeta} SET meta_key = %s WHERE meta_key = %s",
-					$old,
-					$new
-				)
-			);
-
-			$report[ $new ] = (int) $changed;
-		}
-
-		delete_option( self::OPTION_DONE );
-		delete_option( self::OPTION_REPORT );
-
-		return $report;
-	}
-
-	/**
-	 * Zaehlt die Produkte je Typ, fuer den Abgleich vor und nach einem Lauf.
-	 *
-	 * @param string $meta_key Zu zaehlender Schluessel.
-	 * @return array<string, int>
-	 */
-	public static function count_types( string $meta_key = CAQC_Product::META_TYPE ): array {
-		global $wpdb;
-
-		$rows = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT meta_value AS type, COUNT(*) AS total
-				 FROM {$wpdb->postmeta}
-				 WHERE meta_key = %s
-				 GROUP BY meta_value",
-				$meta_key
-			),
-			ARRAY_A
-		);
-
-		$counts = array();
-
-		foreach ( (array) $rows as $row ) {
-			$counts[ (string) $row['type'] ] = (int) $row['total'];
-		}
-
-		return $counts;
 	}
 }

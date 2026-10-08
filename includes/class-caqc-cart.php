@@ -8,7 +8,7 @@
  * Gegenueber der Vorlage behoben: die Flaechenangabe hatte pro Warenkorbzeile
  * dieselbe DOM-ID. Hier steht eine Klasse.
  *
- * @package CMSQuantityCalculator
+ * @package FlooringCalculator
  */
 
 declare( strict_types = 1 );
@@ -96,7 +96,7 @@ final class CAQC_Cart {
 	 * @return array
 	 */
 	public static function store_api_item_data( $item_data, $cart_item ) {
-		if ( function_exists( 'is_cart' ) && is_cart() ) {
+		if ( self::is_classic_cart() ) {
 			return $item_data;
 		}
 
@@ -110,12 +110,26 @@ final class CAQC_Cart {
 		$config = CAQC_Product::type_config( (int) ( $cart_item['product_id'] ?? 0 ) );
 
 		$item_data[] = array(
-			'key'     => (string) ( $config['cart_label'] ?? __( 'Menge', 'cms-quantity-calculator' ) ),
+			'key'     => (string) ( $config['cart_label'] ?? __( 'Quantity', 'flooring-calculator' ) ),
 			'value'   => $value,
 			'display' => '',
 		);
 
 		return $item_data;
+	}
+
+	/**
+	 * Klassische Warenkorbseite, also nicht der Warenkorb-Block?
+	 *
+	 * Der Block zeigt das Mengenfeld ohne den Filter woocommerce_cart_item_quantity,
+	 * dort muss die Angabe als Positionsdatum erscheinen.
+	 */
+	private static function is_classic_cart(): bool {
+		if ( ! function_exists( 'is_cart' ) || ! is_cart() ) {
+			return false;
+		}
+
+		return ! has_block( 'woocommerce/cart', wc_get_page_id( 'cart' ) );
 	}
 
 	/**
@@ -208,8 +222,8 @@ final class CAQC_Cart {
 		}
 
 		return sprintf(
-			/* translators: %s: Menge mit Einheit. */
-			__( 'entspricht %s', 'cms-quantity-calculator' ),
+			/* translators: %s: total measure with unit, e.g. "41.76 m²". */
+			__( 'equals %s', 'flooring-calculator' ),
 			$amount
 		);
 	}

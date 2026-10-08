@@ -6,7 +6,7 @@
  * Warenkorb, Checkout, Bestellmail und Lagertext fragen hier, statt die
  * Aufloesung von Produkt- und Variantengroesse jeweils selbst zu wiederholen.
  *
- * @package CMSQuantityCalculator
+ * @package FlooringCalculator
  */
 
 declare( strict_types = 1 );

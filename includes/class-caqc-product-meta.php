@@ -6,7 +6,7 @@
  * fehlendes Whitelisting des Typs, und das Verhalten, dass ein geleertes Feld
  * den alten Wert nie loeschen konnte.
  *
- * @package CMSQuantityCalculator
+ * @package FlooringCalculator
  */
 
 declare( strict_types = 1 );
@@ -38,28 +38,28 @@ final class CAQC_Product_Meta {
 		woocommerce_wp_select(
 			array(
 				'id'          => CAQC_Product::META_TYPE,
-				'label'       => __( 'Mengenangabe', 'cms-quantity-calculator' ),
+				'label'       => __( 'Quantity type', 'flooring-calculator' ),
 				'options'     => CAQC_Types::options(),
 				'desc_tip'    => true,
-				'description' => __( 'Art der Mengenangabe für dieses Produkt.', 'cms-quantity-calculator' ),
+				'description' => __( 'How this product is measured and sold.', 'flooring-calculator' ),
 			)
 		);
 
 		woocommerce_wp_checkbox(
 			array(
 				'id'          => CAQC_Product::META_USE_VARIATION,
-				'label'       => __( '"Größe pro Stück" von Varianten verwenden', 'cms-quantity-calculator' ),
+				'label'       => __( 'Use "Size per unit" from variations', 'flooring-calculator' ),
 				'desc_tip'    => true,
-				'description' => __( 'Die "Größe pro Stück" der einzelnen Varianten wird für die Berechnung verwendet. Sinnvoll, wenn die Varianten unterschiedlich groß sind. Das Feld unten wird dann ignoriert.', 'cms-quantity-calculator' ),
+				'description' => __( 'The calculator uses the "Size per unit" of each variation. Useful when variations differ in size. The field below is ignored then.', 'flooring-calculator' ),
 			)
 		);
 
 		woocommerce_wp_text_input(
 			array(
 				'id'          => CAQC_Product::META_SIZE,
-				'label'       => __( 'Größe pro Stück', 'cms-quantity-calculator' ),
+				'label'       => __( 'Size per unit', 'flooring-calculator' ),
 				'desc_tip'    => true,
-				'description' => __( 'Größe, die in einem Stück des Produktes enthalten ist, zum Beispiel 0,46 für 0,46 m² je Paket oder 8,5 für eine Rolle mit 8,5 m².', 'cms-quantity-calculator' ),
+				'description' => __( 'Size contained in one unit of this product, for example 0.46 for 0.46 m² per pack or 8.5 for a roll of 8.5 m².', 'flooring-calculator' ),
 				'type'        => 'text',
 			)
 		);
@@ -69,15 +69,15 @@ final class CAQC_Product_Meta {
 		echo '<div class="options_group caqc-glue-options">';
 
 		echo '<p class="form-field"><span class="description">'
-			. esc_html__( 'Nur für die Mengenangabe "Verbrauch / Gebinde". Beide Felder sind nötig, sonst zeigt die Produktseite nur die Stückeingabe.', 'cms-quantity-calculator' )
+			. esc_html__( 'Only for the quantity type "Coverage / container". Both fields are required, otherwise the product page shows the plain quantity field.', 'flooring-calculator' )
 			. '</span></p>';
 
 		woocommerce_wp_text_input(
 			array(
 				'id'          => CAQC_Product::META_CONSUMPTION,
-				'label'       => __( 'Verbrauch in kg je m²', 'cms-quantity-calculator' ),
+				'label'       => __( 'Coverage in kg per m²', 'flooring-calculator' ),
 				'desc_tip'    => true,
-				'description' => __( 'Zum Beispiel 1 für 1 kg je m². Bei Bereichsangaben des Herstellers den oberen Wert eintragen, damit die Menge reicht.', 'cms-quantity-calculator' ),
+				'description' => __( 'For example 1 for 1 kg per m². If the manufacturer gives a range, enter the upper value so the amount is sufficient.', 'flooring-calculator' ),
 				'type'        => 'text',
 			)
 		);
@@ -85,9 +85,9 @@ final class CAQC_Product_Meta {
 		woocommerce_wp_text_input(
 			array(
 				'id'          => CAQC_Product::META_PACK_SIZE,
-				'label'       => __( 'Gebindeinhalt in kg', 'cms-quantity-calculator' ),
+				'label'       => __( 'Container size in kg', 'flooring-calculator' ),
 				'desc_tip'    => true,
-				'description' => __( 'Inhalt eines Gebindes, zum Beispiel 10 für einen 10-kg-Eimer.', 'cms-quantity-calculator' ),
+				'description' => __( 'Content of one container, for example 10 for a 10 kg bucket.', 'flooring-calculator' ),
 				'type'        => 'text',
 			)
 		);
@@ -103,8 +103,16 @@ final class CAQC_Product_Meta {
 	public static function save_product_fields( $post_id ): void {
 		$post_id = (int) $post_id;
 
-		// WooCommerce prueft Nonce und Berechtigung bereits vor diesem Hook.
-		// Der Feldsatz kann trotzdem fehlen, etwa bei Quick Edit oder Import.
+		// WooCommerce prüft Nonce und Berechtigung schon vor diesem Hook. Die
+		// Prüfung steht hier trotzdem, damit der Hook nicht von anderswo ohne
+		// Nonce ausgelöst werden kann.
+		$nonce = isset( $_POST['woocommerce_meta_nonce'] ) ? sanitize_key( wp_unslash( $_POST['woocommerce_meta_nonce'] ) ) : '';
+
+		if ( ! wp_verify_nonce( $nonce, 'woocommerce_save_data' ) || ! current_user_can( 'edit_product', $post_id ) ) {
+			return;
+		}
+
+		// Der Feldsatz kann trotzdem fehlen, etwa bei einem Import.
 		if ( ! isset( $_POST[ CAQC_Product::META_TYPE ] ) ) {
 			return;
 		}
@@ -141,9 +149,9 @@ final class CAQC_Product_Meta {
 				'id'            => CAQC_Product::META_VARIATION . '[' . (int) $loop . ']',
 				'class'         => 'short',
 				'wrapper_class' => 'form-row',
-				'label'         => __( 'Größe pro Stück', 'cms-quantity-calculator' ),
+				'label'         => __( 'Size per unit', 'flooring-calculator' ),
 				'desc_tip'      => true,
-				'description'   => __( 'Größe, die in einem Stück dieser Variante enthalten ist, zum Beispiel 1,63 für ein Paneel mit 1,63 m².', 'cms-quantity-calculator' ),
+				'description'   => __( 'Size contained in one unit of this variation, for example 1.63 for a panel of 1.63 m².', 'flooring-calculator' ),
 				'value'         => get_post_meta( (int) $variation->ID, CAQC_Product::META_VARIATION, true ),
 				'type'          => 'text',
 			)
@@ -159,13 +167,16 @@ final class CAQC_Product_Meta {
 	public static function save_variation_field( $variation_id, $loop ): void {
 		$key = CAQC_Product::META_VARIATION;
 
-		// Der Altcode las den Array-Index vor der isset-Pruefung und lief damit
-		// bei jedem Speichern ohne dieses Feld in eine Warnung.
+		// Varianten speichert WooCommerce per Ajax mit eigener Nonce.
+		if ( ! check_ajax_referer( 'save-variations', 'security', false ) || ! current_user_can( 'edit_product', (int) $variation_id ) ) {
+			return;
+		}
+
 		if ( ! isset( $_POST[ $key ][ $loop ] ) ) {
 			return;
 		}
 
-		self::write_number( (int) $variation_id, $key, wp_unslash( $_POST[ $key ][ $loop ] ) );
+		self::write_number( (int) $variation_id, $key, sanitize_text_field( wp_unslash( $_POST[ $key ][ $loop ] ) ) );
 	}
 
 	/**
@@ -175,11 +186,14 @@ final class CAQC_Product_Meta {
 	 * @param string $key     Meta-Key.
 	 */
 	private static function save_number( int $post_id, string $key ): void {
+		// Die Nonce hat save_product_fields() geprüft.
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		if ( ! isset( $_POST[ $key ] ) ) {
 			return;
 		}
 
-		self::write_number( $post_id, $key, wp_unslash( $_POST[ $key ] ) );
+		self::write_number( $post_id, $key, sanitize_text_field( wp_unslash( $_POST[ $key ] ) ) );
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
 	}
 
 	/**

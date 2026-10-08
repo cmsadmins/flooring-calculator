@@ -336,6 +336,7 @@
 		var separator = this.data.priceFormat ? this.data.priceFormat.thousandSeparator : '.';
 
 		this.wasteOut.textContent = this.data.i18n.wasteResult
+			.replace( '%%', '%' )
 			.replace( '%1$s', math.formatNumber( this.data.wastePercent, { decimals: 0, thousandSeparator: separator } ) )
 			.replace( '%2$s', math.formatNumber( gross, this.data.priceFormat ) )
 			.replace( '%3$s', this.data.inputUnit || '' )
@@ -717,7 +718,7 @@
 		}
 
 		if ( null === this.price || ! this.qtyEl ) {
-			this.totalEl.innerHTML = '&ndash;';
+			this.totalEl.textContent = '–';
 			this.renderSaving( null, null );
 
 			return;
@@ -727,13 +728,13 @@
 		var total    = math.total( quantity, this.price );
 
 		if ( null === total ) {
-			this.totalEl.innerHTML = '&ndash;';
+			this.totalEl.textContent = '–';
 			this.renderSaving( null, null );
 
 			return;
 		}
 
-		this.totalEl.innerHTML = math.formatPrice( total, this.data.priceFormat );
+		this.totalEl.textContent = math.formatPrice( total, this.data.priceFormat );
 		this.renderSaving( quantity, total );
 	};
 
@@ -751,14 +752,33 @@
 		var regularTotal = null !== this.regular && null !== quantity ? math.total( quantity, this.regular ) : null;
 
 		if ( null === regularTotal || null === total || regularTotal <= total || ! this.data.i18n ) {
-			this.savingEl.innerHTML = '';
+			this.savingEl.textContent = '';
 
 			return;
 		}
 
-		this.savingEl.innerHTML = this.data.i18n.saving
-			.replace( '%1$s', '<s>' + math.formatPrice( regularTotal, this.data.priceFormat ) + '</s>' )
-			.replace( '%2$s', '<strong>' + math.formatPrice( regularTotal - total, this.data.priceFormat ) + '</strong>' );
+		// Der Text kommt aus der Übersetzung. Er wird als Text eingesetzt, nur
+		// die beiden Preise bekommen ihr Element.
+		var values = {
+			'%1$s': [ 's', math.formatPrice( regularTotal, this.data.priceFormat ) ],
+			'%2$s': [ 'strong', math.formatPrice( regularTotal - total, this.data.priceFormat ) ],
+		};
+		var el = this.savingEl;
+
+		el.textContent = '';
+
+		this.data.i18n.saving.split( /(%[12]\$s)/ ).forEach( function ( part ) {
+			if ( ! values[ part ] ) {
+				el.appendChild( document.createTextNode( part ) );
+
+				return;
+			}
+
+			var node = document.createElement( values[ part ][ 0 ] );
+
+			node.textContent = values[ part ][ 1 ];
+			el.appendChild( node );
+		} );
 	};
 
 	/**

@@ -1,0 +1,99 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  phplint:
+    name: PHP Lint (${{ matrix.php }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ["7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "${{ matrix.php }}"
+          coverage: none
+          tools: composer
+      - run: composer install --no-progress --prefer-dist
+      - run: vendor/bin/parallel-lint --exclude vendor --exclude node_modules .
+
+  math:
+    name: Calculation tests (Node)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: node tests/caqc-math.test.js
+
+  phpcs:
+    name: WordPress Coding Standards
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          coverage: none
+          tools: composer
+      - run: composer install --no-progress --prefer-dist
+      - run: vendor/bin/phpcs -q --runtime-set ignore_warnings_on_exit 1
+
+  phpstan:
+    name: PHPStan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          coverage: none
+          tools: composer
+      - run: composer install --no-progress --prefer-dist
+      - run: vendor/bin/phpstan analyse --memory-limit=2G
+
+  plugin-check:
+    name: WordPress.org Plugin Check
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: wordpress
+        ports: ["3306:3306"]
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: flooring-calculator
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: mysqli
+          coverage: none
+          tools: wp-cli
+      - name: Set up WordPress
+        run: |
+          wp core download --version=latest --path=wp
+          wp config create --dbname=wordpress --dbuser=root --dbpass=root --dbhost=127.0.0.1 --path=wp --skip-check
+          wp core install --url=http://localhost:8080 --title=Test --admin_user=admin --admin_password=admin --admin_email=admin@example.com --skip-email --path=wp
+          mkdir -p wp/wp-content/plugins
+          cp -r flooring-calculator wp/wp-content/plugins/
+          # Strip dev-only files so the check sees what actually ships to wp.org (see .distignore)
+          cd wp/wp-content/plugins/flooring-calculator
+          rm -rf .git .github .wordpress-org .distignore .gitignore .gitattributes .phpcs.cache tests phpcs.xml.dist phpstan.neon phpstan-bootstrap.php composer.json composer.lock vendor README.md
+      - name: Install WooCommerce and Plugin Check
+        run: |
+          wp plugin install woocommerce --activate --path=wp
+          wp plugin install plugin-check --activate --path=wp
+      - name: Run Plugin Check
+        run: wp plugin check flooring-calculator --severity=error --format=table --path=wp

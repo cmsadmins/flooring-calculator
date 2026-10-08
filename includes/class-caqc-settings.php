@@ -6,7 +6,7 @@
  * Warengruppen im Code setzen. Das ist fuer eine Agentur machbar, fuer den
  * Shopbetreiber nicht.
  *
- * @package CMSQuantityCalculator
+ * @package FlooringCalculator
  */
 
 declare( strict_types = 1 );
@@ -47,7 +47,7 @@ final class CAQC_Settings {
 	 * @return array
 	 */
 	public static function add_section( $sections ) {
-		$sections[ self::SECTION ] = __( 'Mengenrechner', 'cms-quantity-calculator' );
+		$sections[ self::SECTION ] = __( 'Flooring calculator', 'flooring-calculator' );
 
 		return $sections;
 	}
@@ -63,7 +63,7 @@ final class CAQC_Settings {
 
 		array_unshift(
 			$links,
-			'<a href="' . esc_url( $url ) . '">' . esc_html__( 'Einstellungen', 'cms-quantity-calculator' ) . '</a>'
+			'<a href="' . esc_url( $url ) . '">' . esc_html__( 'Settings', 'flooring-calculator' ) . '</a>'
 		);
 
 		return $links;
@@ -83,55 +83,59 @@ final class CAQC_Settings {
 
 		$felder = array(
 			array(
-				'title' => __( 'Mengenrechner', 'cms-quantity-calculator' ),
+				'title' => __( 'Flooring calculator', 'flooring-calculator' ),
 				'type'  => 'title',
 				'desc'  => self::intro(),
 				'id'    => 'caqc_options',
 			),
 			array(
-				'title'             => __( 'Verschnitt', 'cms-quantity-calculator' ),
-				'desc'              => __( 'Prozent, die der Kunde per Haken aufschlagen kann.', 'cms-quantity-calculator' ),
+				'title'             => __( 'Waste', 'flooring-calculator' ),
+				'desc'              => __( 'Percentage the customer can add with a checkbox.', 'flooring-calculator' ),
 				'id'                => self::OPTION_WASTE,
 				'type'              => 'number',
 				'default'           => '5',
-				'custom_attributes' => array( 'min' => '0', 'max' => '100', 'step' => '0.5' ),
+				'custom_attributes' => array(
+					'min'  => '0',
+					'max'  => '100',
+					'step' => '0.5',
+				),
 				'css'               => 'width: 80px;',
-				'desc_tip'          => __( 'Gilt für alle Warengruppen, bei denen Verschnitt vorgesehen ist.', 'cms-quantity-calculator' ),
+				'desc_tip'          => __( 'Applies to all quantity types that support waste.', 'flooring-calculator' ),
 			),
 			array(
-				'title'    => __( 'Gesamtpreis anzeigen', 'cms-quantity-calculator' ),
-				'desc'     => __( 'Preisfeld unter dem Rechner einblenden', 'cms-quantity-calculator' ),
+				'title'    => __( 'Show total price', 'flooring-calculator' ),
+				'desc'     => __( 'Show a running total below the calculator', 'flooring-calculator' ),
 				'id'       => self::OPTION_SHOW_TOTAL,
 				'type'     => 'checkbox',
 				'default'  => 'yes',
-				'desc_tip' => __( 'Abschalten, wenn das Theme bereits einen laufenden Gesamtpreis zeigt.', 'cms-quantity-calculator' ),
+				'desc_tip' => __( 'Turn off if your theme already shows a running total.', 'flooring-calculator' ),
 			),
 			array(
-				'title'    => __( 'Lagerbestand umrechnen', 'cms-quantity-calculator' ),
-				'desc'     => __( 'Bestand in der Größe statt in Stück anzeigen', 'cms-quantity-calculator' ),
+				'title'    => __( 'Convert stock display', 'flooring-calculator' ),
+				'desc'     => __( 'Show stock in the product\'s measure instead of units', 'flooring-calculator' ),
 				'id'       => self::OPTION_STOCK,
 				'type'     => 'checkbox',
 				'default'  => 'yes',
-				'desc_tip' => __( 'Aus "534 vorrätig" wird "534,06 m² vorrätig". Betrifft nur Warengruppen mit Flächenangabe.', 'cms-quantity-calculator' ),
+				'desc_tip' => __( '"534 in stock" becomes "534.06 m² in stock". Only affects area based quantity types.', 'flooring-calculator' ),
 			),
 			array(
-				'title'       => __( 'Hinweis bei Meterware', 'cms-quantity-calculator' ),
-				'desc'        => __( 'Fester Text unter dem Mengenfeld der Warengruppe Meter. Leer lassen, dann steht dort die Leistenlänge des Produkts.', 'cms-quantity-calculator' ),
+				'title'       => __( 'Note for goods sold by the meter', 'flooring-calculator' ),
+				'desc'        => __( 'Fixed text below the quantity field for the type Meters. Leave empty to show the product\'s piece length instead.', 'flooring-calculator' ),
 				'id'          => self::OPTION_LENGTH_HINT,
 				'type'        => 'text',
 				'default'     => '',
-				'placeholder' => __( 'Meterweise bestellbar. Leistenlänge ca. 2,40 – 2,70 Meter.', 'cms-quantity-calculator' ),
+				'placeholder' => __( 'Sold by the meter. Length per piece approx. 2.40 to 2.70 meters.', 'flooring-calculator' ),
 				'css'         => 'min-width: 340px;',
 			),
 			array(
-				'title'    => __( 'Verfügbare Mengenangaben', 'cms-quantity-calculator' ),
-				'desc'     => __( 'Nur die ausgewählten erscheinen im Produkt-Dropdown. Bereits gesetzte Werte bleiben erhalten.', 'cms-quantity-calculator' ),
-				'id'       => self::OPTION_TYPES,
-				'type'     => 'multiselect',
-				'class'    => 'wc-enhanced-select',
-				'options'  => CAQC_Types::options( true ),
-				'default'  => array_keys( CAQC_Types::all() ),
-				'css'      => 'min-width: 340px;',
+				'title'   => __( 'Available quantity types', 'flooring-calculator' ),
+				'desc'    => __( 'Only the selected types appear in the product dropdown. Values already set are kept.', 'flooring-calculator' ),
+				'id'      => self::OPTION_TYPES,
+				'type'    => 'multiselect',
+				'class'   => 'wc-enhanced-select',
+				'options' => CAQC_Types::options( true ),
+				'default' => array_keys( CAQC_Types::all() ),
+				'css'     => 'min-width: 340px;',
 			),
 			array(
 				'type' => 'sectionend',
@@ -148,22 +152,22 @@ final class CAQC_Settings {
 	 */
 	private static function intro(): string {
 		$text = '<p>' . esc_html__(
-			'Der Rechner erscheint auf einer Produktseite, sobald im Produkt unter Produktdaten, Allgemein eine Mengenangabe gewählt und die Größe pro Stück eingetragen ist.',
-			'cms-quantity-calculator'
+			'The calculator appears on a product page once a quantity type is selected and a size per unit is entered under Product data, General.',
+			'flooring-calculator'
 		) . '</p>';
 
 		$offen = CAQC_Migrate::pending();
 
 		if ( ! empty( $offen ) ) {
-			$text .= '<p><strong>' . esc_html__( 'Daten aus einer früheren Lösung gefunden.', 'cms-quantity-calculator' ) . '</strong> ';
+			$text .= '<p><strong>' . esc_html__( 'Data from a previous solution found.', 'flooring-calculator' ) . '</strong> ';
 			$text .= esc_html(
 				sprintf(
-					/* translators: %d: Anzahl der Felder. */
+					/* translators: %d: number of meta keys. */
 					_n(
-						'%d Feld trägt noch einen alten Namen. Das Plugin übernimmt es beim nächsten Aktivieren.',
-						'%d Felder tragen noch alte Namen. Das Plugin übernimmt sie beim nächsten Aktivieren.',
+						'%d field still uses an old name. The plugin takes it over on the next activation.',
+						'%d fields still use old names. The plugin takes them over on the next activation.',
 						count( $offen ),
-						'cms-quantity-calculator'
+						'flooring-calculator'
 					),
 					count( $offen )
 				)

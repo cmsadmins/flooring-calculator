@@ -10,7 +10,7 @@
  * "Auf Lager" shopweit unterdrueckt, auch bei Produkten ohne Rechner. Dieses
  * Verhalten ist eine Entscheidung des Shops und gehoert deshalb ins Theme.
  *
- * @package CMSQuantityCalculator
+ * @package FlooringCalculator
  */
 
 declare( strict_types = 1 );
@@ -85,12 +85,12 @@ final class CAQC_Stock {
 		$amount = wc_format_localized_decimal( (string) round( $stock * $size, 2 ) ) . ' ' . $unit;
 
 		if ( $stock <= wc_get_low_stock_amount( $product ) ) {
-			/* translators: %s: Restmenge mit Einheit. */
-			return sprintf( __( 'Only %s left in stock', 'woocommerce' ), $amount );
+			/* translators: %s: remaining stock with unit, e.g. "12.5 m²". */
+			return sprintf( __( 'Only %s left in stock', 'flooring-calculator' ), $amount );
 		}
 
-		/* translators: %s: Menge mit Einheit. */
-		return sprintf( __( '%s in stock', 'woocommerce' ), $amount );
+		/* translators: %s: stock with unit, e.g. "534.06 m²". */
+		return sprintf( __( '%s in stock', 'flooring-calculator' ), $amount );
 	}
 
 	/**
