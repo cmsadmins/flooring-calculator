@@ -1,6 +1,6 @@
 === Flooring Calculator for WooCommerce ===
 Contributors: contexlabs
-Tags: flooring, square meter calculator, area calculator, coverage calculator, tile calculator
+Tags: woocommerce, flooring, square meter calculator, area calculator, coverage calculator
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
@@ -65,6 +65,22 @@ The calculator uses the standard WooCommerce add to cart hooks and wraps the the
 
 No external requests, no tracking, no personal data stored. The entered area is kept in the browser's session storage for the current visit only. There is no Pro version and no upsell.
 
+= Support =
+
+Questions and bug reports are welcome in the support forum on wordpress.org. For anything else, write to flooring-calculator@cms-admins.de. Setup help and custom development for WooCommerce shops: [CMS ADMINS](https://www.cms-admins.de/).
+
+= Disclaimer =
+
+The calculator gives an estimate based on the sizes, coverage values and waste percentages entered by the shop. Shop owners are responsible for correct product data and prices and should advise customers to check quantities before laying. The plugin is provided "as is", without warranty of any kind, as stated in the GNU General Public License.
+
+= Trademarks =
+
+WooCommerce is a registered trademark of Automattic Inc. This plugin is not affiliated with or endorsed by Automattic or WooCommerce.
+
+= Copyright =
+
+Copyright (C) 2026 Patrick Schlesinger, [cms-admins.de](https://www.cms-admins.de/). Released under the GNU General Public License v2 or later.
+
 == Installation ==
 
 1. Install and activate WooCommerce.
@@ -91,6 +107,10 @@ That depends on the product and the laying pattern. Common values are 5 % for st
 = Can I set a different waste percentage per product? =
 
 Yes. Each product has a "Waste (%)" field. Leave it empty to use the shop default, set 0 to hide the waste checkbox for that product. Quick edit and bulk edit change it for many products at once.
+
+= Can I use it as a tile calculator? =
+
+Yes. Tiles sold per box work like flooring packs: enter the m² per box, the customer enters the wall or floor area and gets the number of boxes, with an optional waste allowance for cuts.
 
 = Does it work for skirting boards? =
 

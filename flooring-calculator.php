@@ -7,7 +7,7 @@
  * Requires at least:    6.5
  * Requires PHP:         7.4
  * Requires Plugins:     woocommerce
- * Author:               CMS ADMINS
+ * Author:               Patrick Schlesinger
  * Author URI:           https://www.cms-admins.de/
  * License:              GPL-2.0-or-later
  * License URI:          https://www.gnu.org/licenses/gpl-2.0.html
@@ -15,6 +15,16 @@
  * Domain Path:          /languages
  * WC requires at least: 8.0
  * WC tested up to:      11.2
+ *
+ * Copyright (C) 2026 Patrick Schlesinger <flooring-calculator@cms-admins.de>
+ *
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 2 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
  * @package FlooringCalculator
  */

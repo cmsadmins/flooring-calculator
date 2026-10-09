@@ -139,7 +139,7 @@ msgstr ""
 "Fester Text unter dem Mengenfeld der Warengruppe Meter. Leer lassen, dann "
 "steht dort die Leistenlänge des Produkts."
 
-#: flooring-calculator.php:99
+#: flooring-calculator.php:109
 msgid ""
 "Flooring Calculator for WooCommerce needs WooCommerce to be installed and "
 "active."
@@ -482,11 +482,6 @@ msgstr ""
 "Verkaufseinheit um und zeigt den Gesamtpreis sofort an. Für Bodenbeläge, "
 "Unterlagen, Klebstoffe, Leisten, Paneele und Profile."
 
-#. Author of the plugin
-#: flooring-calculator.php
-msgid "CMS ADMINS"
-msgstr "CMS ADMINS"
-
 #: includes/class-caqc-render.php:214 includes/class-caqc-render.php:220
 #: includes/class-caqc-types.php:127 includes/class-caqc-types.php:131
 #: includes/class-caqc-types.php:148 includes/class-caqc-types.php:151
@@ -587,3 +582,8 @@ msgstr "Keine Änderung"
 #: includes/class-caqc-admin.php:179
 msgid "Select"
 msgstr "Auswählen"
+
+#. Author of the plugin
+#: flooring-calculator.php
+msgid "Patrick Schlesinger"
+msgstr "Patrick Schlesinger"
