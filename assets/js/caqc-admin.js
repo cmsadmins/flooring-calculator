@@ -22,9 +22,14 @@
 
 		var type  = row.querySelector( '.caqc-col-type' );
 		var field = form.querySelector( 'select[name="_caqc_type"]' );
+		var waste = form.querySelector( 'input[name="_caqc_waste"]' );
 
 		if ( type && field ) {
 			field.value = type.getAttribute( 'data-type' ) || '';
+		}
+
+		if ( type && waste ) {
+			waste.value = type.getAttribute( 'data-waste' ) || '';
 		}
 
 		return result;

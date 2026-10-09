@@ -83,7 +83,8 @@ final class CAQC_Admin {
 		$type   = CAQC_Product::type( $product );
 		$config = CAQC_Types::get( $type );
 
-		echo '<span class="caqc-col-type" data-type="' . esc_attr( $type ) . '">'
+		echo '<span class="caqc-col-type" data-type="' . esc_attr( $type ) . '" data-waste="'
+			. esc_attr( (string) $product->get_meta( CAQC_Product::META_WASTE ) ) . '">'
 			. esc_html( (string) $config['label'] ) . '</span>';
 
 		if ( empty( $config['needs_size'] ) && 'kg' !== $type ) {
@@ -198,6 +199,23 @@ final class CAQC_Admin {
 		);
 		echo '</label>';
 
+		echo '<label class="alignleft"><span class="title">'
+			. esc_html__( 'Waste (%)', 'flooring-calculator' ) . '</span><span class="input-text-wrap">';
+
+		if ( 'bulk' === $mode ) {
+			echo '<select name="_caqc_waste_mode">';
+			printf( '<option value="">%s</option>', esc_html__( '— No change —', 'flooring-calculator' ) );
+			printf( '<option value="set">%s</option>', esc_html__( 'Set to', 'flooring-calculator' ) );
+			printf( '<option value="reset">%s</option>', esc_html__( 'Reset to shop default', 'flooring-calculator' ) );
+			echo '</select> ';
+		}
+
+		printf(
+			'<input type="text" name="_caqc_waste" class="text caqc-waste-input" value="" placeholder="%s">',
+			esc_attr__( 'Shop default', 'flooring-calculator' )
+		);
+		echo '</span></label>';
+
 		echo '</div>';
 	}
 
@@ -266,7 +284,42 @@ final class CAQC_Admin {
 			}
 		}
 
+		self::save_waste( $product, $bulk );
+
 		$product->save();
+	}
+
+	/**
+	 * Applies the waste field. In bulk edit only an explicit mode changes
+	 * anything, so an unrelated bulk save cannot reset hundreds of products.
+	 *
+	 * @param WC_Product $product Product.
+	 * @param bool       $bulk    Bulk edit.
+	 */
+	private static function save_waste( WC_Product $product, bool $bulk ): void {
+		// Nonce and capability were checked by save_edit().
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
+		$raw  = isset( $_REQUEST['_caqc_waste'] ) ? trim( sanitize_text_field( wp_unslash( $_REQUEST['_caqc_waste'] ) ) ) : null;
+		$mode = isset( $_REQUEST['_caqc_waste_mode'] ) ? sanitize_key( wp_unslash( $_REQUEST['_caqc_waste_mode'] ) ) : '';
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
+
+		$percent = null === $raw ? null : CAQC_Product::to_percent( $raw );
+
+		if ( $bulk ) {
+			if ( 'reset' === $mode ) {
+				$product->delete_meta_data( CAQC_Product::META_WASTE );
+			} elseif ( 'set' === $mode && null !== $percent ) {
+				$product->update_meta_data( CAQC_Product::META_WASTE, (string) $percent );
+			}
+
+			return;
+		}
+
+		if ( '' === $raw ) {
+			$product->delete_meta_data( CAQC_Product::META_WASTE );
+		} elseif ( null !== $percent ) {
+			$product->update_meta_data( CAQC_Product::META_WASTE, (string) $percent );
+		}
 	}
 
 	/**

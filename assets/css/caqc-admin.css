@@ -2,3 +2,5 @@
 .caqc-inline label { margin-right: 14px; }
 .column-caqc { width: 12%; }
 .caqc-col-missing { color: #b32d2e; }
+
+.caqc-inline .caqc-waste-input { width: 70px; }
