@@ -1,12 +1,6 @@
 <?php
 /**
- * Quantity info in cart, checkout, order and email.
- *
- * Everything runs through filters. The template override for email-order-items.php
- * that the predecessor needed in the child theme is no longer necessary.
- *
- * Fixed compared to the template: the area info used the same DOM ID
- * on every cart row. A class is used here instead.
+ * Quantity info in cart, checkout, order and email, via filters only.
  *
  * @package FlooringCalculator
  */
@@ -30,28 +24,17 @@ final class CAQC_Cart {
 	 */
 	public static function init(): void {
 		add_filter( 'woocommerce_cart_item_quantity', array( __CLASS__, 'cart_quantity' ), 10, 3 );
-		// No custom filter on the quantity column of the classic checkout: the
-		// info already appears there as item data (see below), and a
-		// second path showed the same number twice.
-		// Order overview and email get the info as item data below the
-		// product name. The filter on the quantity column would be the
-		// shorter route, but WooCommerce also uses the same string in the
-		// Schema.org block of the email, and HTML does not belong there.
+		// No checkout quantity column filter: item data already shows the note there.
+		// Not the quantity column filter here either: WooCommerce reuses that string in the email's Schema.org block, where HTML breaks.
 		add_action( 'woocommerce_order_item_meta_end', array( __CLASS__, 'order_item_meta' ), 10, 2 );
 
-		// The block checkout renders in the browser and fetches its data via the
-		// Store API. The filters above do not run there. This info travels along
-		// as item data and therefore shows up below the product there too.
+		// The block checkout uses the Store API, where the filters above do not run.
 		add_filter( 'woocommerce_get_item_data', array( __CLASS__, 'store_api_item_data' ), 10, 2 );
 
-		// Write the info permanently to the item when the order is placed. Only then
-		// does it also appear in the admin, in the shop's email and on invoices,
-		// and it stays correct if the product's size changes later.
-		// Classic checkout and block checkout both go through this hook.
+		// Stored at checkout so admin, emails and invoices stay correct if the product changes later.
 		add_action( 'woocommerce_checkout_create_order_line_item', array( __CLASS__, 'save_order_item' ), 10, 3 );
 
-		// The admin also shows keys with a leading underscore unless they are on
-		// this list.
+		// The admin shows underscore keys unless they are listed here.
 		add_filter( 'woocommerce_hidden_order_itemmeta', array( __CLASS__, 'hide_order_itemmeta' ) );
 	}
 
@@ -118,24 +101,17 @@ final class CAQC_Cart {
 			return;
 		}
 
-		// Email clients do not load external stylesheets, so the formatting
-		// sits directly on the element. In the web view the class applies
-		// as well.
+		// Inline style because email clients ignore external stylesheets.
 		echo '<span class="caqc-cart-size" style="display:block;margin-top:4px;font-size:0.9em;color:#6b6b6b;">'
 			. esc_html( $note )
 			. '</span>';
 	}
 
 	/**
-	 * Item data for checkout (classic and block), mini cart and Store API.
+	 * Item data for checkout, mini cart and Store API, except the classic cart page.
 	 *
-	 * The only exception is the classic cart page. There the info already
-	 * sits below the quantity field and updates immediately when the
-	 * quantity changes. The same line twice would just be noise there.
-	 *
-	 * The check uses is_cart() rather than the Store API: the block
-	 * checkout pre-renders its items on page load, and at that
-	 * moment it is not a Store API request.
+	 * Uses is_cart() rather than a Store API check because the block checkout
+	 * pre-renders its items outside a Store API request.
 	 *
 	 * @param array $item_data Existing item data.
 	 * @param array $cart_item Row data.
@@ -146,7 +122,6 @@ final class CAQC_Cart {
 			return $item_data;
 		}
 
-		// The label is already next to it here, so only the value.
 		$value = self::size_note( $cart_item, false );
 
 		if ( '' === $value ) {
@@ -165,10 +140,7 @@ final class CAQC_Cart {
 	}
 
 	/**
-	 * Classic cart page, i.e. not the cart block?
-	 *
-	 * The block shows the quantity field without the woocommerce_cart_item_quantity filter,
-	 * so the info has to appear there as item data.
+	 * Classic cart page, where the quantity filter already shows the note.
 	 */
 	private static function is_classic_cart(): bool {
 		if ( ! function_exists( 'is_cart' ) || ! is_cart() ) {
@@ -220,8 +192,7 @@ final class CAQC_Cart {
 			return '';
 		}
 
-		// WooCommerce shows stored info itself as item data.
-		// It is only calculated for orders from before version 1.0.1.
+		// Stored items show as item data; only orders before 1.0.1 need calculating.
 		if ( $item->get_meta( self::META_STORED ) ) {
 			return '';
 		}
@@ -248,8 +219,7 @@ final class CAQC_Cart {
 
 		$config = CAQC_Product::type_config( $product_id );
 
-		// For goods sold by the meter the quantity already is the measure. A line
-		// "equals 18 m" next to the quantity 18 would just repeat it.
+		// Goods sold by the meter: the quantity already is the measure.
 		if ( empty( $config['cart_note'] ) ) {
 			return '';
 		}
@@ -270,11 +240,9 @@ final class CAQC_Cart {
 			return '';
 		}
 
-		// Two decimals as on the product page, so that 19,2 m does not
-		// turn into a different number in the cart than the 19,20 m before.
+		// Two decimals to match the product page.
 		$total = wc_format_decimal( $quantity * $size, 2 );
-		// Non-breaking space, otherwise the unit ends up alone on the next
-		// line in narrow cart columns.
+		// Non-breaking space keeps the unit on the same line in narrow columns.
 		$amount = wc_format_localized_decimal( $total ) . "\u{00A0}" . (string) $config['size_unit'];
 
 		if ( ! $with_label ) {

@@ -1,10 +1,6 @@
 <?php
 /**
- * Settings under WooCommerce, Products, quantity calculator.
- *
- * Without this page every shop would have to set the waste allowance and the
- * selection of product groups in code. An agency can do that, a shop
- * owner cannot.
+ * Settings under WooCommerce, Products, Flooring calculator.
  *
  * @package FlooringCalculator
  */
@@ -34,8 +30,7 @@ final class CAQC_Settings {
 		add_filter( 'woocommerce_get_sections_products', array( __CLASS__, 'add_section' ) );
 		add_filter( 'woocommerce_get_settings_products', array( __CLASS__, 'settings' ), 10, 2 );
 
-		// A custom section gets its own save routine. Without it the page
-		// shows the fields, but the input ends up nowhere.
+		// Custom sections are not saved by WooCommerce automatically.
 		add_action( 'woocommerce_update_options_products_' . self::SECTION, array( __CLASS__, 'save' ) );
 
 		add_filter( 'plugin_action_links_' . CAQC_PLUGIN_BASENAME, array( __CLASS__, 'action_link' ) );
@@ -162,8 +157,7 @@ final class CAQC_Settings {
 	}
 
 	/**
-	 * Short introduction above the fields, including a note about a possible
-	 * data migration.
+	 * Introduction above the fields, plus a pending migration notice.
 	 */
 	private static function intro(): string {
 		$text = '<p>' . esc_html__(
@@ -206,10 +200,7 @@ final class CAQC_Settings {
 	}
 
 	/**
-	 * Unfiltered default waste allowance of a group in percent.
-	 *
-	 * Values outside 0 to 100 fall back to the option default, so a typo in
-	 * the settings cannot double the order.
+	 * Unfiltered group default in percent; out-of-range values fall back to the default.
 	 *
 	 * @param string $group CAQC_Types::WASTE_AREA or CAQC_Types::WASTE_LENGTH.
 	 */
@@ -226,10 +217,7 @@ final class CAQC_Settings {
 	}
 
 	/**
-	 * Default waste allowance for area products, filtered.
-	 *
-	 * Kept for code that knew only the single shop-wide value. Product
-	 * specific values come from CAQC_Product::waste_percent().
+	 * Filtered area default, kept for backward compatibility; see CAQC_Product::waste_percent().
 	 */
 	public static function waste_percent(): float {
 		/**
@@ -243,8 +231,7 @@ final class CAQC_Settings {
 	}
 
 	/**
-	 * Fixed notice text for goods sold by the meter, empty if the product length
-	 * should be shown.
+	 * Fixed note for meter goods, empty to show the product length.
 	 */
 	public static function length_hint(): string {
 		return trim( (string) get_option( self::OPTION_LENGTH_HINT, '' ) );

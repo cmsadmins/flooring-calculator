@@ -1,10 +1,6 @@
 <?php
 /**
- * Product list conveniences: column, quick edit, bulk edit.
- *
- * A shop with two thousand products cannot be configured product by
- * product. Without this class, rolling out in a new shop takes a full
- * day of work; with it, a matter of minutes.
+ * Product list column, quick edit, bulk edit and filter for large catalogs.
  *
  * @package FlooringCalculator
  */
@@ -139,7 +135,7 @@ final class CAQC_Admin {
 	}
 
 	/**
-	 * A notice that catches the eye without shouting.
+	 * Prints a muted "missing" hint.
 	 *
 	 * @param string $text Text.
 	 */
@@ -241,8 +237,7 @@ final class CAQC_Admin {
 	/**
 	 * Applies the values if any are set.
 	 *
-	 * In bulk edit an empty field means "leave unchanged".
-	 * Saving there without this rule would wipe sizes across many products.
+	 * In bulk edit an empty field means "no change", otherwise one save would wipe sizes across many products.
 	 *
 	 * @param WC_Product $product Product.
 	 * @param bool       $bulk    Bulk edit.
@@ -280,7 +275,6 @@ final class CAQC_Admin {
 					$product->update_meta_data( CAQC_Product::META_SIZE, str_replace( ',', '.', $raw_size ) );
 				}
 			} elseif ( ! $bulk ) {
-				// In quick edit, empty really does mean empty.
 				$product->delete_meta_data( CAQC_Product::META_SIZE );
 			}
 		}
@@ -291,8 +285,7 @@ final class CAQC_Admin {
 	}
 
 	/**
-	 * Applies the waste field. In bulk edit only an explicit mode changes
-	 * anything, so an unrelated bulk save cannot reset hundreds of products.
+	 * Applies the waste field; in bulk edit only an explicit mode changes anything.
 	 *
 	 * @param WC_Product $product Product.
 	 * @param bool       $bulk    Bulk edit.
@@ -324,10 +317,7 @@ final class CAQC_Admin {
 	}
 
 	/**
-	 * Fills quick edit with the values of the row.
-	 *
-	 * WordPress does not pass any data for this, so they are read from the
-	 * column that is in the table anyway.
+	 * Loads the script that fills quick edit from the row's column data.
 	 *
 	 * @param string $hook Current admin page.
 	 */
@@ -368,8 +358,7 @@ final class CAQC_Admin {
 			return;
 		}
 
-		// Read-only filter of the product list, changes nothing.
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only list filter.
 		$current = isset( $_GET['caqc_type'] ) ? sanitize_key( wp_unslash( $_GET['caqc_type'] ) ) : '';
 
 		echo '<select name="caqc_type">';
@@ -414,7 +403,6 @@ final class CAQC_Admin {
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 		if ( '_missing' === $filter_value ) {
-			// Products whose type needs a size but has none.
 			$needs_size = array();
 
 			foreach ( CAQC_Types::all() as $key => $config ) {

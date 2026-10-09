@@ -1,11 +1,6 @@
 <?php
 /**
- * Enqueues script and style.
- *
- * Both files carry a version number so that the browser cache really
- * reloads after a change. The template in the child theme left the
- * version at null and also forgot the jQuery dependency,
- * even though the file starts with jQuery(document).ready.
+ * Enqueues script and style, versioned by file time to bust browser caches.
  *
  * @package FlooringCalculator
  */

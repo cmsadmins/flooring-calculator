@@ -1,10 +1,6 @@
 <?php
 /**
- * Cleanup when the plugin is deleted.
- *
- * Product data stays in place. It belongs to the shop, not the plugin,
- * and deleting it by accident would break every maintained product.
- * Only the plugin's own options are removed.
+ * Removes the plugin's options; product meta stays because it belongs to the shop.
  *
  * @package FlooringCalculator
  */

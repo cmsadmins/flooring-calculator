@@ -1,9 +1,5 @@
 /**
- * Wiring of the quantity calculator on the product page.
- *
- * The math lives in CAQCMath, this file only handles DOM access and events.
- * jQuery is needed solely for the WooCommerce show_variation event,
- * everything else uses the browser's standard API.
+ * DOM and event wiring on the product page; the math lives in CAQCMath.
  */
 ( function ( $ ) {
 	'use strict';
@@ -43,9 +39,7 @@
 		this.price   = 'number' === typeof this.data.price ? this.data.price : null;
 		this.regular = 'number' === typeof this.data.regularPrice ? this.data.regularPrice : null;
 
-		// While we set the quantity ourselves, the reverse direction is locked.
-		// Otherwise the triggered change writes back the area the customer is
-		// typing right now, and the field jumps away under their fingers.
+		// Locks quantity-to-area sync while we set the quantity, so the area does not jump while typing.
 		this.settingQuantity = false;
 
 		this.bind();
@@ -55,9 +49,7 @@
 	}
 
 	/**
-	 * sessionStorage key, per unit. Someone who enters 37.5 m² of flooring
-	 * sees the same area on the next flooring product and on the adhesive,
-	 * while skirting boards show the meters entered last.
+	 * sessionStorage key per unit, so an area carries over to other m² products for the whole visit.
 	 *
 	 * @return {string|null} Key, null if there is nothing to remember.
 	 */
@@ -90,7 +82,7 @@
 				window.sessionStorage.setItem( 'caqc:waste', this.wasteEl.checked ? '1' : '0' );
 			}
 		} catch ( e ) {
-			// Private mode or blocked storage: then we simply do not remember.
+			// Storage blocked, e.g. private mode.
 		}
 	};
 
@@ -124,7 +116,7 @@
 	};
 
 	/**
-	 * The quantity field sits between the hooks and belongs to the theme.
+	 * The theme's quantity field inside the calculator.
 	 *
 	 * @return {HTMLElement|null} Input field.
 	 */
@@ -186,11 +178,10 @@
 			} );
 		}
 
-		// Select prefilled values on tap. Otherwise the new input is appended
-		// to the old one, and 1,74 plus 37,5 turns into 1,7437,5.
+		// Select on focus, otherwise typing appends: 1,74 becomes 1,7437,5.
 		Array.prototype.forEach.call( this.root.querySelectorAll( '[data-caqc-amount], [data-caqc-room] input' ), function ( input ) {
 			input.addEventListener( 'focus', function () {
-				// On touch devices the tap only places the cursor after the focus event.
+				// Deferred because touch devices place the cursor after the focus event.
 				setTimeout( function () {
 					if ( document.activeElement === input ) {
 						input.select();
@@ -206,8 +197,6 @@
 		} );
 
 		if ( this.qtyEl ) {
-			// change covers the theme's plus and minus buttons,
-			// input covers keyboard entry.
 			this.qtyEl.addEventListener( 'change', function () {
 				self.syncFromQuantity();
 			} );
@@ -216,11 +205,8 @@
 				self.syncFromQuantity();
 			} );
 
-			// Themes usually trigger the change via jQuery. A jQuery trigger
-			// does not reach the listeners above, because it only calls the
-			// handlers in its own list. So listen via jQuery here as well,
-			// otherwise the area does not update when someone uses the
-			// theme's plus button.
+			// Themes (e.g. Woodmart) fire change via jQuery trigger, which never
+			// reaches native listeners, so the theme's plus button needs this.
 			if ( $ ) {
 				$( this.qtyEl ).on( 'change.caqc input.caqc', function () {
 					self.syncFromQuantity();
@@ -230,7 +216,7 @@
 
 		if ( this.wasteEl ) {
 			this.wasteEl.addEventListener( 'change', function () {
-				// Without an area field the checkbox belongs to the room calculator.
+				// Without an amount field the checkbox belongs to the room calculator.
 				if ( ! self.amountEl ) {
 					self.applyRoom();
 
@@ -264,10 +250,7 @@
 	};
 
 	/**
-	 * Area was edited: update the quantity, leave the area as it is.
-	 *
-	 * The field is deliberately not rewritten to a multiple of the pack size,
-	 * otherwise it jumps while the customer is typing.
+	 * Area was edited: update the quantity but never rewrite the area while typing.
 	 *
 	 * @param {boolean} keepAmount Do nothing even if the field is empty.
 	 */
@@ -279,23 +262,20 @@
 		var raw    = this.amountEl.value.trim();
 		var amount = math.parseNumber( raw );
 
-		// Empty field: the customer is typing. The quantity stays, otherwise
-		// it jumps to one on every deletion.
+		// Empty or unreadable means mid-typing: keep the quantity instead of jumping to one.
 		if ( '' === raw ) {
 			this.renderNote( '' );
 
 			return;
 		}
 
-		// No readable number: wait as well, this is usually a typo.
 		if ( ! isFinite( amount ) ) {
 			this.renderNote( '' );
 
 			return;
 		}
 
-		// Zero or negative is an actual value, not an intermediate step. The quantity
-		// goes to the minimum so that input and price match.
+		// Zero or negative is a real value: drop to the minimum so input and price match.
 		if ( amount <= 0 ) {
 			this.setQuantity( this.minQuantity() );
 			this.renderNote( '' );
@@ -314,14 +294,10 @@
 
 		var applied = this.setQuantity( quantity );
 
-		// Stock can be lower than the demand. Then the field shows an area
-		// that cannot be delivered as such, and the customer should be told
-		// instead of wondering about the number next to it.
+		// Explain when stock caps or a minimum raises the quantity.
 		if ( applied < quantity ) {
 			this.renderNote( this.buildNote( 'capped', applied ) );
 		} else if ( applied > quantity ) {
-			// A minimum purchase raises the quantity. Without a notice the customer
-			// wonders why two rolls are shown next to 15 m².
 			this.renderNote( this.buildNote( 'minimum', applied ) );
 		} else {
 			this.renderNote( '' );
@@ -334,9 +310,7 @@
 	};
 
 	/**
-	 * Line next to the waste checkbox: what the input becomes with the surcharge.
-	 * The input itself stays untouched, otherwise after the second toggle
-	 * the customer no longer knows what they typed.
+	 * Shows the amount with waste next to the checkbox; the input stays as typed.
 	 */
 	Calculator.prototype.renderWaste = function () {
 		if ( ! this.wasteOut ) {
@@ -440,9 +414,7 @@
 
 		var quantity = math.parseNumber( this.qtyEl.value );
 
-		// If the area in the field already matches this quantity, it stays.
-		// Otherwise a late change from the theme first turns 37.5 m² into
-		// 37.82 m² and on the next pass into one more unit.
+		// Keep a matching area, else a late theme change turns 37.5 m² into 37.82 m² and then one more unit.
 		var current = this.amountEl ? math.parseNumber( this.amountEl.value ) : NaN;
 
 		if ( isFinite( current ) && current > 0 && this.quantityFor( current ) === quantity ) {
@@ -458,9 +430,7 @@
 				? ( this.data.glue ? math.areaFromGlue( quantity, this.data.glue.consumption, this.data.glue.pack_size ) : null )
 				: math.amountFromQuantity( quantity, this.size );
 
-			// With waste, the quantity covers the area plus surcharge. The
-			// field shows the area without surcharge, the line at the checkbox shows
-			// the rest. Otherwise field and line contradict each other.
+			// The field shows the area without waste; the checkbox line shows the rest.
 			if ( null !== amount && this.wasteActive() ) {
 				amount = math.amountWithoutWaste( amount, this.data.wastePercent );
 			}
@@ -468,7 +438,6 @@
 			if ( null !== amount ) {
 				this.amountEl.value = math.formatNumber( amount, this.data.priceFormat );
 
-				// Field and quantity match again, a notice about the old input would be wrong.
 				this.renderNote( '' );
 			}
 		}
@@ -479,8 +448,7 @@
 	};
 
 	/**
-	 * Plus or minus on the area field. One step is exactly one unit of the
-	 * product, otherwise a click changes the quantity by several packs.
+	 * Plus or minus on the area field, one step being one unit of the product.
 	 *
 	 * @param {number} direction 1 or -1.
 	 */
@@ -626,13 +594,8 @@
 		this.renderNote( '' );
 		this.renderHint();
 
-		// If an area is already in the field, for example from the previous product
-		// or because the customer typed before choosing the variation, it stays and
-		// determines the quantity. Otherwise choosing the variation would overwrite
-		// the input with "1 piece".
-		// WooCommerce and the theme reset the quantity field to the minimum
-		// themselves after show_variation. Hence one tick later, otherwise
-		// the right side shows 1 again while the price already counts 16.
+		// An existing area wins over the quantity. Deferred one tick because WooCommerce
+		// and the theme reset the quantity to the minimum after show_variation.
 		var self = this;
 
 		window.setTimeout( function () {
@@ -691,7 +654,7 @@
 		this.settingQuantity = true;
 		this.qtyEl.value = String( quantity );
 
-		// Other scripts, such as the theme, listen for change.
+		// The theme listens for change.
 		try {
 			if ( $ ) {
 				$( this.qtyEl ).trigger( 'change' );
@@ -725,10 +688,7 @@
 			return;
 		}
 
-		// Goods sold by the meter are cut to measure. There the stored size
-		// is the length of one board, not a sales unit. A fixed text from
-		// the settings takes precedence, for example when lengths vary per
-		// delivery and a range should be stated.
+		// Meter goods: size is one board's length; the settings text wins for varying lengths.
 		if ( 'length' === this.data.hint ) {
 			if ( this.data.lengthHint ) {
 				this.hintEl.textContent = this.data.lengthHint;
@@ -827,8 +787,7 @@
 			return;
 		}
 
-		// The text comes from the translation. It is inserted as text, only
-		// the two prices get their own element.
+		// Translation inserted as text; only the two prices get elements.
 		var values = {
 			'%1$s': [ 's', math.formatPrice( regularTotal, this.data.priceFormat ) ],
 			'%2$s': [ 'strong', math.formatPrice( regularTotal - total, this.data.priceFormat ) ],

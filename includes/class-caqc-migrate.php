@@ -1,14 +1,8 @@
 <?php
 /**
- * Migration of fields from an earlier solution.
+ * One-off rename of meta keys from an earlier theme-based calculator.
  *
- * Some shops previously ran the calculator in their child theme, with
- * their own meta keys. This class renames them once.
- *
- * Important when used in a new shop: **only what actually exists
- * gets renamed.** If not a single old key is found,
- * nothing happens and nothing is recorded, so that a later
- * migration remains possible.
+ * If no old key exists, nothing is recorded, so a later migration stays possible.
  *
  * @package FlooringCalculator
  */
@@ -27,19 +21,9 @@ final class CAQC_Migrate {
 	const VERSION       = 1;
 
 	/**
-	 * Old to new meta keys.
+	 * Old to new meta keys, empty by default (generic old keys may belong to other plugins).
 	 *
-	 * Empty by default. A shop that previously ran the calculator with its own
-	 * fields adds its old names through the filter, for example:
-	 *
-	 *     add_filter( 'caqc_migration_map', function ( $map ) {
-	 *         $map['_my_quantity_type'] = CAQC_Product::META_TYPE;
-	 *         return $map;
-	 *     } );
-	 *
-	 * Fixed names by default would be dangerous: a generic key like
-	 * _custom_product_quantity_type may belong to another plugin in someone
-	 * else's shop.
+	 * Example: add_filter( 'caqc_migration_map', fn( $map ) => $map + array( '_my_type' => CAQC_Product::META_TYPE ) );
 	 *
 	 * @return array<string, string>
 	 */
@@ -77,10 +61,7 @@ final class CAQC_Migrate {
 	}
 
 	/**
-	 * Runs on activation.
-	 *
-	 * Does nothing as long as there is nothing to migrate. A fresh shop
-	 * never notices this class at all.
+	 * Runs on activation; does nothing while there is nothing to migrate.
 	 */
 	public static function maybe_run(): void {
 		if ( (int) get_option( self::OPTION_DONE, 0 ) >= self::VERSION ) {
@@ -107,12 +88,10 @@ final class CAQC_Migrate {
 
 		$report = array();
 
-		// Rename across all products in one go, the meta API cannot do
-		// that. Runs once on activation.
+		// Bulk rename; the meta API cannot rename keys.
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		foreach ( self::map() as $old => $new ) {
-			// Rows that already carry the new name would otherwise exist
-			// twice. They come from a previous attempt.
+			// Drop old rows whose post already has the new key, to avoid duplicates.
 			$wpdb->query(
 				$wpdb->prepare(
 					"DELETE old FROM {$wpdb->postmeta} old

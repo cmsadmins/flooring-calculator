@@ -73,8 +73,7 @@ final class CAQC_Plugin {
 	}
 
 	/**
-	 * The plugin reads orders only through the WooCommerce API and is therefore
-	 * compatible with HPOS and the block checkout.
+	 * Declares HPOS and block checkout support; orders are read only via the WooCommerce API.
 	 */
 	public static function declare_compatibility(): void {
 		if ( ! class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
@@ -86,8 +85,7 @@ final class CAQC_Plugin {
 	}
 
 	/**
-	 * Shop default waste for area products, kept for older code.
-	 * Product values come from CAQC_Product::waste_percent().
+	 * Shop default waste for area products, kept for backward compatibility.
 	 */
 	public static function waste_percent(): float {
 		return CAQC_Settings::waste_percent();

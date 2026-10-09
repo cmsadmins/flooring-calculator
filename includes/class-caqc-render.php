@@ -2,15 +2,8 @@
 /**
  * Calculator markup on the product page.
  *
- * Works exclusively through the WooCommerce hooks around the
- * quantity field, not through template overrides. The order is identical in
- * simple.php and variation-add-to-cart-button.php:
- *
- *   before_add_to_cart_quantity -> quantity field -> after_add_to_cart_quantity
- *   -> Button -> after_add_to_cart_button
- *
- * This way the calculator wraps the theme's quantity field instead of
- * replacing it. The theme's plus and minus buttons stay usable.
+ * Wraps the theme's quantity field via the add-to-cart hooks instead of template
+ * overrides, so the theme's plus and minus buttons keep working.
  *
  * @package FlooringCalculator
  */
@@ -71,12 +64,10 @@ final class CAQC_Render {
 		echo '<div class="caqc-field caqc-field--qty">';
 		printf( '<span class="caqc-label">%s</span>', esc_html( (string) $config['qty_label'] ) );
 
-		// If the quantity itself is a measure, the unit sits next to it as in the
-		// left column. The wrapper closes in close_fields().
+		// Closed in close_fields(), after WooCommerce prints the quantity field.
 		if ( ! empty( $config['qty_unit'] ) ) {
 			echo '<div class="caqc-input-row">';
 		}
-		// WooCommerce outputs the quantity field after this.
 	}
 
 	/**
@@ -103,8 +94,7 @@ final class CAQC_Render {
 
 		$waste = CAQC_Product::waste_percent( $product );
 
-		// No checkbox at 0 %. Goods sold by the meter have no input field, so
-		// there the checkbox sits in the room calculator and only affects its result.
+		// Meter goods have no amount field, so their waste checkbox lives in the room calculator.
 		$waste_in_room = $waste > 0 && CAQC_Types::INPUT_NONE === $config['input'];
 
 		if ( $waste > 0 && ! $waste_in_room && CAQC_Product::has_calculator( $product ) ) {
@@ -122,8 +112,6 @@ final class CAQC_Render {
 		if ( CAQC_Settings::show_total() ) {
 			self::total_box();
 		}
-
-		// WooCommerce outputs the button after this.
 	}
 
 	/**
@@ -148,9 +136,7 @@ final class CAQC_Render {
 		echo '<div class="caqc-field caqc-field--amount">';
 		printf( '<span class="caqc-label">%s</span>', esc_html( (string) $config['input_label'] ) );
 
-		// Stepper and unit sit on one line. Without the wrapper around them,
-		// a theme that makes input fields wide pushes the unit onto the
-		// next line.
+		// Wrapper keeps the unit on the line when themes make inputs full width.
 		echo '<div class="caqc-input-row">';
 
 		echo '<div class="caqc-stepper">';
@@ -183,8 +169,7 @@ final class CAQC_Render {
 	private static function waste_field( float $percent ): void {
 		$id = 'caqc-waste-' . wp_rand();
 
-		// 5 should stay "5", but 7,5 should stay "7,5" too. A fixed format would
-		// either round or append needless zeros.
+		// One decimal only for fractional percentages.
 		$display = number_format_i18n( $percent, floor( $percent ) === $percent ? 0 : 1 );
 
 		echo '<div class="caqc-waste">';
@@ -203,8 +188,7 @@ final class CAQC_Render {
 				)
 			)
 		);
-		// The customer's input stays as is, the result including waste
-		// is shown next to it.
+		// The input stays untouched; the result with waste shows here.
 		echo '<span class="caqc-waste-result" data-caqc-waste-result></span>';
 		echo '</div>';
 	}
@@ -259,7 +243,6 @@ final class CAQC_Render {
 		printf( '<span class="caqc-total-label">%s</span>', esc_html__( 'Total price', 'flooring-calculator' ) );
 		echo '<span class="caqc-total-value" data-caqc-total-value>&ndash;</span>';
 		printf( '<span class="caqc-total-note">%s</span>', esc_html__( 'incl. VAT', 'flooring-calculator' ) );
-		// For items on sale: regular total price and savings.
 		echo '<span class="caqc-total-saving" data-caqc-total-saving></span>';
 		echo '</div>';
 	}
@@ -330,7 +313,7 @@ final class CAQC_Render {
 	}
 
 	/**
-	 * The shop's price format, so the display matches the rest.
+	 * The shop's price format.
 	 *
 	 * @return array<string, mixed>
 	 */
@@ -339,8 +322,7 @@ final class CAQC_Render {
 			'decimals'          => wc_get_price_decimals(),
 			'decimalSeparator'  => wc_get_price_decimal_separator(),
 			'thousandSeparator' => wc_get_price_thousand_separator(),
-			// The script inserts prices as text, so entities like &euro; or
-			// &nbsp; have to become characters here already.
+			// Decoded because the script inserts prices as text.
 			'symbol'            => html_entity_decode( get_woocommerce_currency_symbol(), ENT_QUOTES, 'UTF-8' ),
 			'format'            => html_entity_decode( get_woocommerce_price_format(), ENT_QUOTES, 'UTF-8' ),
 		);

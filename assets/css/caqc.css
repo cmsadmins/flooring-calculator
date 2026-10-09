@@ -1,10 +1,5 @@
 /**
- * Quantity calculator, functional base layout.
- *
- * Deliberately restrained: colors and borders come from variables so a
- * shop can override them without chasing selectors. The quantity field in
- * the right column belongs to the theme and is only embedded, not
- * restyled.
+ * Calculator base layout; colors come from overridable --caqc-* variables.
  */
 
 .caqc,
@@ -17,8 +12,7 @@
 	--caqc-hover: rgba(0, 0, 0, 0.04);
 }
 
-/* For variable products the calculator sits in a flex container of the theme. Without
-   min-width it grows as wide as its content and overflows the edge on mobile. */
+/* min-width: 0 stops overflow on mobile inside the theme's variation flex container. */
 .caqc,
 .caqc-footer {
 	flex: 1 1 100%;
@@ -69,8 +63,7 @@
 	align-items: stretch;
 	min-width: 0;
 	max-width: 190px;
-	/* Same height as the quantity field on the right, otherwise the two
-	   columns are visibly offset. */
+	/* Matches the quantity field height so both columns align. */
 	min-height: var(--caqc-field-height, 47px);
 	border: 1px solid var(--caqc-border);
 	background: var(--caqc-bg);
@@ -101,8 +94,7 @@
 	color: inherit;
 }
 
-/* Themes like to give input fields a fixed width. The rules here
-   therefore need a little more weight than a single class. */
+/* Extra specificity beats theme input widths. */
 .caqc .caqc-input-row .caqc-amount {
 	flex: 1 1 auto;
 	width: auto;
@@ -131,8 +123,7 @@
 	white-space: nowrap;
 }
 
-/* Themes like Woodmart give the quantity field an order (form.cart div.quantity
-   { order: 5 }). Without an order of its own, the unit slips in front of it. */
+/* Woodmart sets form.cart div.quantity { order: 5 }; without this the unit lands in front. */
 .caqc .caqc-input-row > .caqc-unit {
 	order: 99;
 }
@@ -140,7 +131,7 @@
 .caqc-hint,
 .caqc-note {
 	display: block;
-	/* Some themes float the quantity field, the note still belongs below it. */
+	/* Some themes float the quantity field. */
 	clear: both;
 	margin-top: 8px;
 	min-height: 1.2em;
@@ -156,10 +147,8 @@
 }
 
 /*
- * The quantity field in the right column belongs to the theme. So that both columns
- * look the same, it gets the dimensions and look of the left stepper here.
- * Themes build this field in very different ways, hence the detailed
- * rules and the reset of position and width.
+ * Restyles the theme's quantity field like the left stepper; themes build it
+ * very differently, hence the resets of position and width.
  */
 .caqc .caqc-field--qty .quantity {
 	display: flex;
@@ -260,8 +249,7 @@
 	border-top: 1px solid var(--caqc-border);
 }
 
-/* The label carries the hit area. The checkbox alone is too small
-   to hit reliably on a phone. */
+/* The label is the tap target; the checkbox alone is too small on phones. */
 .caqc-waste label {
 	flex: 1 1 auto;
 	margin: 0;
@@ -277,7 +265,6 @@
 	cursor: pointer;
 }
 
-/* Result with waste in a separate line below the checkbox. */
 .caqc-waste-result {
 	flex: 1 0 100%;
 	margin-top: -8px;
@@ -324,7 +311,6 @@
 	font-weight: 400;
 }
 
-/* Field with the unit inside, same look as the stepper above. */
 .caqc-room-field {
 	display: flex;
 	align-items: stretch;
@@ -405,15 +391,13 @@
 	margin-bottom: 15px;
 }
 
-/* Themes give children of form.cart horizontal margins. Then the
-   price box sits indented below the calculator. */
+/* Themes add horizontal margins to form.cart children. */
 form.cart .caqc-footer.caqc-footer {
 	margin-right: 0;
 	margin-left: 0;
 }
 
-/* Fixed order instead of wrapping at the whim of the price length: label left,
-   total right, tax note below the total, savings below that. */
+/* Grid so long prices do not reflow the layout. */
 .caqc-total {
 	display: grid;
 	flex: 1 1 240px;
@@ -452,7 +436,6 @@ form.cart .caqc-footer.caqc-footer {
 	white-space: nowrap;
 }
 
-/* Regular price and savings in a separate line below the total. */
 .caqc-total-saving {
 	grid-area: saving;
 	margin-top: 4px;
@@ -504,15 +487,12 @@ form.cart .caqc-footer.caqc-footer {
 		padding-right: 16px;
 	}
 
-	/* Stacked, the full width is available. A 109 pixel
-	   wide field in a 360 pixel wide column looks lost
-	   and is harder to hit. */
+	/* Full width when stacked, easier to hit. */
 	.caqc-stepper,
 	.caqc .caqc-field--qty .quantity {
 		max-width: none;
 	}
 
-	/* With a unit next to it, the field shares the line with it. */
 	.caqc .caqc-input-row > .quantity {
 		flex: 1 1 auto;
 		min-width: 0;
@@ -525,7 +505,6 @@ form.cart .caqc-footer.caqc-footer {
 		width: 56px;
 	}
 
-	/* Length and width side by side, Apply below at full width. */
 	.caqc .caqc-room-label {
 		flex: 1 1 calc(50% - 6px);
 	}

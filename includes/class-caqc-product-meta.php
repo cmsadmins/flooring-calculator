@@ -2,10 +2,6 @@
 /**
  * Fields in the product admin.
  *
- * Fixed compared to the template in the child theme: missing isset checks,
- * missing whitelisting of the type, and the behaviour that a cleared field
- * could never delete the old value.
- *
  * @package FlooringCalculator
  */
 
@@ -114,16 +110,14 @@ final class CAQC_Product_Meta {
 	public static function save_product_fields( $post_id ): void {
 		$post_id = (int) $post_id;
 
-		// WooCommerce checks nonce and capability before this hook. The
-		// check is repeated here anyway so that the hook cannot be triggered
-		// from elsewhere without a nonce.
+		// Re-checked so the hook cannot be fired elsewhere without a nonce.
 		$nonce = isset( $_POST['woocommerce_meta_nonce'] ) ? sanitize_key( wp_unslash( $_POST['woocommerce_meta_nonce'] ) ) : '';
 
 		if ( ! wp_verify_nonce( $nonce, 'woocommerce_save_data' ) || ! current_user_can( 'edit_product', $post_id ) ) {
 			return;
 		}
 
-		// The field set can still be missing, e.g. during an import.
+		// Missing during imports.
 		if ( ! isset( $_POST[ CAQC_Product::META_TYPE ] ) ) {
 			return;
 		}
@@ -210,8 +204,7 @@ final class CAQC_Product_Meta {
 	}
 
 	/**
-	 * Writes a percentage field. Zero is valid, empty removes the value,
-	 * invalid input keeps the old one.
+	 * Writes a percentage: zero is valid, empty removes, invalid keeps the old value.
 	 *
 	 * @param int    $post_id Post ID.
 	 * @param string $key     Meta key.
@@ -240,11 +233,7 @@ final class CAQC_Product_Meta {
 	}
 
 	/**
-	 * Writes a number, or deletes the field on empty input.
-	 *
-	 * A cleared field must remove the value. The legacy code checked for
-	 * !empty() and kept the old value, so a wrong size
-	 * could no longer be removed.
+	 * Writes a number; empty or invalid input deletes the field so wrong sizes can be cleared.
 	 *
 	 * @param int    $post_id Post ID.
 	 * @param string $key     Meta key.
@@ -267,8 +256,6 @@ final class CAQC_Product_Meta {
 			return;
 		}
 
-		// Input with a comma is stored as typed, calculations go through
-		// CAQC_Product::to_float() anyway.
 		update_post_meta( $post_id, $key, str_replace( ',', '.', $value ) );
 	}
 }

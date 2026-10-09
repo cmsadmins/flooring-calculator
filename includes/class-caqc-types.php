@@ -1,9 +1,6 @@
 <?php
 /**
- * Type table: the only place where a product group is defined.
- *
- * Each type describes which input fields the product page shows, what the
- * unit is called and whether waste allowance and room calculator are offered.
+ * Type table: the only place where a quantity type is defined.
  *
  * @package FlooringCalculator
  */
@@ -33,17 +30,10 @@ final class CAQC_Types {
 	const INPUT_GLUE  = 'glue';   // Area to be glued in m².
 
 	/**
-	 * Further per-type properties that are needed in several places:
-	 *
-	 *   stock_in_size  show stock in the size instead of pieces
-	 *   cart_label     label of the info in the block checkout
-	 *   cart_note      whether to show the info in the cart at all
-	 *   waste          waste group (WASTE_AREA, WASTE_LENGTH) or false
-	 *   needs_size     no calculator without a size per piece
-	 *   qty_unit       unit to the right of the quantity field when the quantity
-	 *                  itself is a measure (goods sold by the meter)
-	 *
 	 * Kind of note below the quantity field.
+	 *
+	 * Other type keys: stock_in_size, cart_label, cart_note, waste (group or false),
+	 * needs_size (no calculator without size), qty_unit (unit beside the quantity field).
 	 */
 	const HINT_PIECE  = 'piece';   // "1 package = 0.46 m²"
 	const HINT_LENGTH = 'length';  // "Sold by the meter, board length approx. 2.70 m"
@@ -256,11 +246,7 @@ final class CAQC_Types {
 	}
 
 	/**
-	 * Options for the admin dropdown.
-	 *
-	 * A shop rarely needs all product groups. Whatever is deselected in the
-	 * settings no longer appears here. The logic still knows the types,
-	 * so that already maintained products do not break.
+	 * Options for the admin dropdown; deselected types stay known so existing products keep working.
 	 *
 	 * @param bool $include_all Include deselected types as well.
 	 * @return array<string, string>

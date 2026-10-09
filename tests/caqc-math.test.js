@@ -1,7 +1,5 @@
 /**
- * Self-test of the calculation functions. Run: node tests/caqc-math.test.js
- *
- * No framework, just assert. If a check fails, the run exits with exit code 1.
+ * Self-test of the calculation functions, plain assert. Run: node tests/caqc-math.test.js
  */
 'use strict';
 
@@ -36,17 +34,14 @@ check( '50 m² with waste yields 146 packs', function () {
 } );
 
 check( 'Waste adds 5 percent, not 5.26', function () {
-	// The old code computed quantity / 0.95 and so ended up at 5.26 percent.
-	// 100 / 1 with waste must yield 105, not 106.
+	// Dividing by 0.95 would give 5.26 % and 106.
 	assert.strictEqual( m.quantityFromAmount( 100, 1, true ), 105 );
 } );
 
 check( 'Waste follows the configured percentage', function () {
-	// Without the parameter it stays at five percent.
+	// Defaults to five percent.
 	assert.strictEqual( m.quantityFromAmount( 100, 1, true ), 105 );
 	assert.strictEqual( m.quantityFromAmount( 100, 1, true, 5 ), 105 );
-	// A different rate must actually take effect. Exactly that was missing while
-	// the 1.05 was hard-wired into the calculation core.
 	assert.strictEqual( m.quantityFromAmount( 100, 1, true, 10 ), 110 );
 	assert.strictEqual( m.quantityFromAmount( 50, 0.46, true, 7.5 ), 117 );
 	assert.strictEqual( m.quantityFromAmount( 100, 1, true, 0 ), 100 );
@@ -58,7 +53,7 @@ check( 'Waste follows the configured percentage', function () {
 } );
 
 check( 'Exact multiple does not round up one unit too many', function () {
-	// 139 * 0.36 = 50.040000000000006 in floating point. Without tolerance that would be 140.
+	// 50.04 / 0.36 is slightly above 139 in floating point.
 	assert.strictEqual( m.quantityFromAmount( 50.04, 0.36, false ), 139 );
 	assert.strictEqual( m.quantityFromAmount( 3.6, 0.36, false ), 10 );
 	assert.strictEqual( m.quantityFromAmount( 8.5, 8.5, false ), 1 );

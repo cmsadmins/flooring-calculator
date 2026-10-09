@@ -1,10 +1,6 @@
 <?php
 /**
- * Read access to a product's quantity data.
- *
- * This class is the only place that knows the meta keys. Product page,
- * cart, checkout, order email and stock text ask here instead of each
- * repeating the resolution of product and variation size themselves.
+ * Read access to a product's quantity data; the only place that knows the meta keys.
  *
  * @package FlooringCalculator
  */
@@ -57,11 +53,7 @@ final class CAQC_Product {
 	}
 
 	/**
-	 * Size contained in one piece.
-	 *
-	 * If a variation is given, its value applies. If the product uses
-	 * variation sizes and no variation is set, the result is null,
-	 * because the size is only known once one is selected.
+	 * Size of one piece; null for variation sizes until a variation is given.
 	 *
 	 * @param WC_Product|int $product      Product or product ID.
 	 * @param int            $variation_id Variation, 0 for none.
@@ -113,10 +105,7 @@ final class CAQC_Product {
 	}
 
 	/**
-	 * Adhesive data: consumption in kg per m² and container content in kg.
-	 *
-	 * Both values are required. If one is missing, the product falls back to
-	 * plain piece input instead of showing a calculator with wrong numbers.
+	 * Adhesive coverage (kg/m²) and container size (kg); null if either is missing.
 	 *
 	 * @param WC_Product|int $product Product or product ID.
 	 * @return array{consumption: float, pack_size: float}|null
@@ -136,11 +125,7 @@ final class CAQC_Product {
 	}
 
 	/**
-	 * Waste allowance of a product in percent.
-	 *
-	 * Own value first, then the default of the type's waste group. Types
-	 * without a group (adhesive, pieces) always get 0. Variations use the
-	 * value of the parent product.
+	 * Waste percentage: own value, else the group default; variations use the parent.
 	 *
 	 * @param WC_Product|int $product Product or product ID.
 	 */
@@ -226,10 +211,7 @@ final class CAQC_Product {
 	}
 
 	/**
-	 * Converts input to a positive number.
-	 *
-	 * Comma and dot both count as decimal separators, because the admin
-	 * fields have always allowed both.
+	 * Converts input to a positive number, accepting comma or dot as decimal separator.
 	 *
 	 * @param mixed $value Raw value.
 	 * @return float|null Positive number, or null.
@@ -251,10 +233,7 @@ final class CAQC_Product {
 	}
 
 	/**
-	 * Converts input to a percentage from 0 to 100.
-	 *
-	 * Unlike to_float(), zero is valid here: it switches the waste checkbox
-	 * off for a single product.
+	 * Converts input to 0 to 100; zero is valid and hides the waste checkbox.
 	 *
 	 * @param mixed $value Raw value.
 	 * @return float|null Percentage, or null if empty or invalid.

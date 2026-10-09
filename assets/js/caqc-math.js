@@ -1,19 +1,14 @@
 /**
- * Pure calculation functions of the quantity calculator.
- *
- * No DOM access, no jQuery. That way the file also runs under node
- * and the self-test in tests/caqc-math.test.js can check it without a browser.
+ * Pure calculation functions, DOM-free so tests/caqc-math.test.js runs them under node.
  */
 ( function ( root ) {
 	'use strict';
 
-	// Tolerance against floating-point rounding. Without it, 50.04 / 0.36 yields
-	// 139.00000000000003 and Math.ceil turns that into 140 instead of 139.
+	// 50.04 / 0.36 yields 139.00000000000003, which Math.ceil would turn into 140.
 	var EPS = 1e-9;
 
 	/**
-	 * Reads a number from user input. Comma and dot are both accepted as
-	 * decimal separator, spaces are dropped.
+	 * Reads a number from user input, accepting comma or dot and ignoring spaces.
 	 *
 	 * @param {string|number} value Input.
 	 * @return {number} Number, or NaN if unreadable.
@@ -169,8 +164,7 @@
 	}
 
 	/**
-	 * Area glued by a number of packs, the inverse of quantityFromGlue.
-	 * Rounded down so that converting the area back yields exactly this quantity again.
+	 * Area glued by a number of packs, rounded down so it converts back to the same quantity.
 	 *
 	 * @param {number} quantity    Packs.
 	 * @param {number} consumption Consumption in kg per m².

@@ -1,14 +1,6 @@
 <?php
 /**
- * Stock in the product's unit.
- *
- * Instead of "534 in stock", area goods show "534.06 m² in stock".
- *
- * Unlike the template in the child theme, this filter replaces the text only
- * when there really is an area value. All other cases are passed
- * through unchanged. The template rebuilt the text across the board and in doing so
- * suppressed "In stock" shop-wide, even for products without a calculator. That
- * behaviour is the shop's decision and therefore belongs in the theme.
+ * Stock in the product's unit, e.g. "534.06 m² in stock"; other texts pass through unchanged.
  *
  * @package FlooringCalculator
  */
@@ -54,8 +46,7 @@ final class CAQC_Stock {
 		$config = CAQC_Product::type_config( $owner['product_id'] );
 		$unit   = (string) $config['size_unit'];
 
-		// Only product groups whose type provides for it. Goods sold by the meter or
-		// by the piece already show the number that ends up in the cart.
+		// Meter and piece goods already show the number that goes into the cart.
 		if ( empty( $config['stock_in_size'] ) || '' === $unit ) {
 			return $text;
 		}
