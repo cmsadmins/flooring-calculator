@@ -2,7 +2,7 @@
 
 All notable changes to Flooring Calculator for WooCommerce. The wp.org readme carries the same entries in short form.
 
-## Unreleased
+## 1.0.4
 
 - Waste per product: each product can set its own waste percentage, an empty field uses the shop default.
 - Separate waste default for skirting boards and goods sold by the meter (off by default).

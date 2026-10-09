@@ -1,7 +1,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Flooring Calculator for WooCommerce 1.0.3\n"
+"Project-Id-Version: Flooring Calculator for WooCommerce 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-10-08T11:20:37+00:00\n"
 "PO-Revision-Date: 2026-10-08T11:20:37+00:00\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Domain: flooring-calculator\n"
 
-#: includes/class-caqc-settings.php:134
+#: includes/class-caqc-settings.php:129
 msgid ""
 "\"534 in stock\" becomes \"534.06 m² in stock\". Only affects area based "
 "quantity types."
@@ -23,115 +23,115 @@ msgstr ""
 "mit Flächenangabe."
 
 #. translators: 1: coverage in kg per m², 2: container size in kg.
-#: includes/class-caqc-admin.php:110
+#: includes/class-caqc-admin.php:106
 #, php-format
 msgid "%1$s kg/m², container %2$s kg"
 msgstr "%1$s kg/m², Gebinde %2$s kg"
 
 #. translators: %s: stock with unit, e.g. "534.06 m²".
-#: includes/class-caqc-stock.php:93
+#: includes/class-caqc-stock.php:84
 #, php-format
 msgid "%s in stock"
 msgstr "%s vorrätig"
 
-#: includes/class-caqc-types.php:181
+#: includes/class-caqc-types.php:171
 msgid "/&nbsp;container"
 msgstr "/&nbsp;Gebinde"
 
-#: includes/class-caqc-types.php:162
+#: includes/class-caqc-types.php:152
 msgid "/&nbsp;meter"
 msgstr "/&nbsp;Meter"
 
-#: includes/class-caqc-types.php:85
+#: includes/class-caqc-types.php:75
 msgid "/&nbsp;pack"
 msgstr "/&nbsp;Paket"
 
-#: includes/class-caqc-types.php:123
+#: includes/class-caqc-types.php:113
 msgid "/&nbsp;panel"
 msgstr "/&nbsp;Paneel"
 
-#: includes/class-caqc-types.php:142
+#: includes/class-caqc-types.php:132
 msgid "/&nbsp;piece"
 msgstr "/&nbsp;Stück"
 
-#: includes/class-caqc-types.php:104
+#: includes/class-caqc-types.php:94
 msgid "/&nbsp;roll"
 msgstr "/&nbsp;Rolle"
 
 #. translators: %s: waste percentage, e.g. "10".
-#: includes/class-caqc-render.php:201
+#: includes/class-caqc-render.php:186
 #, php-format
 msgid "Add %s%% for waste"
 msgstr "%s %% Verschnitt hinzufügen"
 
-#: includes/class-caqc-admin.php:378
+#: includes/class-caqc-admin.php:367
 msgid "All quantity types"
 msgstr "Alle Mengenangaben"
 
-#: includes/class-caqc-render.php:241
+#: includes/class-caqc-render.php:225
 msgid "Apply"
 msgstr "Übernehmen"
 
-#: includes/class-caqc-types.php:87 includes/class-caqc-types.php:106
-#: includes/class-caqc-types.php:125
+#: includes/class-caqc-types.php:77 includes/class-caqc-types.php:96
+#: includes/class-caqc-types.php:115
 msgid "Area"
 msgstr "Fläche"
 
-#: includes/class-caqc-types.php:175
+#: includes/class-caqc-types.php:165
 msgid "Area to be glued?"
 msgstr "Zu verklebende Fläche?"
 
-#: includes/class-caqc-settings.php:146
+#: includes/class-caqc-settings.php:141
 msgid "Available quantity types"
 msgstr "Verfügbare Mengenangaben"
 
-#: includes/class-caqc-types.php:189
+#: includes/class-caqc-types.php:179
 msgid "Calculate area from room dimensions"
 msgstr "Fläche aus Raummaßen berechnen"
 
-#: includes/class-caqc-render.php:220 includes/class-caqc-types.php:93
-#: includes/class-caqc-types.php:112 includes/class-caqc-types.php:150
-#: includes/class-caqc-types.php:170
+#: includes/class-caqc-render.php:204 includes/class-caqc-types.php:83
+#: includes/class-caqc-types.php:102 includes/class-caqc-types.php:140
+#: includes/class-caqc-types.php:160
 msgid "Calculate from room dimensions"
 msgstr "Bedarf aus Raummaßen berechnen"
 
-#: includes/class-caqc-types.php:131
+#: includes/class-caqc-types.php:121
 msgid "Calculate panels needed"
 msgstr "Paneelbedarf berechnen"
 
-#: includes/class-caqc-product-meta.php:99
+#: includes/class-caqc-product-meta.php:95
 msgid "Container size in kg"
 msgstr "Gebindeinhalt in kg"
 
-#: includes/class-caqc-product-meta.php:101
+#: includes/class-caqc-product-meta.php:97
 msgid "Content of one container, for example 10 for a 10 kg bucket."
 msgstr "Inhalt eines Gebindes, zum Beispiel 10 für einen 10-kg-Eimer."
 
-#: includes/class-caqc-settings.php:129
+#: includes/class-caqc-settings.php:124
 msgid "Convert stock display"
 msgstr "Lagerbestand umrechnen"
 
-#: includes/class-caqc-types.php:173
+#: includes/class-caqc-types.php:163
 msgid "Coverage / container"
 msgstr "Verbrauch / Gebinde"
 
-#: includes/class-caqc-product-meta.php:89
+#: includes/class-caqc-product-meta.php:85
 msgid "Coverage in kg per m²"
 msgstr "Verbrauch in kg je m²"
 
-#: includes/class-caqc-admin.php:100
+#: includes/class-caqc-admin.php:96
 msgid "Coverage or container size missing"
 msgstr "Verbrauch oder Gebinde fehlt"
 
-#: includes/class-caqc-settings.php:177
+#: includes/class-caqc-settings.php:171
 msgid "Data from a previous solution found."
 msgstr "Daten aus einer früheren Lösung gefunden."
 
-#: includes/class-caqc-render.php:159
+#: includes/class-caqc-render.php:145
 msgid "Decrease amount"
 msgstr "Menge verringern"
 
-#: includes/class-caqc-settings.php:138
+#: includes/class-caqc-settings.php:133
 msgid ""
 "Fixed text below the quantity field for the type Meters. Leave empty to show"
 " the product's piece length instead."
@@ -139,7 +139,7 @@ msgstr ""
 "Fester Text unter dem Mengenfeld der Warengruppe Meter. Leer lassen, dann "
 "steht dort die Leistenlänge des Produkts."
 
-#: flooring-calculator.php:101
+#: flooring-calculator.php:99
 msgid ""
 "Flooring Calculator for WooCommerce needs WooCommerce to be installed and "
 "active."
@@ -147,11 +147,11 @@ msgstr ""
 "CMS ADMINS Mengenrechner benötigt WooCommerce. Das Plugin bleibt ohne "
 "Wirkung."
 
-#: includes/class-caqc-settings.php:51 includes/class-caqc-settings.php:87
+#: includes/class-caqc-settings.php:46 includes/class-caqc-settings.php:82
 msgid "Flooring calculator"
 msgstr "Mengenrechner"
 
-#: includes/class-caqc-product-meta.php:91
+#: includes/class-caqc-product-meta.php:87
 msgid ""
 "For example 1 for 1 kg per m². If the manufacturer gives a range, enter the "
 "upper value so the amount is sufficient."
@@ -159,69 +159,69 @@ msgstr ""
 "Zum Beispiel 1 für 1 kg je m². Bei Bereichsangaben des Herstellers den "
 "oberen Wert eintragen, damit die Menge reicht."
 
-#: includes/class-caqc-types.php:177
+#: includes/class-caqc-types.php:167
 msgid "How many containers do you need?"
 msgstr "Wie viele Gebinde benötigen Sie?"
 
-#: includes/class-caqc-types.php:136 includes/class-caqc-types.php:157
+#: includes/class-caqc-types.php:126 includes/class-caqc-types.php:147
 msgid "How many meters do you need?"
 msgstr "Wie viel Meter benötigen Sie?"
 
-#: includes/class-caqc-types.php:81
+#: includes/class-caqc-types.php:71
 msgid "How many packs do you need?"
 msgstr "Wie viele Pakete benötigen Sie?"
 
-#: includes/class-caqc-types.php:119
+#: includes/class-caqc-types.php:109
 msgid "How many panels do you need?"
 msgstr "Wie viele Paneele benötigen Sie?"
 
-#: includes/class-caqc-types.php:138 includes/class-caqc-types.php:196
+#: includes/class-caqc-types.php:128 includes/class-caqc-types.php:186
 msgid "How many pieces do you need?"
 msgstr "Wie viel Stück benötigen Sie?"
 
-#: includes/class-caqc-types.php:100
+#: includes/class-caqc-types.php:90
 msgid "How many rolls do you need?"
 msgstr "Wie viele Rollen benötigen Sie?"
 
-#: includes/class-caqc-product-meta.php:44
+#: includes/class-caqc-product-meta.php:40
 msgid "How this product is measured and sold."
 msgstr "Art der Mengenangabe für dieses Produkt."
 
-#: includes/class-caqc-render.php:167
+#: includes/class-caqc-render.php:153
 msgid "Increase amount"
 msgstr "Menge erhöhen"
 
-#: includes/class-caqc-types.php:153
+#: includes/class-caqc-types.php:143
 msgid "Meters"
 msgstr "Meter"
 
-#: includes/class-caqc-types.php:134
+#: includes/class-caqc-types.php:124
 msgid "Meters / pieces"
 msgstr "Meter / Stückzahl"
 
 #. translators: 1: minimum quantity, 2: sales unit, e.g. "rolls".
-#: includes/class-caqc-render.php:306
+#: includes/class-caqc-render.php:289
 #, php-format
 msgid "Minimum order: %1$s %2$s."
 msgstr "Mindestabnahme: %1$s %2$s."
 
 #. translators: 1: maximum quantity, 2: sales unit, e.g. "packs".
-#: includes/class-caqc-render.php:304
+#: includes/class-caqc-render.php:287
 #, php-format
 msgid "More than %1$s %2$s are currently not available."
 msgstr "Mehr als %1$s %2$s sind derzeit nicht lieferbar."
 
-#: includes/class-caqc-settings.php:137
+#: includes/class-caqc-settings.php:132
 msgid "Note for goods sold by the meter"
 msgstr "Hinweis bei Meterware"
 
 #. translators: %s: remaining stock with unit, e.g. "12.5 m²".
-#: includes/class-caqc-stock.php:89
+#: includes/class-caqc-stock.php:80
 #, php-format
 msgid "Only %s left in stock"
 msgstr "Nur noch %s vorrätig"
 
-#: includes/class-caqc-product-meta.php:83
+#: includes/class-caqc-product-meta.php:79
 msgid ""
 "Only for the quantity type \"Coverage / container\". Both fields are "
 "required, otherwise the product page shows the plain quantity field."
@@ -229,7 +229,7 @@ msgstr ""
 "Nur für die Mengenangabe \"Verbrauch / Gebinde\". Beide Felder sind nötig, "
 "sonst zeigt die Produktseite nur die Stückeingabe."
 
-#: includes/class-caqc-settings.php:147
+#: includes/class-caqc-settings.php:142
 msgid ""
 "Only the selected types appear in the product dropdown. Values already set "
 "are kept."
@@ -237,62 +237,62 @@ msgstr ""
 "Nur die ausgewählten erscheinen im Produkt-Dropdown. Bereits gesetzte Werte "
 "bleiben erhalten."
 
-#: includes/class-caqc-types.php:192
+#: includes/class-caqc-types.php:182
 msgid "Pieces (default)"
 msgstr "Stückzahl (Standard)"
 
-#: includes/class-caqc-render.php:302
+#: includes/class-caqc-render.php:285
 msgid "Please select a product variation first."
 msgstr "Bitte wählen Sie zuerst eine Artikelvariante aus."
 
-#: includes/class-caqc-cart.php:86 includes/class-caqc-cart.php:160
-#: includes/class-caqc-types.php:144 includes/class-caqc-types.php:164
-#: includes/class-caqc-types.php:202
+#: includes/class-caqc-cart.php:69 includes/class-caqc-cart.php:134
+#: includes/class-caqc-types.php:134 includes/class-caqc-types.php:154
+#: includes/class-caqc-types.php:192
 msgid "Quantity"
 msgstr "Menge"
 
-#: includes/class-caqc-admin.php:55 includes/class-caqc-admin.php:60
-#: includes/class-caqc-admin.php:176 includes/class-caqc-product-meta.php:41
+#: includes/class-caqc-admin.php:51 includes/class-caqc-admin.php:56
+#: includes/class-caqc-admin.php:172 includes/class-caqc-product-meta.php:37
 msgid "Quantity type"
 msgstr "Mengenangabe"
 
 #. translators: 1: calculated area or length, 2: unit, e.g. "m²".
-#: includes/class-caqc-render.php:308
+#: includes/class-caqc-render.php:291
 #, php-format
 msgid "Required: %1$s %2$s"
 msgstr "Benötigt: %1$s %2$s"
 
 #. translators: %1$s: adhesive weight.
-#: includes/class-caqc-render.php:310
+#: includes/class-caqc-render.php:293
 #, php-format
 msgid "Required: %1$s kg"
 msgstr "Bedarf: %1$s kg"
 
-#: includes/class-caqc-render.php:229
+#: includes/class-caqc-render.php:213
 msgid "Room length"
 msgstr "Raumlänge"
 
-#: includes/class-caqc-render.php:235
+#: includes/class-caqc-render.php:219
 msgid "Room width"
 msgstr "Raumbreite"
 
-#: includes/class-caqc-settings.php:67
+#: includes/class-caqc-settings.php:62
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: includes/class-caqc-settings.php:122
+#: includes/class-caqc-settings.php:117
 msgid "Show a running total below the calculator"
 msgstr "Preisfeld unter dem Rechner einblenden"
 
-#: includes/class-caqc-settings.php:130
+#: includes/class-caqc-settings.php:125
 msgid "Show stock in the product's measure instead of units"
 msgstr "Bestand in der Größe statt in Stück anzeigen"
 
-#: includes/class-caqc-settings.php:121
+#: includes/class-caqc-settings.php:116
 msgid "Show total price"
 msgstr "Gesamtpreis anzeigen"
 
-#: includes/class-caqc-product-meta.php:62
+#: includes/class-caqc-product-meta.php:58
 msgid ""
 "Size contained in one unit of this product, for example 0.46 for 0.46 m² per"
 " pack or 8.5 for a roll of 8.5 m²."
@@ -300,7 +300,7 @@ msgstr ""
 "Größe, die in einem Stück des Produktes enthalten ist, zum Beispiel 0,46 für"
 " 0,46 m² je Paket oder 8,5 für eine Rolle mit 8,5 m²."
 
-#: includes/class-caqc-product-meta.php:167
+#: includes/class-caqc-product-meta.php:161
 msgid ""
 "Size contained in one unit of this variation, for example 1.63 for a panel "
 "of 1.63 m²."
@@ -308,42 +308,42 @@ msgstr ""
 "Größe, die in einem Stück dieser Variante enthalten ist, zum Beispiel 1,63 "
 "für ein Paneel mit 1,63 m²."
 
-#: includes/class-caqc-admin.php:193 includes/class-caqc-product-meta.php:60
-#: includes/class-caqc-product-meta.php:165
+#: includes/class-caqc-admin.php:189 includes/class-caqc-product-meta.php:56
+#: includes/class-caqc-product-meta.php:159
 msgid "Size per unit"
 msgstr "Größe pro Stück"
 
-#: includes/class-caqc-admin.php:129 includes/class-caqc-admin.php:393
+#: includes/class-caqc-admin.php:125 includes/class-caqc-admin.php:382
 msgid "Size per unit missing"
 msgstr "Größe pro Stück fehlt"
 
-#: includes/class-caqc-admin.php:121
+#: includes/class-caqc-admin.php:117
 msgid "Size per variation"
 msgstr "Größe je Variante"
 
 #. translators: 1: length of one piece, 2: length unit, e.g. "m".
-#: includes/class-caqc-render.php:301
+#: includes/class-caqc-render.php:284
 #, php-format
 msgid "Sold by the meter. Length per piece approx. %1$s %2$s."
 msgstr "Meterweise bestellbar. Leistenlänge ca. %1$s %2$s."
 
-#: includes/class-caqc-settings.php:142
+#: includes/class-caqc-settings.php:137
 msgid "Sold by the meter. Length per piece approx. 2.40 to 2.70 meters."
 msgstr "Meterweise bestellbar. Leistenlänge ca. 2,40 – 2,70 Meter."
 
-#: includes/class-caqc-types.php:77
+#: includes/class-caqc-types.php:67
 msgid "Square meters / packs"
 msgstr "Quadratmeter / Pakete"
 
-#: includes/class-caqc-types.php:115
+#: includes/class-caqc-types.php:105
 msgid "Square meters / panels"
 msgstr "Quadratmeter / Paneele"
 
-#: includes/class-caqc-types.php:96
+#: includes/class-caqc-types.php:86
 msgid "Square meters / rolls"
 msgstr "Quadratmeter / Rollen"
 
-#: includes/class-caqc-product-meta.php:53
+#: includes/class-caqc-product-meta.php:49
 msgid ""
 "The calculator uses the \"Size per unit\" of each variation. Useful when "
 "variations differ in size. The field below is ignored then."
@@ -352,100 +352,100 @@ msgstr ""
 "verwendet. Sinnvoll, wenn die Varianten unterschiedlich groß sind. Das Feld "
 "unten wird dann ignoriert."
 
-#: includes/class-caqc-render.php:259
+#: includes/class-caqc-render.php:243
 msgid "Total price"
 msgstr "Gesamtpreis"
 
-#: includes/class-caqc-settings.php:126
+#: includes/class-caqc-settings.php:121
 msgid "Turn off if your theme already shows a running total."
 msgstr "Abschalten, wenn das Theme bereits einen laufenden Gesamtpreis zeigt."
 
-#: includes/class-caqc-product-meta.php:51
+#: includes/class-caqc-product-meta.php:47
 msgid "Use \"Size per unit\" from variations"
 msgstr "\"Größe pro Stück\" von Varianten verwenden"
 
-#: includes/class-caqc-types.php:79 includes/class-caqc-types.php:98
-#: includes/class-caqc-types.php:117
+#: includes/class-caqc-types.php:69 includes/class-caqc-types.php:88
+#: includes/class-caqc-types.php:107
 msgid "What area do you need?"
 msgstr "Welche Fläche benötigen Sie?"
 
-#: includes/class-caqc-types.php:178
+#: includes/class-caqc-types.php:168
 msgid "container"
 msgstr "Gebinde"
 
-#: includes/class-caqc-types.php:179
+#: includes/class-caqc-types.php:169
 msgid "containers"
 msgstr "Gebinde"
 
 #. translators: %s: total measure with unit, e.g. "41.76 m²".
-#: includes/class-caqc-cart.php:287
+#: includes/class-caqc-cart.php:254
 #, php-format
 msgid "equals %s"
 msgstr "entspricht %s"
 
 #. translators: 1: waste percentage, 2: area incl. waste, 3: unit, 4:
 #. quantity, 5: sales unit.
-#: includes/class-caqc-render.php:312
+#: includes/class-caqc-render.php:295
 #, php-format
 msgid "incl. %1$s%% waste: %2$s %3$s, %4$s %5$s"
 msgstr "inkl. %1$s %% Verschnitt: %2$s %3$s, %4$s %5$s"
 
-#: includes/class-caqc-render.php:261
+#: includes/class-caqc-render.php:245
 msgid "incl. VAT"
 msgstr "inkl. MwSt."
 
 #. translators: 1: regular total price, 2: amount saved.
-#: includes/class-caqc-render.php:314
+#: includes/class-caqc-render.php:297
 #, php-format
 msgid "instead of %1$s, you save %2$s"
 msgstr "statt %1$s, Sie sparen %2$s"
 
-#: includes/class-caqc-types.php:159
+#: includes/class-caqc-types.php:149
 msgid "meter"
 msgstr "Meter"
 
-#: includes/class-caqc-types.php:160
+#: includes/class-caqc-types.php:150
 msgid "meters"
 msgstr "Meter"
 
-#: includes/class-caqc-admin.php:197
+#: includes/class-caqc-admin.php:193
 msgid "no change"
 msgstr "unverändert"
 
-#: includes/class-caqc-types.php:82
+#: includes/class-caqc-types.php:72
 msgid "pack"
 msgstr "Paket"
 
-#: includes/class-caqc-types.php:83
+#: includes/class-caqc-types.php:73
 msgid "packs"
 msgstr "Pakete"
 
-#: includes/class-caqc-types.php:120
+#: includes/class-caqc-types.php:110
 msgid "panel"
 msgstr "Paneel"
 
-#: includes/class-caqc-types.php:121
+#: includes/class-caqc-types.php:111
 msgid "panels"
 msgstr "Paneele"
 
-#: includes/class-caqc-types.php:139 includes/class-caqc-types.php:197
+#: includes/class-caqc-types.php:129 includes/class-caqc-types.php:187
 msgid "piece"
 msgstr "Stück"
 
-#: includes/class-caqc-types.php:140 includes/class-caqc-types.php:198
+#: includes/class-caqc-types.php:130 includes/class-caqc-types.php:188
 msgid "pieces"
 msgstr "Stück"
 
-#: includes/class-caqc-types.php:101
+#: includes/class-caqc-types.php:91
 msgid "roll"
 msgstr "Rolle"
 
-#: includes/class-caqc-types.php:102
+#: includes/class-caqc-types.php:92
 msgid "rolls"
 msgstr "Rollen"
 
 #. translators: %d: number of meta keys.
-#: includes/class-caqc-settings.php:181
+#: includes/class-caqc-settings.php:175
 #, php-format
 msgid ""
 "%d field still uses an old name. The plugin takes it over on the next "
@@ -487,31 +487,31 @@ msgstr ""
 msgid "CMS ADMINS"
 msgstr "CMS ADMINS"
 
-#: includes/class-caqc-render.php:230 includes/class-caqc-render.php:236
-#: includes/class-caqc-types.php:137 includes/class-caqc-types.php:141
-#: includes/class-caqc-types.php:158 includes/class-caqc-types.php:161
+#: includes/class-caqc-render.php:214 includes/class-caqc-render.php:220
+#: includes/class-caqc-types.php:127 includes/class-caqc-types.php:131
+#: includes/class-caqc-types.php:148 includes/class-caqc-types.php:151
 msgid "m"
 msgstr "m"
 
 #. translators: 1: sales unit, e.g. "pack", 2: size of one unit, 3: size unit,
 #. e.g. "m²".
-#: includes/class-caqc-render.php:299
+#: includes/class-caqc-render.php:282
 #, php-format
 msgid "1 %1$s = %2$s %3$s"
 msgstr "1 %1$s = %2$s %3$s"
 
-#: includes/class-caqc-types.php:80 includes/class-caqc-types.php:84
-#: includes/class-caqc-types.php:99 includes/class-caqc-types.php:103
-#: includes/class-caqc-types.php:118 includes/class-caqc-types.php:122
-#: includes/class-caqc-types.php:176
+#: includes/class-caqc-types.php:70 includes/class-caqc-types.php:74
+#: includes/class-caqc-types.php:89 includes/class-caqc-types.php:93
+#: includes/class-caqc-types.php:108 includes/class-caqc-types.php:112
+#: includes/class-caqc-types.php:166
 msgid "m²"
 msgstr "m²"
 
-#: includes/class-caqc-types.php:180
+#: includes/class-caqc-types.php:170
 msgid "kg"
 msgstr "kg"
 
-#: includes/class-caqc-settings.php:169
+#: includes/class-caqc-settings.php:163
 msgid ""
 "The calculator appears on a product page once a quantity type is selected "
 "and a size per unit is entered under Product data, General."
@@ -520,27 +520,27 @@ msgstr ""
 "Produktdaten, Allgemein eine Mengenangabe gewählt und die Größe pro Stück "
 "eingetragen ist."
 
-#: includes/class-caqc-types.php:183
+#: includes/class-caqc-types.php:173
 msgid "Weight"
 msgstr "Gewicht"
 
-#: includes/class-caqc-admin.php:204 includes/class-caqc-product-meta.php:70
+#: includes/class-caqc-admin.php:200 includes/class-caqc-product-meta.php:66
 msgid "Waste (%)"
 msgstr "Verschnitt (%)"
 
-#: includes/class-caqc-admin.php:209
+#: includes/class-caqc-admin.php:205
 msgid "Set to"
 msgstr "Setzen auf"
 
-#: includes/class-caqc-admin.php:210
+#: includes/class-caqc-admin.php:206
 msgid "Reset to shop default"
 msgstr "Auf Shop-Vorgabe zurücksetzen"
 
-#: includes/class-caqc-admin.php:216 includes/class-caqc-product-meta.php:74
+#: includes/class-caqc-admin.php:212 includes/class-caqc-product-meta.php:70
 msgid "Shop default"
 msgstr "Shop-Vorgabe"
 
-#: includes/class-caqc-product-meta.php:72
+#: includes/class-caqc-product-meta.php:68
 msgid ""
 "Leave empty to use the shop default. 0 hides the waste checkbox for this "
 "product. Applies to area and length types."
@@ -548,11 +548,11 @@ msgstr ""
 "Leer lassen für die Shop-Vorgabe. 0 blendet den Verschnitt-Haken für dieses "
 "Produkt aus. Gilt für Flächen- und Längentypen."
 
-#: includes/class-caqc-settings.php:93
+#: includes/class-caqc-settings.php:88
 msgid "Waste for area products (%)"
 msgstr "Verschnitt Flächen (%)"
 
-#: includes/class-caqc-settings.php:94
+#: includes/class-caqc-settings.php:89
 msgid ""
 "Default the customer can add with a checkbox. Products can set their own "
 "value."
@@ -560,15 +560,15 @@ msgstr ""
 "Vorgabe, die der Kunde per Haken hinzufügen kann. Produkte können einen "
 "eigenen Wert haben."
 
-#: includes/class-caqc-settings.php:104
+#: includes/class-caqc-settings.php:99
 msgid "Applies to packs, rolls and panels. 0 hides the checkbox."
 msgstr "Gilt für Pakete, Rollen und Paneele. 0 blendet den Haken aus."
 
-#: includes/class-caqc-settings.php:107
+#: includes/class-caqc-settings.php:102
 msgid "Waste for skirting and length products (%)"
 msgstr "Verschnitt Leisten und Meterware (%)"
 
-#: includes/class-caqc-settings.php:108
+#: includes/class-caqc-settings.php:103
 msgid ""
 "Default for skirting boards and goods sold by the meter. Products can set "
 "their own value."
@@ -576,14 +576,14 @@ msgstr ""
 "Vorgabe für Sockelleisten und Meterware. Produkte können einen eigenen Wert "
 "haben."
 
-#: includes/class-caqc-settings.php:118
+#: includes/class-caqc-settings.php:113
 msgid "Applies to meters / pieces and meters. 0 hides the checkbox."
 msgstr "Gilt für Meter / Stück und Meter. 0 blendet den Haken aus."
 
-#: includes/class-caqc-admin.php:182 includes/class-caqc-admin.php:208
+#: includes/class-caqc-admin.php:178 includes/class-caqc-admin.php:204
 msgid "No change"
 msgstr "Keine Änderung"
 
-#: includes/class-caqc-admin.php:183
+#: includes/class-caqc-admin.php:179
 msgid "Select"
 msgstr "Auswählen"

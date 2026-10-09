@@ -1,10 +1,10 @@
 === Flooring Calculator for WooCommerce ===
 Contributors: contexlabs
 Tags: flooring, square meter calculator, area calculator, coverage calculator, tile calculator
-Requires at least: 6.2
+Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -144,7 +144,7 @@ The plugin removes its own settings only. Sizes, waste values and quantity types
 
 == Changelog ==
 
-= Unreleased =
+= 1.0.4 =
 * Waste per product: each product can set its own waste percentage, an empty field uses the shop default.
 * Separate waste default for skirting boards and goods sold by the meter (off by default).
 * Goods sold by the meter: waste checkbox inside the room calculator.
@@ -166,3 +166,8 @@ The plugin removes its own settings only. Sizes, waste values and quantity types
 
 = 1.0.0 =
 * First public release.
+
+== Upgrade Notice ==
+
+= 1.0.4 =
+Waste percentage per product and for skirting boards, adhesive weight in the cart, layout fixes for mobile and variable products. Requires WordPress 6.5.
