@@ -186,6 +186,19 @@
 			} );
 		}
 
+		// Vorbelegte Werte beim Antippen markieren. Sonst haengt die neue Eingabe
+		// an die alte an, aus 1,74 und 37,5 wird 1,7437,5.
+		Array.prototype.forEach.call( this.root.querySelectorAll( '[data-caqc-amount], [data-caqc-room] input' ), function ( input ) {
+			input.addEventListener( 'focus', function () {
+				// Auf Touch-Geraeten setzt das Antippen den Cursor erst nach dem focus.
+				setTimeout( function () {
+					if ( document.activeElement === input ) {
+						input.select();
+					}
+				}, 0 );
+			} );
+		} );
+
 		Array.prototype.forEach.call( this.root.querySelectorAll( '[data-caqc-step]' ), function ( button ) {
 			button.addEventListener( 'click', function () {
 				self.stepAmount( parseInt( button.getAttribute( 'data-caqc-step' ), 10 ) );

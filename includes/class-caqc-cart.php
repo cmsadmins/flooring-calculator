@@ -259,7 +259,13 @@ final class CAQC_Cart {
 			return '';
 		}
 
-		$size = CAQC_Product::size_per_piece( $product_id, $variation_id );
+		// Klebstoff: Gewicht aller Gebinde, die Fläche hängt vom Verbrauch ab.
+		if ( CAQC_Types::INPUT_GLUE === $config['input'] ) {
+			$glue = CAQC_Product::glue( $product_id );
+			$size = null !== $glue ? (float) $glue['pack_size'] : null;
+		} else {
+			$size = CAQC_Product::size_per_piece( $product_id, $variation_id );
+		}
 
 		if ( null === $size ) {
 			return '';
@@ -268,7 +274,9 @@ final class CAQC_Cart {
 		// Zwei Nachkommastellen wie auf der Produktseite, damit aus 19,2 m
 		// im Warenkorb nicht eine andere Zahl wird als die 19,20 m davor.
 		$total  = wc_format_decimal( $quantity * $size, 2 );
-		$amount = wc_format_localized_decimal( $total ) . ' ' . (string) $config['size_unit'];
+		// Geschütztes Leerzeichen, sonst steht die Einheit in schmalen
+		// Warenkorbspalten allein in der nächsten Zeile.
+		$amount = wc_format_localized_decimal( $total ) . "\u{00A0}" . (string) $config['size_unit'];
 
 		if ( ! $with_label ) {
 			return $amount;

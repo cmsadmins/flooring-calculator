@@ -255,7 +255,7 @@ msgstr "Bitte wählen Sie zuerst eine Artikelvariante aus."
 
 #: includes/class-caqc-cart.php:86 includes/class-caqc-cart.php:160
 #: includes/class-caqc-types.php:137 includes/class-caqc-types.php:157
-#: includes/class-caqc-types.php:176 includes/class-caqc-types.php:195
+#: includes/class-caqc-types.php:195
 msgid "Quantity"
 msgstr "Menge"
 
@@ -390,7 +390,7 @@ msgid "containers"
 msgstr "Gebinde"
 
 #. translators: %s: total measure with unit, e.g. "41.76 m²".
-#: includes/class-caqc-cart.php:279
+#: includes/class-caqc-cart.php:287
 #, php-format
 msgid "equals %s"
 msgstr "entspricht %s"
@@ -539,3 +539,7 @@ msgstr ""
 "Der Rechner erscheint auf einer Produktseite, sobald im Produkt unter "
 "Produktdaten, Allgemein eine Mengenangabe gewählt und die Größe pro Stück "
 "eingetragen ist."
+
+#: includes/class-caqc-types.php:176
+msgid "Weight"
+msgstr "Gewicht"

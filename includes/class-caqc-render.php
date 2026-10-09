@@ -220,13 +220,13 @@ final class CAQC_Render {
 		echo '<div class="caqc-room-inputs">';
 
 		printf(
-			'<label class="caqc-room-label">%1$s<input type="text" data-caqc-room-length inputmode="decimal" autocomplete="off" value=""><span>%2$s</span></label>',
+			'<label class="caqc-room-label"><span class="caqc-room-caption">%1$s</span><span class="caqc-room-field"><input type="text" data-caqc-room-length inputmode="decimal" autocomplete="off" value=""><span class="caqc-room-unit">%2$s</span></span></label>',
 			esc_html__( 'Room length', 'flooring-calculator' ),
 			esc_html__( 'm', 'flooring-calculator' )
 		);
 
 		printf(
-			'<label class="caqc-room-label">%1$s<input type="text" data-caqc-room-width inputmode="decimal" autocomplete="off" value=""><span>%2$s</span></label>',
+			'<label class="caqc-room-label"><span class="caqc-room-caption">%1$s</span><span class="caqc-room-field"><input type="text" data-caqc-room-width inputmode="decimal" autocomplete="off" value=""><span class="caqc-room-unit">%2$s</span></span></label>',
 			esc_html__( 'Room width', 'flooring-calculator' ),
 			esc_html__( 'm', 'flooring-calculator' )
 		);
