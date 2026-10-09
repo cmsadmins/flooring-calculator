@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-09T15:10:54+00:00\n"
+"POT-Creation-Date: 2026-10-09T15:19:35+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: flooring-calculator\n"
@@ -17,12 +17,6 @@ msgstr ""
 #. Plugin Name of the plugin
 #: flooring-calculator.php
 msgid "Flooring Calculator for WooCommerce"
-msgstr ""
-
-#. Plugin URI of the plugin
-#. Author URI of the plugin
-#: flooring-calculator.php
-msgid "https://www.cms-admins.de/"
 msgstr ""
 
 #. Description of the plugin
@@ -35,7 +29,12 @@ msgstr ""
 msgid "Patrick Schlesinger"
 msgstr ""
 
-#: flooring-calculator.php:109
+#. Author URI of the plugin
+#: flooring-calculator.php
+msgid "https://www.cms-admins.de/"
+msgstr ""
+
+#: flooring-calculator.php:108
 msgid "Flooring Calculator for WooCommerce needs WooCommerce to be installed and active."
 msgstr ""
 

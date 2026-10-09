@@ -139,7 +139,7 @@ msgstr ""
 "Fester Text unter dem Mengenfeld der Warengruppe Meter. Leer lassen, dann "
 "steht dort die Leistenlänge des Produkts."
 
-#: flooring-calculator.php:109
+#: flooring-calculator.php:108
 msgid ""
 "Flooring Calculator for WooCommerce needs WooCommerce to be installed and "
 "active."
@@ -465,7 +465,6 @@ msgstr[1] ""
 msgid "Flooring Calculator for WooCommerce"
 msgstr "Flooring Calculator for WooCommerce"
 
-#. Plugin URI of the plugin
 #. Author URI of the plugin
 #: flooring-calculator.php
 msgid "https://www.cms-admins.de/"

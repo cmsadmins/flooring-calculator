@@ -1,7 +1,6 @@
 <?php
 /**
  * Plugin Name:          Flooring Calculator for WooCommerce
- * Plugin URI:           https://www.cms-admins.de/
  * Description:          Converts between area, length and sales unit on WooCommerce product pages and shows the total price instantly. For flooring, underlay, adhesives, skirting boards, panels and profiles.
  * Version:              1.0.4
  * Requires at least:    6.5
