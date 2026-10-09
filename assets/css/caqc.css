@@ -387,6 +387,13 @@
 	margin: 0;
 }
 
+/* Goods sold by the meter: the waste checkbox sits inside the room calculator. */
+.caqc-room .caqc-waste {
+	margin-top: 12px;
+	padding: 0;
+	border-top: 0;
+}
+
 /* Price box and add to cart button side by side. */
 .caqc-footer {
 	display: flex;

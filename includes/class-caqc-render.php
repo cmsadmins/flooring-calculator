@@ -101,15 +101,18 @@ final class CAQC_Render {
 		echo '</div>'; // .caqc-field--qty
 		echo '</div>'; // .caqc-grid
 
-		// At zero percent the checkbox serves no purpose.
-		if ( ! empty( $config['waste'] )
-			&& CAQC_Product::has_calculator( $product )
-			&& CAQC_Plugin::waste_percent() > 0 ) {
-			self::waste_field();
+		$waste = CAQC_Product::waste_percent( $product );
+
+		// No checkbox at 0 %. Goods sold by the meter have no input field, so
+		// there the checkbox sits in the room calculator and only affects its result.
+		$waste_in_room = $waste > 0 && CAQC_Types::INPUT_NONE === $config['input'];
+
+		if ( $waste > 0 && ! $waste_in_room && CAQC_Product::has_calculator( $product ) ) {
+			self::waste_field( $waste );
 		}
 
 		if ( CAQC_Types::ROOM_NONE !== $config['room'] ) {
-			self::room_field( (string) $config['room'], (string) ( $config['room_label'] ?? '' ) );
+			self::room_field( (string) $config['room'], (string) ( $config['room_label'] ?? '' ), $waste_in_room ? $waste : 0.0 );
 		}
 
 		echo '</div>'; // .caqc
@@ -174,10 +177,11 @@ final class CAQC_Render {
 
 	/**
 	 * Waste allowance option.
+	 *
+	 * @param float $percent Waste allowance of this product.
 	 */
-	private static function waste_field(): void {
-		$percent = CAQC_Plugin::waste_percent();
-		$id      = 'caqc-waste-' . wp_rand();
+	private static function waste_field( float $percent ): void {
+		$id = 'caqc-waste-' . wp_rand();
 
 		// 5 should stay "5", but 7,5 should stay "7,5" too. A fixed format would
 		// either round or append needless zeros.
@@ -210,8 +214,9 @@ final class CAQC_Render {
 	 *
 	 * @param string $mode  ROOM_PERIMETER or ROOM_AREA.
 	 * @param string $label Section heading.
+	 * @param float  $waste Waste checkbox inside the room calculator, 0 for none.
 	 */
-	private static function room_field( string $mode, string $label ): void {
+	private static function room_field( string $mode, string $label, float $waste = 0.0 ): void {
 		$summary = '' !== $label ? $label : __( 'Calculate from room dimensions', 'flooring-calculator' );
 
 		printf( '<details class="caqc-room" data-caqc-room="%s">', esc_attr( $mode ) );
@@ -237,6 +242,11 @@ final class CAQC_Render {
 		);
 
 		echo '</div>';
+
+		if ( $waste > 0 ) {
+			self::waste_field( $waste );
+		}
+
 		echo '<p class="caqc-room-result" data-caqc-room-result></p>';
 		echo '</details>';
 	}
@@ -276,7 +286,7 @@ final class CAQC_Render {
 			'inputUnit'     => (string) $config['input_unit'],
 			'sizeUnit'      => (string) $config['size_unit'],
 			'waste'         => ! empty( $config['waste'] ),
-			'wastePercent'  => CAQC_Plugin::waste_percent(),
+			'wastePercent'  => CAQC_Product::waste_percent( $product ),
 			'room'          => (string) $config['room'],
 			'hint'          => (string) $config['hint'],
 			'lengthHint'    => CAQC_Settings::length_hint(),
