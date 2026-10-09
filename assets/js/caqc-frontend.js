@@ -230,6 +230,13 @@
 
 		if ( this.wasteEl ) {
 			this.wasteEl.addEventListener( 'change', function () {
+				// Without an area field the checkbox belongs to the room calculator.
+				if ( ! self.amountEl ) {
+					self.applyRoom();
+
+					return;
+				}
+
 				self.syncFromAmount( true );
 				self.remember();
 			} );
@@ -525,8 +532,10 @@
 			this.amountEl.value = math.formatNumber( value, this.data.priceFormat );
 			this.syncFromAmount();
 		} else if ( this.qtyEl ) {
-			// Meter type without its own area field: straight into the quantity.
-			this.setQuantity( Math.max( 1, Math.ceil( value ) ) );
+			// Meter type without an area field: straight into the quantity, with waste if ticked.
+			var meters = this.wasteActive() ? math.lengthWithWaste( value, this.data.wastePercent ) : null;
+
+			this.setQuantity( null !== meters ? meters : Math.max( 1, Math.ceil( value ) ) );
 			this.syncFromQuantity();
 		}
 
