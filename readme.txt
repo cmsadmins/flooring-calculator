@@ -101,6 +101,16 @@ The plugin removes its own settings only. Sizes and quantity types stay with the
 
 == Changelog ==
 
+= Unreleased =
+* Waste per product: each product can set its own waste percentage, an empty field uses the shop default.
+* Separate waste default for skirting boards and goods sold by the meter (off by default).
+* Goods sold by the meter: waste checkbox inside the room calculator.
+* Quick edit and bulk edit for the waste percentage.
+* Adhesive: changing the number of containers updates the area to be glued.
+* Cart, checkout and order show the total weight for adhesives.
+* Layout: calculator, total price box and room calculator look consistent in more themes, also on mobile and on variable products.
+* Prefilled fields are selected on tap, so typing replaces the old value.
+
 = 1.0.3 =
 * The unit stays behind the quantity field when the theme reorders the field (for example Woodmart on variable products).
 
