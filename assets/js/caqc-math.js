@@ -154,6 +154,23 @@
 	}
 
 	/**
+	 * Flaeche, die eine Anzahl Gebinde verklebt, die Umkehrung von quantityFromGlue.
+	 * Abgerundet, damit die Flaeche zurueckgerechnet wieder genau diese Menge ergibt.
+	 *
+	 * @param {number} quantity    Gebinde.
+	 * @param {number} consumption Verbrauch in kg je m².
+	 * @param {number} packSize    Inhalt eines Gebindes in kg.
+	 * @return {number|null} Flaeche auf zwei Nachkommastellen, oder null.
+	 */
+	function areaFromGlue( quantity, consumption, packSize ) {
+		if ( ! isUsableSize( consumption ) || ! isUsableSize( packSize ) || ! isFinite( quantity ) || quantity <= 0 ) {
+			return null;
+		}
+
+		return Math.floor( ( ( quantity * packSize ) / consumption ) * 100 + EPS ) / 100;
+	}
+
+	/**
 	 * Benoetigte Kilogramm fuer eine Flaeche, als Zwischenanzeige.
 	 *
 	 * @param {number} area        Flaeche in m².
@@ -260,6 +277,7 @@
 		amountWithWaste: amountWithWaste,
 		amountWithoutWaste: amountWithoutWaste,
 		quantityFromGlue: quantityFromGlue,
+		areaFromGlue: areaFromGlue,
 		glueWeight: glueWeight,
 		perimeter: perimeter,
 		roomArea: roomArea,

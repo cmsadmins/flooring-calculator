@@ -102,6 +102,17 @@ check( 'Klebstoff rundet auf ganze Gebinde auf', function () {
 	assert.strictEqual( m.quantityFromGlue( 12, 0.3, 5 ), 1 );
 } );
 
+check( 'Klebstoff: Gebinde zurück in Fläche ergibt wieder dieselbe Menge', function () {
+	assert.strictEqual( m.areaFromGlue( 5, 1, 10 ), 50 );
+	assert.strictEqual( m.areaFromGlue( 10, 0.29, 11 ), 379.31 );
+
+	[ 1, 2, 7, 10, 33 ].forEach( function ( q ) {
+		assert.strictEqual( m.quantityFromGlue( m.areaFromGlue( q, 0.29, 11 ), 0.29, 11 ), q );
+	} );
+
+	assert.strictEqual( m.areaFromGlue( 5, 0, 10 ), null );
+} );
+
 check( 'Klebstoff ohne gepflegte Felder rechnet nicht', function () {
 	assert.strictEqual( m.quantityFromGlue( 50, 0, 10 ), null );
 	assert.strictEqual( m.quantityFromGlue( 50, 1, 0 ), null );

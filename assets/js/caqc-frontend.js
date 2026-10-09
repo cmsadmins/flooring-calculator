@@ -415,8 +415,10 @@
 			return;
 		}
 
-		if ( this.amountEl && isFinite( quantity ) && quantity > 0 && 'glue' !== this.data.input ) {
-			var amount = math.amountFromQuantity( quantity, this.size );
+		if ( this.amountEl && isFinite( quantity ) && quantity > 0 ) {
+			var amount = 'glue' === this.data.input
+				? ( this.data.glue ? math.areaFromGlue( quantity, this.data.glue.consumption, this.data.glue.pack_size ) : null )
+				: math.amountFromQuantity( quantity, this.size );
 
 			// Mit Verschnitt deckt die Menge die Flaeche samt Aufschlag ab. Im
 			// Feld steht die Flaeche ohne Aufschlag, die Zeile am Haken zeigt
@@ -427,6 +429,9 @@
 
 			if ( null !== amount ) {
 				this.amountEl.value = math.formatNumber( amount, this.data.priceFormat );
+
+				// Feld und Menge passen wieder zusammen, ein Hinweis zur alten Eingabe waere falsch.
+				this.renderNote( '' );
 			}
 		}
 
