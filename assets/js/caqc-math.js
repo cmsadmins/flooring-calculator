@@ -119,6 +119,21 @@
 	}
 
 	/**
+	 * Running meters including waste, rounded up to whole meters.
+	 *
+	 * @param {number} length  Length in m.
+	 * @param {number} percent Waste in percent.
+	 * @return {number|null} Whole meters, or null.
+	 */
+	function lengthWithWaste( length, percent ) {
+		if ( ! isUsableSize( length ) || ! isFinite( percent ) || percent < 0 ) {
+			return null;
+		}
+
+		return Math.max( 1, ceil( length * ( 1 + percent / 100 ) ) );
+	}
+
+	/**
 	 * Area or length covered by a quantity.
 	 *
 	 * @param {number} quantity     Quantity in pieces.
@@ -276,6 +291,7 @@
 		amountFromQuantity: amountFromQuantity,
 		amountWithWaste: amountWithWaste,
 		amountWithoutWaste: amountWithoutWaste,
+		lengthWithWaste: lengthWithWaste,
 		quantityFromGlue: quantityFromGlue,
 		areaFromGlue: areaFromGlue,
 		glueWeight: glueWeight,

@@ -119,6 +119,16 @@ check( 'Adhesive without filled-in fields does not calculate', function () {
 	assert.strictEqual( m.quantityFromGlue( 50, NaN, 10 ), null );
 } );
 
+check( 'Meters with waste round up to whole meters', function () {
+	// 7 x 5 room: 24 m perimeter, 5 % waste = 25.2 m, ordered 26 m.
+	assert.strictEqual( m.lengthWithWaste( 24, 5 ), 26 );
+	assert.strictEqual( m.lengthWithWaste( 24, 0 ), 24 );
+	// Exact results must not add a meter.
+	assert.strictEqual( m.lengthWithWaste( 20, 5 ), 21 );
+	assert.strictEqual( m.lengthWithWaste( 0, 5 ), null );
+	assert.strictEqual( m.lengthWithWaste( 24, -1 ), null );
+} );
+
 check( 'Room perimeter for skirting boards', function () {
 	assert.strictEqual( m.perimeter( 5, 4 ), 18 );
 	assert.strictEqual( m.perimeter( 3.5, 2.25 ), 11.5 );
