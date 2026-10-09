@@ -64,6 +64,17 @@ final class CAQC_Product_Meta {
 			)
 		);
 
+		woocommerce_wp_text_input(
+			array(
+				'id'          => CAQC_Product::META_WASTE,
+				'label'       => __( 'Waste (%)', 'flooring-calculator' ),
+				'desc_tip'    => true,
+				'description' => __( 'Leave empty to use the shop default. 0 hides the waste checkbox for this product. Applies to area and length types.', 'flooring-calculator' ),
+				'type'        => 'text',
+				'placeholder' => __( 'Shop default', 'flooring-calculator' ),
+			)
+		);
+
 		echo '</div>';
 
 		echo '<div class="options_group caqc-glue-options">';
@@ -134,6 +145,8 @@ final class CAQC_Product_Meta {
 		foreach ( array( CAQC_Product::META_SIZE, CAQC_Product::META_CONSUMPTION, CAQC_Product::META_PACK_SIZE ) as $key ) {
 			self::save_number( $post_id, $key );
 		}
+
+		self::save_percent( $post_id, CAQC_Product::META_WASTE );
 	}
 
 	/**
@@ -194,6 +207,36 @@ final class CAQC_Product_Meta {
 
 		self::write_number( $post_id, $key, sanitize_text_field( wp_unslash( $_POST[ $key ] ) ) );
 		// phpcs:enable WordPress.Security.NonceVerification.Missing
+	}
+
+	/**
+	 * Writes a percentage field. Zero is valid, empty removes the value,
+	 * invalid input keeps the old one.
+	 *
+	 * @param int    $post_id Post ID.
+	 * @param string $key     Meta key.
+	 */
+	private static function save_percent( int $post_id, string $key ): void {
+		// The nonce was checked by save_product_fields().
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
+		if ( ! isset( $_POST[ $key ] ) ) {
+			return;
+		}
+
+		$raw = trim( sanitize_text_field( wp_unslash( $_POST[ $key ] ) ) );
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
+
+		if ( '' === $raw ) {
+			delete_post_meta( $post_id, $key );
+
+			return;
+		}
+
+		$percent = CAQC_Product::to_percent( $raw );
+
+		if ( null !== $percent ) {
+			update_post_meta( $post_id, $key, (string) $percent );
+		}
 	}
 
 	/**
