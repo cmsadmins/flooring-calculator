@@ -37,7 +37,7 @@ final class CAQC_Cart {
 		// product name. The filter on the quantity column would be the
 		// shorter route, but WooCommerce also uses the same string in the
 		// Schema.org block of the email, and HTML does not belong there.
-		add_action( 'woocommerce_order_item_meta_end', array( __CLASS__, 'order_item_meta' ), 10, 3 );
+		add_action( 'woocommerce_order_item_meta_end', array( __CLASS__, 'order_item_meta' ), 10, 2 );
 
 		// The block checkout renders in the browser and fetches its data via the
 		// Store API. The filters above do not run there. This info travels along
@@ -110,9 +110,8 @@ final class CAQC_Cart {
 	 *
 	 * @param int           $item_id Item ID.
 	 * @param WC_Order_Item $item    Order item.
-	 * @param WC_Order      $order   Order.
 	 */
-	public static function order_item_meta( $item_id, $item, $order ) {
+	public static function order_item_meta( $item_id, $item ) {
 		$note = self::order_size_note( $item );
 
 		if ( '' === $note ) {
@@ -273,7 +272,7 @@ final class CAQC_Cart {
 
 		// Two decimals as on the product page, so that 19,2 m does not
 		// turn into a different number in the cart than the 19,20 m before.
-		$total  = wc_format_decimal( $quantity * $size, 2 );
+		$total = wc_format_decimal( $quantity * $size, 2 );
 		// Non-breaking space, otherwise the unit ends up alone on the next
 		// line in narrow cart columns.
 		$amount = wc_format_localized_decimal( $total ) . "\u{00A0}" . (string) $config['size_unit'];

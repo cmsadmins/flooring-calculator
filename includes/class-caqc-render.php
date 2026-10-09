@@ -37,7 +37,7 @@ final class CAQC_Render {
 		add_action( 'woocommerce_after_add_to_cart_quantity', array( __CLASS__, 'close_fields' ), 10 );
 		add_action( 'woocommerce_after_add_to_cart_button', array( __CLASS__, 'close_footer' ), 10 );
 
-		add_filter( 'woocommerce_available_variation', array( __CLASS__, 'variation_price_suffix' ), 10, 3 );
+		add_filter( 'woocommerce_available_variation', array( __CLASS__, 'variation_price_suffix' ), 10, 2 );
 		add_filter( 'woocommerce_show_variation_price', '__return_true' );
 	}
 
@@ -351,10 +351,9 @@ final class CAQC_Render {
 	 *
 	 * @param array      $variation_data Variation data.
 	 * @param WC_Product $product        Parent product.
-	 * @param WC_Product $variation      Variation.
 	 * @return array
 	 */
-	public static function variation_price_suffix( $variation_data, $product, $variation ) {
+	public static function variation_price_suffix( $variation_data, $product ) {
 		$config = CAQC_Product::type_config( $product );
 		$suffix = (string) $config['price_suffix'];
 
