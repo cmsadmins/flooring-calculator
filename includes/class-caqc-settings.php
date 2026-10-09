@@ -20,11 +20,12 @@ final class CAQC_Settings {
 
 	const SECTION = 'caqc';
 
-	const OPTION_WASTE       = 'caqc_waste_percent';
-	const OPTION_TYPES       = 'caqc_enabled_types';
-	const OPTION_SHOW_TOTAL  = 'caqc_show_total';
-	const OPTION_STOCK       = 'caqc_stock_in_size';
-	const OPTION_LENGTH_HINT = 'caqc_length_hint';
+	const OPTION_WASTE        = 'caqc_waste_percent';
+	const OPTION_WASTE_LENGTH = 'caqc_waste_percent_length';
+	const OPTION_TYPES        = 'caqc_enabled_types';
+	const OPTION_SHOW_TOTAL   = 'caqc_show_total';
+	const OPTION_STOCK        = 'caqc_stock_in_size';
+	const OPTION_LENGTH_HINT  = 'caqc_length_hint';
 
 	/**
 	 * Hooks the page into the WooCommerce settings.
@@ -89,8 +90,8 @@ final class CAQC_Settings {
 				'id'    => 'caqc_options',
 			),
 			array(
-				'title'             => __( 'Waste', 'flooring-calculator' ),
-				'desc'              => __( 'Percentage the customer can add with a checkbox.', 'flooring-calculator' ),
+				'title'             => __( 'Waste for area products (%)', 'flooring-calculator' ),
+				'desc'              => __( 'Default the customer can add with a checkbox. Products can set their own value.', 'flooring-calculator' ),
 				'id'                => self::OPTION_WASTE,
 				'type'              => 'number',
 				'default'           => '5',
@@ -100,7 +101,21 @@ final class CAQC_Settings {
 					'step' => '0.5',
 				),
 				'css'               => 'width: 80px;',
-				'desc_tip'          => __( 'Applies to all quantity types that support waste.', 'flooring-calculator' ),
+				'desc_tip'          => __( 'Applies to packs, rolls and panels. 0 hides the checkbox.', 'flooring-calculator' ),
+			),
+			array(
+				'title'             => __( 'Waste for skirting and length products (%)', 'flooring-calculator' ),
+				'desc'              => __( 'Default for skirting boards and goods sold by the meter. Products can set their own value.', 'flooring-calculator' ),
+				'id'                => self::OPTION_WASTE_LENGTH,
+				'type'              => 'number',
+				'default'           => '0',
+				'custom_attributes' => array(
+					'min'  => '0',
+					'max'  => '100',
+					'step' => '0.5',
+				),
+				'css'               => 'width: 80px;',
+				'desc_tip'          => __( 'Applies to meters / pieces and meters. 0 hides the checkbox.', 'flooring-calculator' ),
 			),
 			array(
 				'title'    => __( 'Show total price', 'flooring-calculator' ),
@@ -191,21 +206,39 @@ final class CAQC_Settings {
 	}
 
 	/**
-	 * Waste allowance in percent.
+	 * Unfiltered default waste allowance of a group in percent.
+	 *
+	 * Values outside 0 to 100 fall back to the option default, so a typo in
+	 * the settings cannot double the order.
+	 *
+	 * @param string $group CAQC_Types::WASTE_AREA or CAQC_Types::WASTE_LENGTH.
 	 */
-	public static function waste_percent(): float {
-		$percent = (float) get_option( self::OPTION_WASTE, 5 );
+	public static function waste_default( string $group ): float {
+		if ( CAQC_Types::WASTE_LENGTH === $group ) {
+			$percent = (float) get_option( self::OPTION_WASTE_LENGTH, 0 );
 
-		if ( $percent < 0 || $percent > 100 ) {
-			$percent = 5.0;
+			return ( $percent < 0 || $percent > 100 ) ? 0.0 : $percent;
 		}
 
+		$percent = (float) get_option( self::OPTION_WASTE, 5 );
+
+		return ( $percent < 0 || $percent > 100 ) ? 5.0 : $percent;
+	}
+
+	/**
+	 * Default waste allowance for area products, filtered.
+	 *
+	 * Kept for code that knew only the single shop-wide value. Product
+	 * specific values come from CAQC_Product::waste_percent().
+	 */
+	public static function waste_percent(): float {
 		/**
-		 * Allows changing the waste allowance per shop or product group.
+		 * Allows changing the waste allowance per shop or product.
 		 *
-		 * @param float $percent Percentage.
+		 * @param float           $percent Percentage.
+		 * @param WC_Product|null $product Product, null for the shop default.
 		 */
-		return (float) apply_filters( 'caqc_waste_percent', $percent );
+		return (float) apply_filters( 'caqc_waste_percent', self::waste_default( CAQC_Types::WASTE_AREA ), null );
 	}
 
 	/**
