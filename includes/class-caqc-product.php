@@ -145,9 +145,20 @@ final class CAQC_Product {
 	 * @param WC_Product|int $product Product or product ID.
 	 */
 	public static function waste_percent( $product ): float {
+		$product = wc_get_product( $product instanceof WC_Product ? $product : (int) $product );
+
+		if ( ! $product instanceof WC_Product ) {
+			return 0.0;
+		}
+
+		if ( $product->get_parent_id() > 0 ) {
+			$parent  = wc_get_product( $product->get_parent_id() );
+			$product = $parent instanceof WC_Product ? $parent : $product;
+		}
+
 		$group = self::type_config( $product )['waste'] ?? false;
 
-		if ( ! is_string( $group ) || '' === $group ) {
+		if ( ! is_string( $group ) ) {
 			$percent = 0.0;
 		} else {
 			$own     = self::to_percent( self::meta( $product, self::META_WASTE ) );
@@ -155,7 +166,7 @@ final class CAQC_Product {
 		}
 
 		/** This filter is documented in includes/class-caqc-settings.php */
-		return (float) apply_filters( 'caqc_waste_percent', $percent, $product instanceof WC_Product ? $product : wc_get_product( (int) $product ) );
+		return (float) apply_filters( 'caqc_waste_percent', $percent, $product );
 	}
 
 	/**
