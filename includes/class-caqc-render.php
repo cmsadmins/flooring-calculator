@@ -1,16 +1,16 @@
 <?php
 /**
- * Markup des Rechners auf der Produktseite.
+ * Calculator markup on the product page.
  *
- * Gearbeitet wird ausschliesslich ueber die WooCommerce-Hooks rund um das
- * Mengenfeld, nicht ueber Template-Overrides. Die Reihenfolge ist in
- * simple.php und variation-add-to-cart-button.php identisch:
+ * Works exclusively through the WooCommerce hooks around the
+ * quantity field, not through template overrides. The order is identical in
+ * simple.php and variation-add-to-cart-button.php:
  *
- *   before_add_to_cart_quantity -> Mengenfeld -> after_add_to_cart_quantity
+ *   before_add_to_cart_quantity -> quantity field -> after_add_to_cart_quantity
  *   -> Button -> after_add_to_cart_button
  *
- * Dadurch umschliesst der Rechner das Mengenfeld des Themes, statt es zu
- * ersetzen. Die Plus- und Minus-Schaltflaechen des Themes bleiben nutzbar.
+ * This way the calculator wraps the theme's quantity field instead of
+ * replacing it. The theme's plus and minus buttons stay usable.
  *
  * @package FlooringCalculator
  */
@@ -20,17 +20,17 @@ declare( strict_types = 1 );
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Ausgabe auf der Produktseite.
+ * Output on the product page.
  */
 final class CAQC_Render {
 
 	/**
-	 * Merkt sich, ob der oeffnende Teil ausgegeben wurde.
+	 * Remembers whether the opening part has been output.
 	 */
 	private static $is_open = false;
 
 	/**
-	 * Haengt die Ausgabe in die Produktseite.
+	 * Hooks the output into the product page.
 	 */
 	public static function init(): void {
 		add_action( 'woocommerce_before_add_to_cart_quantity', array( __CLASS__, 'open' ), 10 );
@@ -42,7 +42,7 @@ final class CAQC_Render {
 	}
 
 	/**
-	 * Oeffnet den Rechner und gibt die linke Spalte aus.
+	 * Opens the calculator and outputs the left column.
 	 */
 	public static function open(): void {
 		global $product;
@@ -71,16 +71,16 @@ final class CAQC_Render {
 		echo '<div class="caqc-field caqc-field--qty">';
 		printf( '<span class="caqc-label">%s</span>', esc_html( (string) $config['qty_label'] ) );
 
-		// Ist die Menge selbst ein Mass, steht die Einheit daneben wie in der
-		// linken Spalte. Der Rahmen schliesst in close_fields().
+		// If the quantity itself is a measure, the unit sits next to it as in the
+		// left column. The wrapper closes in close_fields().
 		if ( ! empty( $config['qty_unit'] ) ) {
 			echo '<div class="caqc-input-row">';
 		}
-		// Danach gibt WooCommerce das Mengenfeld aus.
+		// WooCommerce outputs the quantity field after this.
 	}
 
 	/**
-	 * Schliesst die Spalten und gibt Verschnitt, Raumrechner und Preis aus.
+	 * Closes the columns and outputs waste allowance, room calculator and price.
 	 */
 	public static function close_fields(): void {
 		global $product;
@@ -101,7 +101,7 @@ final class CAQC_Render {
 		echo '</div>'; // .caqc-field--qty
 		echo '</div>'; // .caqc-grid
 
-		// Bei null Prozent hat der Haken keinen Zweck.
+		// At zero percent the checkbox serves no purpose.
 		if ( ! empty( $config['waste'] )
 			&& CAQC_Product::has_calculator( $product )
 			&& CAQC_Plugin::waste_percent() > 0 ) {
@@ -120,11 +120,11 @@ final class CAQC_Render {
 			self::total_box();
 		}
 
-		// Danach gibt WooCommerce die Schaltflaeche aus.
+		// WooCommerce outputs the button after this.
 	}
 
 	/**
-	 * Schliesst den Bereich unter den Feldern.
+	 * Closes the area below the fields.
 	 */
 	public static function close_footer(): void {
 		if ( ! self::$is_open ) {
@@ -137,17 +137,17 @@ final class CAQC_Render {
 	}
 
 	/**
-	 * Linke Spalte mit Flaechen- oder Laengeneingabe.
+	 * Left column with area or length input.
 	 *
-	 * @param array<string, mixed> $config Typdefinition.
+	 * @param array<string, mixed> $config Type definition.
 	 */
 	private static function amount_field( array $config ): void {
 		echo '<div class="caqc-field caqc-field--amount">';
 		printf( '<span class="caqc-label">%s</span>', esc_html( (string) $config['input_label'] ) );
 
-		// Stepper und Einheit stehen in einer Zeile. Ohne den Rahmen daherum
-		// schiebt ein Theme, das Eingabefelder breit macht, die Einheit in die
-		// naechste Zeile.
+		// Stepper and unit sit on one line. Without the wrapper around them,
+		// a theme that makes input fields wide pushes the unit onto the
+		// next line.
 		echo '<div class="caqc-input-row">';
 
 		echo '<div class="caqc-stepper">';
@@ -173,15 +173,15 @@ final class CAQC_Render {
 	}
 
 	/**
-	 * Verschnitt-Auswahl.
+	 * Waste allowance option.
 	 */
 	private static function waste_field(): void {
 		$percent = CAQC_Plugin::waste_percent();
 		$id      = 'caqc-waste-' . wp_rand();
 
-		// 5 soll "5" bleiben, 7,5 aber auch "7,5". Ein festes Format wuerde
-		// entweder runden oder unnoetige Nullen anhaengen.
-		$anzeige = number_format_i18n( $percent, floor( $percent ) === $percent ? 0 : 1 );
+		// 5 should stay "5", but 7,5 should stay "7,5" too. A fixed format would
+		// either round or append needless zeros.
+		$display = number_format_i18n( $percent, floor( $percent ) === $percent ? 0 : 1 );
 
 		echo '<div class="caqc-waste">';
 		printf(
@@ -195,21 +195,21 @@ final class CAQC_Render {
 				sprintf(
 					/* translators: %s: waste percentage, e.g. "10". */
 					__( 'Add %s%% for waste', 'flooring-calculator' ),
-					$anzeige
+					$display
 				)
 			)
 		);
-		// Die Eingabe des Kunden bleibt stehen, das Ergebnis mit Verschnitt
-		// steht hier daneben.
+		// The customer's input stays as is, the result including waste
+		// is shown next to it.
 		echo '<span class="caqc-waste-result" data-caqc-waste-result></span>';
 		echo '</div>';
 	}
 
 	/**
-	 * Raumrechner als aufklappbarer Bereich.
+	 * Room calculator as a collapsible section.
 	 *
-	 * @param string $mode  ROOM_PERIMETER oder ROOM_AREA.
-	 * @param string $label Überschrift des Bereichs.
+	 * @param string $mode  ROOM_PERIMETER or ROOM_AREA.
+	 * @param string $label Section heading.
 	 */
 	private static function room_field( string $mode, string $label ): void {
 		$summary = '' !== $label ? $label : __( 'Calculate from room dimensions', 'flooring-calculator' );
@@ -242,22 +242,22 @@ final class CAQC_Render {
 	}
 
 	/**
-	 * Preisanzeige.
+	 * Price display.
 	 */
 	private static function total_box(): void {
 		echo '<div class="caqc-total" data-caqc-total>';
 		printf( '<span class="caqc-total-label">%s</span>', esc_html__( 'Total price', 'flooring-calculator' ) );
 		echo '<span class="caqc-total-value" data-caqc-total-value>&ndash;</span>';
 		printf( '<span class="caqc-total-note">%s</span>', esc_html__( 'incl. VAT', 'flooring-calculator' ) );
-		// Bei reduzierten Artikeln: regulärer Gesamtpreis und Ersparnis.
+		// For items on sale: regular total price and savings.
 		echo '<span class="caqc-total-saving" data-caqc-total-saving></span>';
 		echo '</div>';
 	}
 
 	/**
-	 * Daten, die das Frontend-Skript braucht.
+	 * Data the frontend script needs.
 	 *
-	 * @param WC_Product $product Produkt.
+	 * @param WC_Product $product Product.
 	 * @return array<string, mixed>
 	 */
 	private static function product_data( WC_Product $product ): array {
@@ -321,7 +321,7 @@ final class CAQC_Render {
 	}
 
 	/**
-	 * Preisformat des Shops, damit die Anzeige zum Rest passt.
+	 * The shop's price format, so the display matches the rest.
 	 *
 	 * @return array<string, mixed>
 	 */
@@ -330,19 +330,19 @@ final class CAQC_Render {
 			'decimals'          => wc_get_price_decimals(),
 			'decimalSeparator'  => wc_get_price_decimal_separator(),
 			'thousandSeparator' => wc_get_price_thousand_separator(),
-			// Das Skript setzt Preise als Text ein, Entitäten wie &euro; oder
-			// &nbsp; müssen deshalb schon hier zu Zeichen werden.
+			// The script inserts prices as text, so entities like &euro; or
+			// &nbsp; have to become characters here already.
 			'symbol'            => html_entity_decode( get_woocommerce_currency_symbol(), ENT_QUOTES, 'UTF-8' ),
 			'format'            => html_entity_decode( get_woocommerce_price_format(), ENT_QUOTES, 'UTF-8' ),
 		);
 	}
 
 	/**
-	 * Haengt die Einheit an den Variantenpreis.
+	 * Appends the unit to the variation price.
 	 *
-	 * @param array      $variation_data Variantendaten.
-	 * @param WC_Product $product        Elternprodukt.
-	 * @param WC_Product $variation      Variante.
+	 * @param array      $variation_data Variation data.
+	 * @param WC_Product $product        Parent product.
+	 * @param WC_Product $variation      Variation.
 	 * @return array
 	 */
 	public static function variation_price_suffix( $variation_data, $product, $variation ) {

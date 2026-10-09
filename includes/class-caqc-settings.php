@@ -1,10 +1,10 @@
 <?php
 /**
- * Einstellungen unter WooCommerce, Produkte, Mengenrechner.
+ * Settings under WooCommerce, Products, quantity calculator.
  *
- * Ohne diese Seite muesste jeder Shop den Verschnitt und die Auswahl der
- * Warengruppen im Code setzen. Das ist fuer eine Agentur machbar, fuer den
- * Shopbetreiber nicht.
+ * Without this page every shop would have to set the waste allowance and the
+ * selection of product groups in code. An agency can do that, a shop
+ * owner cannot.
  *
  * @package FlooringCalculator
  */
@@ -14,7 +14,7 @@ declare( strict_types = 1 );
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Einstellungsseite.
+ * Settings page.
  */
 final class CAQC_Settings {
 
@@ -27,23 +27,23 @@ final class CAQC_Settings {
 	const OPTION_LENGTH_HINT = 'caqc_length_hint';
 
 	/**
-	 * Haengt die Seite in die WooCommerce-Einstellungen.
+	 * Hooks the page into the WooCommerce settings.
 	 */
 	public static function init(): void {
 		add_filter( 'woocommerce_get_sections_products', array( __CLASS__, 'add_section' ) );
 		add_filter( 'woocommerce_get_settings_products', array( __CLASS__, 'settings' ), 10, 2 );
 
-		// Ein eigener Abschnitt bekommt seinen eigenen Speicherlauf. Ohne ihn
-		// zeigt die Seite die Felder zwar an, die Eingaben landen aber nirgends.
+		// A custom section gets its own save routine. Without it the page
+		// shows the fields, but the input ends up nowhere.
 		add_action( 'woocommerce_update_options_products_' . self::SECTION, array( __CLASS__, 'save' ) );
 
 		add_filter( 'plugin_action_links_' . CAQC_PLUGIN_BASENAME, array( __CLASS__, 'action_link' ) );
 	}
 
 	/**
-	 * Traegt den Abschnitt ein.
+	 * Registers the section.
 	 *
-	 * @param array $sections Vorhandene Abschnitte.
+	 * @param array $sections Existing sections.
 	 * @return array
 	 */
 	public static function add_section( $sections ) {
@@ -53,9 +53,9 @@ final class CAQC_Settings {
 	}
 
 	/**
-	 * Verknüpfung in der Plugin-Liste.
+	 * Link in the plugin list.
 	 *
-	 * @param array $links Vorhandene Verknüpfungen.
+	 * @param array $links Existing links.
 	 * @return array
 	 */
 	public static function action_link( $links ) {
@@ -70,10 +70,10 @@ final class CAQC_Settings {
 	}
 
 	/**
-	 * Die Felder des Abschnitts.
+	 * The fields of the section.
 	 *
-	 * @param array  $settings Bisherige Felder.
-	 * @param string $section  Aktueller Abschnitt.
+	 * @param array  $settings Existing fields.
+	 * @param string $section  Current section.
 	 * @return array
 	 */
 	public static function settings( $settings, $section ) {
@@ -81,7 +81,7 @@ final class CAQC_Settings {
 			return $settings;
 		}
 
-		$felder = array(
+		$fields = array(
 			array(
 				'title' => __( 'Flooring calculator', 'flooring-calculator' ),
 				'type'  => 'title',
@@ -143,12 +143,12 @@ final class CAQC_Settings {
 			),
 		);
 
-		return $felder;
+		return $fields;
 	}
 
 	/**
-	 * Kurze Einführung über den Feldern, samt Hinweis auf eine mögliche
-	 * Datenübernahme.
+	 * Short introduction above the fields, including a note about a possible
+	 * data migration.
 	 */
 	private static function intro(): string {
 		$text = '<p>' . esc_html__(
@@ -156,9 +156,9 @@ final class CAQC_Settings {
 			'flooring-calculator'
 		) . '</p>';
 
-		$offen = CAQC_Migrate::pending();
+		$pending = CAQC_Migrate::pending();
 
-		if ( ! empty( $offen ) ) {
+		if ( ! empty( $pending ) ) {
 			$text .= '<p><strong>' . esc_html__( 'Data from a previous solution found.', 'flooring-calculator' ) . '</strong> ';
 			$text .= esc_html(
 				sprintf(
@@ -166,10 +166,10 @@ final class CAQC_Settings {
 					_n(
 						'%d field still uses an old name. The plugin takes it over on the next activation.',
 						'%d fields still use old names. The plugin takes them over on the next activation.',
-						count( $offen ),
+						count( $pending ),
 						'flooring-calculator'
 					),
-					count( $offen )
+					count( $pending )
 				)
 			) . '</p>';
 		}
@@ -178,7 +178,7 @@ final class CAQC_Settings {
 	}
 
 	/**
-	 * Speichert die Felder des eigenen Abschnitts.
+	 * Saves the fields of the plugin's own section.
 	 */
 	public static function save(): void {
 		if ( ! class_exists( 'WC_Admin_Settings' ) ) {
@@ -191,7 +191,7 @@ final class CAQC_Settings {
 	}
 
 	/**
-	 * Verschnitt in Prozent.
+	 * Waste allowance in percent.
 	 */
 	public static function waste_percent(): float {
 		$percent = (float) get_option( self::OPTION_WASTE, 5 );
@@ -201,43 +201,43 @@ final class CAQC_Settings {
 		}
 
 		/**
-		 * Erlaubt, den Verschnitt je Shop oder Warengruppe zu ändern.
+		 * Allows changing the waste allowance per shop or product group.
 		 *
-		 * @param float $percent Prozentsatz.
+		 * @param float $percent Percentage.
 		 */
 		return (float) apply_filters( 'caqc_waste_percent', $percent );
 	}
 
 	/**
-	 * Fester Hinweistext bei Meterware, leer wenn die Produktlänge gezeigt
-	 * werden soll.
+	 * Fixed notice text for goods sold by the meter, empty if the product length
+	 * should be shown.
 	 */
 	public static function length_hint(): string {
 		return trim( (string) get_option( self::OPTION_LENGTH_HINT, '' ) );
 	}
 
 	/**
-	 * Soll der Gesamtpreis erscheinen?
+	 * Should the total price be shown?
 	 */
 	public static function show_total(): bool {
 		return 'no' !== get_option( self::OPTION_SHOW_TOTAL, 'yes' );
 	}
 
 	/**
-	 * Soll der Lagerbestand umgerechnet werden?
+	 * Should the stock be converted?
 	 */
 	public static function stock_in_size(): bool {
 		return 'no' !== get_option( self::OPTION_STOCK, 'yes' );
 	}
 
 	/**
-	 * Welche Mengenangaben stehen zur Auswahl?
+	 * Which quantity types are available?
 	 *
-	 * @return array<int, string> Leeres Feld bedeutet: alle.
+	 * @return array<int, string> Empty array means: all.
 	 */
 	public static function enabled_types(): array {
-		$werte = get_option( self::OPTION_TYPES, array() );
+		$values = get_option( self::OPTION_TYPES, array() );
 
-		return is_array( $werte ) ? array_filter( array_map( 'strval', $werte ) ) : array();
+		return is_array( $values ) ? array_filter( array_map( 'strval', $values ) ) : array();
 	}
 }

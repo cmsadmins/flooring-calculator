@@ -1,7 +1,7 @@
 /**
- * Selbsttest der Rechenfunktionen. Aufruf: node tests/caqc-math.test.js
+ * Self-test of the calculation functions. Run: node tests/caqc-math.test.js
  *
- * Kein Framework, nur assert. Faellt der Test, bricht der Aufruf mit Exit-Code 1.
+ * No framework, just assert. If a check fails, the run exits with exit code 1.
  */
 'use strict';
 
@@ -18,7 +18,7 @@ function check( name, fn ) {
 
 console.log( 'caqc-math' );
 
-check( 'Komma und Punkt werden gleich gelesen', function () {
+check( 'Comma and dot are read the same', function () {
 	assert.strictEqual( m.parseNumber( '12,5' ), 12.5 );
 	assert.strictEqual( m.parseNumber( '12.5' ), 12.5 );
 	assert.strictEqual( m.parseNumber( ' 12,5 ' ), 12.5 );
@@ -27,82 +27,82 @@ check( 'Komma und Punkt werden gleich gelesen', function () {
 	assert.ok( isNaN( m.parseNumber( null ) ) );
 } );
 
-check( '50 m² bei 0,36 m² je Paket ergibt 139 Pakete', function () {
+check( '50 m² at 0.36 m² per pack yields 139 packs', function () {
 	assert.strictEqual( m.quantityFromAmount( 50, 0.36, false ), 139 );
 } );
 
-check( '50 m² mit Verschnitt ergibt 146 Pakete', function () {
+check( '50 m² with waste yields 146 packs', function () {
 	assert.strictEqual( m.quantityFromAmount( 50, 0.36, true ), 146 );
 } );
 
-check( 'Verschnitt schlaegt 5 Prozent auf, nicht 5,26', function () {
-	// Der alte Code rechnete menge / 0.95 und kam damit auf 5,26 Prozent.
-	// 100 / 1 mit Verschnitt muss 105 ergeben, nicht 106.
+check( 'Waste adds 5 percent, not 5.26', function () {
+	// The old code computed quantity / 0.95 and so ended up at 5.26 percent.
+	// 100 / 1 with waste must yield 105, not 106.
 	assert.strictEqual( m.quantityFromAmount( 100, 1, true ), 105 );
 } );
 
-check( 'der Verschnitt folgt dem eingestellten Prozentsatz', function () {
-	// Ohne Parameter bleibt es bei fuenf Prozent.
+check( 'Waste follows the configured percentage', function () {
+	// Without the parameter it stays at five percent.
 	assert.strictEqual( m.quantityFromAmount( 100, 1, true ), 105 );
 	assert.strictEqual( m.quantityFromAmount( 100, 1, true, 5 ), 105 );
-	// Ein anderer Satz muss auch wirklich ankommen. Genau das fehlte, solange
-	// die 1,05 im Rechenkern fest verdrahtet war.
+	// A different rate must actually take effect. Exactly that was missing while
+	// the 1.05 was hard-wired into the calculation core.
 	assert.strictEqual( m.quantityFromAmount( 100, 1, true, 10 ), 110 );
 	assert.strictEqual( m.quantityFromAmount( 50, 0.46, true, 7.5 ), 117 );
 	assert.strictEqual( m.quantityFromAmount( 100, 1, true, 0 ), 100 );
-	// Unsinnige Angaben fallen auf fuenf Prozent zurueck.
+	// Nonsensical values fall back to five percent.
 	assert.strictEqual( m.quantityFromAmount( 100, 1, true, -3 ), 105 );
 	assert.strictEqual( m.quantityFromAmount( 100, 1, true, NaN ), 105 );
-	// Ohne Haken spielt der Satz keine Rolle.
+	// Without the checkbox the rate does not matter.
 	assert.strictEqual( m.quantityFromAmount( 100, 1, false, 50 ), 100 );
 } );
 
-check( 'exaktes Vielfaches rundet nicht eine Einheit zu hoch', function () {
-	// 139 * 0,36 = 50.040000000000006 in Gleitkomma. Ohne Toleranz waeren das 140.
+check( 'Exact multiple does not round up one unit too many', function () {
+	// 139 * 0.36 = 50.040000000000006 in floating point. Without tolerance that would be 140.
 	assert.strictEqual( m.quantityFromAmount( 50.04, 0.36, false ), 139 );
 	assert.strictEqual( m.quantityFromAmount( 3.6, 0.36, false ), 10 );
 	assert.strictEqual( m.quantityFromAmount( 8.5, 8.5, false ), 1 );
 } );
 
-check( 'Menge ist nie kleiner als 1', function () {
+check( 'Quantity is never less than 1', function () {
 	assert.strictEqual( m.quantityFromAmount( 0.01, 8.5, false ), 1 );
 } );
 
-check( 'Eingabe 0 oder negativ ergibt kein Ergebnis', function () {
+check( 'Input of 0 or less yields no result', function () {
 	assert.strictEqual( m.quantityFromAmount( 0, 0.36, false ), null );
 	assert.strictEqual( m.quantityFromAmount( -5, 0.36, false ), null );
 } );
 
-check( 'fehlende Groesse fuehrt nicht zur Division durch Null', function () {
+check( 'Missing size does not cause a division by zero', function () {
 	assert.strictEqual( m.quantityFromAmount( 50, 0, false ), null );
 	assert.strictEqual( m.quantityFromAmount( 50, NaN, false ), null );
 	assert.strictEqual( m.quantityFromAmount( 50, -1, false ), null );
 	assert.strictEqual( m.amountFromQuantity( 10, 0 ), null );
 } );
 
-check( 'Menge zurueck in Flaeche', function () {
+check( 'Quantity back to area', function () {
 	assert.strictEqual( m.amountFromQuantity( 10, 0.36 ), 3.6 );
 	assert.strictEqual( m.amountFromQuantity( 139, 0.36 ), 50.04 );
 	assert.strictEqual( m.amountFromQuantity( 2, 10 ), 20 );
 } );
 
-check( 'sehr grosse Eingabe bleibt eine endliche Zahl', function () {
+check( 'Very large input stays a finite number', function () {
 	var q = m.quantityFromAmount( 99999, 0.36, false );
 	assert.strictEqual( q, 277775 );
 	assert.ok( isFinite( q ) );
 } );
 
-check( 'Klebstoff: 50 m² bei 1 kg je m² und 10 kg Gebinde ergibt 5', function () {
+check( 'Adhesive: 50 m² at 1 kg per m² and 10 kg packs yields 5', function () {
 	assert.strictEqual( m.quantityFromGlue( 50, 1, 10 ), 5 );
 	assert.strictEqual( m.glueWeight( 50, 1 ), 50 );
 } );
 
-check( 'Klebstoff rundet auf ganze Gebinde auf', function () {
+check( 'Adhesive rounds up to whole packs', function () {
 	assert.strictEqual( m.quantityFromGlue( 51, 1, 10 ), 6 );
 	assert.strictEqual( m.quantityFromGlue( 12, 0.3, 5 ), 1 );
 } );
 
-check( 'Klebstoff: Gebinde zurück in Fläche ergibt wieder dieselbe Menge', function () {
+check( 'Adhesive: packs back to area yields the same quantity again', function () {
 	assert.strictEqual( m.areaFromGlue( 5, 1, 10 ), 50 );
 	assert.strictEqual( m.areaFromGlue( 10, 0.29, 11 ), 379.31 );
 
@@ -113,25 +113,25 @@ check( 'Klebstoff: Gebinde zurück in Fläche ergibt wieder dieselbe Menge', fun
 	assert.strictEqual( m.areaFromGlue( 5, 0, 10 ), null );
 } );
 
-check( 'Klebstoff ohne gepflegte Felder rechnet nicht', function () {
+check( 'Adhesive without filled-in fields does not calculate', function () {
 	assert.strictEqual( m.quantityFromGlue( 50, 0, 10 ), null );
 	assert.strictEqual( m.quantityFromGlue( 50, 1, 0 ), null );
 	assert.strictEqual( m.quantityFromGlue( 50, NaN, 10 ), null );
 } );
 
-check( 'Raumumfang fuer Sockelleisten', function () {
+check( 'Room perimeter for skirting boards', function () {
 	assert.strictEqual( m.perimeter( 5, 4 ), 18 );
 	assert.strictEqual( m.perimeter( 3.5, 2.25 ), 11.5 );
 	assert.strictEqual( m.perimeter( 0, 4 ), null );
 } );
 
-check( 'Raumflaeche fuer Paneele', function () {
+check( 'Room area for panels', function () {
 	assert.strictEqual( m.roomArea( 5, 4 ), 20 );
 	assert.strictEqual( m.roomArea( 2.6, 0.625 ), 1.63 );
 	assert.strictEqual( m.roomArea( 5, 0 ), null );
 } );
 
-check( 'Verschnitt hin und zurueck', function () {
+check( 'Waste round trip', function () {
 	assert.strictEqual( m.amountWithWaste( 50, 10 ), 55 );
 	assert.strictEqual( m.amountWithWaste( 50, 5 ), 52.5 );
 	assert.strictEqual( m.amountWithoutWaste( 55, 10 ), 50 );
@@ -140,18 +140,18 @@ check( 'Verschnitt hin und zurueck', function () {
 	assert.strictEqual( m.amountWithWaste( 50, -1 ), null );
 } );
 
-check( 'Gesamtpreis', function () {
+check( 'Total price', function () {
 	assert.strictEqual( m.total( 10, 29.99 ), 299.9 );
 	assert.strictEqual( m.total( 2, 39.9 ), 79.8 );
 	assert.strictEqual( m.total( 0, 29.99 ), null );
 	assert.strictEqual( m.total( 3, 0 ), 0 );
 } );
 
-check( 'Preisformat folgt den Shop-Einstellungen', function () {
+check( 'Price format follows the shop settings', function () {
 	var de = { decimals: 2, decimalSeparator: ',', thousandSeparator: '.', symbol: '&euro;', format: '%2$s&nbsp;%1$s' };
 	assert.strictEqual( m.formatNumber( 1234.5, de ), '1.234,50' );
 	assert.strictEqual( m.formatNumber( 299.9, de ), '299,90' );
 	assert.strictEqual( m.formatPrice( 299.9, de ), '299,90&nbsp;&euro;' );
 } );
 
-console.log( '\n' + checks + ' Pruefungen bestanden.' );
+console.log( '\n' + checks + ' checks passed.' );

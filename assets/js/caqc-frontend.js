@@ -1,9 +1,9 @@
 /**
- * Verdrahtung des Mengenrechners auf der Produktseite.
+ * Wiring of the quantity calculator on the product page.
  *
- * Gerechnet wird in CAQCMath, hier stehen nur DOM-Zugriffe und Ereignisse.
- * jQuery wird allein fuer das Ereignis show_variation von WooCommerce
- * gebraucht, alles andere laeuft ueber die Standard-API des Browsers.
+ * The math lives in CAQCMath, this file only handles DOM access and events.
+ * jQuery is needed solely for the WooCommerce show_variation event,
+ * everything else uses the browser's standard API.
  */
 ( function ( $ ) {
 	'use strict';
@@ -15,9 +15,9 @@
 	}
 
 	/**
-	 * Ein Rechner auf der Seite.
+	 * One calculator on the page.
 	 *
-	 * @param {HTMLElement} root Wurzelelement mit data-caqc.
+	 * @param {HTMLElement} root Root element with data-caqc.
 	 */
 	function Calculator( root ) {
 		this.root = root;
@@ -43,10 +43,10 @@
 		this.price   = 'number' === typeof this.data.price ? this.data.price : null;
 		this.regular = 'number' === typeof this.data.regularPrice ? this.data.regularPrice : null;
 
-		// Solange wir die Menge selbst setzen, ist die Gegenrichtung gesperrt.
-		// Sonst schreibt das ausgelöste change die Fläche zurück, die der
-		// Kunde gerade eintippt, und das Feld springt unter den Fingern weg.
-		this.schreibtMenge = false;
+		// While we set the quantity ourselves, the reverse direction is locked.
+		// Otherwise the triggered change writes back the area the customer is
+		// typing right now, and the field jumps away under their fingers.
+		this.settingQuantity = false;
 
 		this.bind();
 		this.renderHint();
@@ -55,11 +55,11 @@
 	}
 
 	/**
-	 * Schluessel im sessionStorage, je Einheit. Wer 37,5 m² Boden eingibt,
-	 * sieht dieselbe Flaeche auch beim naechsten Boden und beim Kleber, bei
-	 * Leisten dagegen die zuletzt eingegebenen Meter.
+	 * sessionStorage key, per unit. Someone who enters 37.5 m² of flooring
+	 * sees the same area on the next flooring product and on the adhesive,
+	 * while skirting boards show the meters entered last.
 	 *
-	 * @return {string|null} Schluessel, null wenn es nichts zu merken gibt.
+	 * @return {string|null} Key, null if there is nothing to remember.
 	 */
 	Calculator.prototype.storageKey = function () {
 		if ( ! this.amountEl || ! this.data.inputUnit ) {
@@ -70,7 +70,7 @@
 	};
 
 	/**
-	 * Merkt sich Eingabe und Verschnitt fuer die naechste Produktseite.
+	 * Remembers the input and waste setting for the next product page.
 	 */
 	Calculator.prototype.remember = function () {
 		var key = this.storageKey();
@@ -90,12 +90,12 @@
 				window.sessionStorage.setItem( 'caqc:waste', this.wasteEl.checked ? '1' : '0' );
 			}
 		} catch ( e ) {
-			// Privater Modus oder gesperrter Speicher: dann eben nicht merken.
+			// Private mode or blocked storage: then we simply do not remember.
 		}
 	};
 
 	/**
-	 * Holt die letzte Eingabe zurueck, wenn sie zur Einheit dieser Seite passt.
+	 * Restores the last input if it matches the unit of this page.
 	 */
 	Calculator.prototype.restore = function () {
 		var key = this.storageKey();
@@ -119,14 +119,14 @@
 				this.renderWaste();
 			}
 		} catch ( e ) {
-			// siehe remember()
+			// see remember()
 		}
 	};
 
 	/**
-	 * Das Mengenfeld liegt zwischen den Hooks und gehoert dem Theme.
+	 * The quantity field sits between the hooks and belongs to the theme.
 	 *
-	 * @return {HTMLElement|null} Eingabefeld.
+	 * @return {HTMLElement|null} Input field.
 	 */
 	Calculator.prototype.findQuantityInput = function () {
 		return this.root.querySelector( 'input.qty' )
@@ -134,18 +134,18 @@
 	};
 
 	/**
-	 * Die Preisbox steht hinter dem Rechner, nicht darin.
+	 * The price box sits after the calculator, not inside it.
 	 *
-	 * @return {HTMLElement|null} Anzeigeelement.
+	 * @return {HTMLElement|null} Display element.
 	 */
 	Calculator.prototype.findTotalValue = function () {
 		return this.findInFooter( '[data-caqc-total-value]' );
 	};
 
 	/**
-	 * Sucht ein Element in der Fusszeile hinter dem Rechner.
+	 * Finds an element in the footer after the calculator.
 	 *
-	 * @param {string} selector CSS-Selektor.
+	 * @param {string} selector CSS selector.
 	 * @return {HTMLElement|null} Element.
 	 */
 	Calculator.prototype.findInFooter = function ( selector ) {
@@ -159,10 +159,10 @@
 	};
 
 	/**
-	 * Nimmt nur positive, endliche Groessen an.
+	 * Accepts only positive, finite sizes.
 	 *
-	 * @param {*} value Rohwert.
-	 * @return {number|null} Groesse.
+	 * @param {*} value Raw value.
+	 * @return {number|null} Size.
 	 */
 	Calculator.prototype.toSize = function ( value ) {
 		var number = math.parseNumber( value );
@@ -171,7 +171,7 @@
 	};
 
 	/**
-	 * Haengt alle Ereignisse ein.
+	 * Attaches all events.
 	 */
 	Calculator.prototype.bind = function () {
 		var self = this;
@@ -186,11 +186,11 @@
 			} );
 		}
 
-		// Vorbelegte Werte beim Antippen markieren. Sonst haengt die neue Eingabe
-		// an die alte an, aus 1,74 und 37,5 wird 1,7437,5.
+		// Select prefilled values on tap. Otherwise the new input is appended
+		// to the old one, and 1,74 plus 37,5 turns into 1,7437,5.
 		Array.prototype.forEach.call( this.root.querySelectorAll( '[data-caqc-amount], [data-caqc-room] input' ), function ( input ) {
 			input.addEventListener( 'focus', function () {
-				// Auf Touch-Geraeten setzt das Antippen den Cursor erst nach dem focus.
+				// On touch devices the tap only places the cursor after the focus event.
 				setTimeout( function () {
 					if ( document.activeElement === input ) {
 						input.select();
@@ -206,8 +206,8 @@
 		} );
 
 		if ( this.qtyEl ) {
-			// change deckt die Plus- und Minus-Schaltflaechen des Themes ab,
-			// input die Tastatureingabe.
+			// change covers the theme's plus and minus buttons,
+			// input covers keyboard entry.
 			this.qtyEl.addEventListener( 'change', function () {
 				self.syncFromQuantity();
 			} );
@@ -216,11 +216,11 @@
 				self.syncFromQuantity();
 			} );
 
-			// Themes lösen die Änderung meist über jQuery aus. Ein
-			// jQuery-trigger erreicht die Zeilen oben nicht, weil es die
-			// Handler nur in seiner eigenen Liste aufruft. Deshalb hier
-			// zusätzlich über jQuery hören, sonst bleibt die Fläche stehen,
-			// wenn jemand die Plus-Schaltfläche des Themes benutzt.
+			// Themes usually trigger the change via jQuery. A jQuery trigger
+			// does not reach the listeners above, because it only calls the
+			// handlers in its own list. So listen via jQuery here as well,
+			// otherwise the area does not update when someone uses the
+			// theme's plus button.
 			if ( $ ) {
 				$( this.qtyEl ).on( 'change.caqc input.caqc', function () {
 					self.syncFromQuantity();
@@ -257,12 +257,12 @@
 	};
 
 	/**
-	 * Flaeche wurde bearbeitet: Menge nachziehen, Flaeche stehen lassen.
+	 * Area was edited: update the quantity, leave the area as it is.
 	 *
-	 * Das Feld wird bewusst nicht auf ein Vielfaches der Packungsgroesse
-	 * zurueckgeschrieben, sonst springt es waehrend des Tippens.
+	 * The field is deliberately not rewritten to a multiple of the pack size,
+	 * otherwise it jumps while the customer is typing.
 	 *
-	 * @param {boolean} keepAmount Auch bei leerem Feld nichts tun.
+	 * @param {boolean} keepAmount Do nothing even if the field is empty.
 	 */
 	Calculator.prototype.syncFromAmount = function ( keepAmount ) {
 		if ( ! this.amountEl || ! this.qtyEl ) {
@@ -272,23 +272,23 @@
 		var raw    = this.amountEl.value.trim();
 		var amount = math.parseNumber( raw );
 
-		// Leeres Feld: der Kunde tippt gerade. Die Menge bleibt stehen, sonst
-		// springt sie bei jedem Löschen auf eins.
+		// Empty field: the customer is typing. The quantity stays, otherwise
+		// it jumps to one on every deletion.
 		if ( '' === raw ) {
 			this.renderNote( '' );
 
 			return;
 		}
 
-		// Keine lesbare Zahl: ebenfalls abwarten, das ist meist ein Tippfehler.
+		// No readable number: wait as well, this is usually a typo.
 		if ( ! isFinite( amount ) ) {
 			this.renderNote( '' );
 
 			return;
 		}
 
-		// Null oder negativ ist eine Angabe, keine Zwischenstufe. Die Menge geht
-		// auf das Minimum, damit Eingabe und Preis zusammenpassen.
+		// Zero or negative is an actual value, not an intermediate step. The quantity
+		// goes to the minimum so that input and price match.
 		if ( amount <= 0 ) {
 			this.setQuantity( this.minQuantity() );
 			this.renderNote( '' );
@@ -305,17 +305,17 @@
 			return;
 		}
 
-		var gesetzt = this.setQuantity( quantity );
+		var applied = this.setQuantity( quantity );
 
-		// Der Lagerbestand kann kleiner sein als der Bedarf. Dann steht im Feld
-		// eine Fläche, die so nicht lieferbar ist, und der Kunde sollte das
-		// erfahren, statt sich über die Zahl daneben zu wundern.
-		if ( gesetzt < quantity ) {
-			this.renderNote( this.buildNote( 'capped', gesetzt ) );
-		} else if ( gesetzt > quantity ) {
-			// Eine Mindestabnahme hebt die Menge an. Ohne Hinweis wundert sich
-			// der Kunde, warum neben 15 m² zwei Rollen stehen.
-			this.renderNote( this.buildNote( 'minimum', gesetzt ) );
+		// Stock can be lower than the demand. Then the field shows an area
+		// that cannot be delivered as such, and the customer should be told
+		// instead of wondering about the number next to it.
+		if ( applied < quantity ) {
+			this.renderNote( this.buildNote( 'capped', applied ) );
+		} else if ( applied > quantity ) {
+			// A minimum purchase raises the quantity. Without a notice the customer
+			// wonders why two rolls are shown next to 15 m².
+			this.renderNote( this.buildNote( 'minimum', applied ) );
 		} else {
 			this.renderNote( '' );
 		}
@@ -327,9 +327,9 @@
 	};
 
 	/**
-	 * Zeile neben dem Verschnitt-Haken: was aus der Eingabe mit Aufschlag wird.
-	 * Die Eingabe selbst bleibt unangetastet, sonst weiss der Kunde nach dem
-	 * zweiten Umschalten nicht mehr, was er eingetippt hat.
+	 * Line next to the waste checkbox: what the input becomes with the surcharge.
+	 * The input itself stays untouched, otherwise after the second toggle
+	 * the customer no longer knows what they typed.
 	 */
 	Calculator.prototype.renderWaste = function () {
 		if ( ! this.wasteOut ) {
@@ -358,11 +358,11 @@
 	};
 
 	/**
-	 * Baut einen Hinweis mit Menge und Einheit.
+	 * Builds a notice with quantity and unit.
 	 *
-	 * @param {string} key      Schlüssel im Textvorrat.
-	 * @param {number} quantity Menge.
-	 * @return {string} Text, leer wenn der Schlüssel fehlt.
+	 * @param {string} key      Key in the string table.
+	 * @param {number} quantity Quantity.
+	 * @return {string} Text, empty if the key is missing.
 	 */
 	Calculator.prototype.buildNote = function ( key, quantity ) {
 		if ( ! this.data.i18n || ! this.data.i18n[ key ] ) {
@@ -377,9 +377,9 @@
 	};
 
 	/**
-	 * Kleinste zulässige Menge des Mengenfelds.
+	 * Smallest allowed value of the quantity field.
 	 *
-	 * @return {number} Minimum, mindestens 1.
+	 * @return {number} Minimum, at least 1.
 	 */
 	Calculator.prototype.minQuantity = function () {
 		var min = math.parseNumber( this.qtyEl.getAttribute( 'min' ) );
@@ -388,10 +388,10 @@
 	};
 
 	/**
-	 * Rechnet eine Eingabe in eine Menge um, je nach Typ.
+	 * Converts an input into a quantity, depending on the type.
 	 *
-	 * @param {number} amount Flaeche oder Laenge.
-	 * @return {number|null} Menge.
+	 * @param {number} amount Area or length.
+	 * @return {number|null} Quantity.
 	 */
 	Calculator.prototype.quantityFor = function ( amount ) {
 		if ( 'glue' === this.data.input ) {
@@ -406,18 +406,18 @@
 	};
 
 	/**
-	 * Menge wurde bearbeitet: Flaeche nachziehen.
+	 * Quantity was edited: update the area.
 	 */
 	Calculator.prototype.syncFromQuantity = function () {
-		if ( ! this.qtyEl || this.schreibtMenge ) {
+		if ( ! this.qtyEl || this.settingQuantity ) {
 			return;
 		}
 
 		var quantity = math.parseNumber( this.qtyEl.value );
 
-		// Passt die Flaeche im Feld bereits zu dieser Menge, bleibt sie stehen.
-		// Sonst macht ein nachgereichtes change des Themes aus 37,5 m² erst
-		// 37,82 m² und beim naechsten Durchlauf eine Menge mehr.
+		// If the area in the field already matches this quantity, it stays.
+		// Otherwise a late change from the theme first turns 37.5 m² into
+		// 37.82 m² and on the next pass into one more unit.
 		var current = this.amountEl ? math.parseNumber( this.amountEl.value ) : NaN;
 
 		if ( isFinite( current ) && current > 0 && this.quantityFor( current ) === quantity ) {
@@ -433,9 +433,9 @@
 				? ( this.data.glue ? math.areaFromGlue( quantity, this.data.glue.consumption, this.data.glue.pack_size ) : null )
 				: math.amountFromQuantity( quantity, this.size );
 
-			// Mit Verschnitt deckt die Menge die Flaeche samt Aufschlag ab. Im
-			// Feld steht die Flaeche ohne Aufschlag, die Zeile am Haken zeigt
-			// den Rest. Sonst widersprechen sich Feld und Zeile.
+			// With waste, the quantity covers the area plus surcharge. The
+			// field shows the area without surcharge, the line at the checkbox shows
+			// the rest. Otherwise field and line contradict each other.
 			if ( null !== amount && this.wasteActive() ) {
 				amount = math.amountWithoutWaste( amount, this.data.wastePercent );
 			}
@@ -443,7 +443,7 @@
 			if ( null !== amount ) {
 				this.amountEl.value = math.formatNumber( amount, this.data.priceFormat );
 
-				// Feld und Menge passen wieder zusammen, ein Hinweis zur alten Eingabe waere falsch.
+				// Field and quantity match again, a notice about the old input would be wrong.
 				this.renderNote( '' );
 			}
 		}
@@ -454,10 +454,10 @@
 	};
 
 	/**
-	 * Plus oder Minus am Flaechenfeld. Ein Schritt ist genau eine Einheit des
-	 * Produkts, sonst aendert ein Klick die Menge um mehrere Pakete.
+	 * Plus or minus on the area field. One step is exactly one unit of the
+	 * product, otherwise a click changes the quantity by several packs.
 	 *
-	 * @param {number} direction 1 oder -1.
+	 * @param {number} direction 1 or -1.
 	 */
 	Calculator.prototype.stepAmount = function ( direction ) {
 		if ( ! this.amountEl ) {
@@ -482,7 +482,7 @@
 	};
 
 	/**
-	 * Formatiert die Eingabe, sobald das Feld verlassen wird.
+	 * Formats the input as soon as the field loses focus.
 	 */
 	Calculator.prototype.normalizeAmount = function () {
 		if ( ! this.amountEl ) {
@@ -497,7 +497,7 @@
 	};
 
 	/**
-	 * Uebernimmt das Ergebnis des Raumrechners in das Hauptfeld.
+	 * Copies the room calculator result into the main field.
 	 */
 	Calculator.prototype.applyRoom = function () {
 		if ( ! this.roomEl ) {
@@ -525,7 +525,7 @@
 			this.amountEl.value = math.formatNumber( value, this.data.priceFormat );
 			this.syncFromAmount();
 		} else if ( this.qtyEl ) {
-			// Typ Meter ohne eigenes Flaechenfeld: direkt in die Menge.
+			// Meter type without its own area field: straight into the quantity.
 			this.setQuantity( Math.max( 1, Math.ceil( value ) ) );
 			this.syncFromQuantity();
 		}
@@ -538,9 +538,9 @@
 	};
 
 	/**
-	 * Variante gewaehlt: Groesse und Preis uebernehmen.
+	 * Variation selected: take over size and price.
 	 *
-	 * @param {object} variation Variantendaten von WooCommerce.
+	 * @param {object} variation Variation data from WooCommerce.
 	 */
 	Calculator.prototype.onVariation = function ( variation ) {
 		if ( ! variation ) {
@@ -574,13 +574,13 @@
 		this.renderNote( '' );
 		this.renderHint();
 
-		// Steht schon eine Flaeche im Feld, etwa aus dem vorigen Produkt oder
-		// weil der Kunde vor der Variantenwahl getippt hat, bleibt sie und
-		// bestimmt die Menge. Sonst wuerde die Wahl der Variante die Eingabe
-		// mit "1 Stueck" ueberschreiben.
-		// WooCommerce und das Theme setzen das Mengenfeld nach show_variation
-		// selbst noch einmal auf das Minimum. Deshalb einen Tick spaeter, sonst
-		// steht rechts wieder 1, waehrend der Preis schon fuer 16 rechnet.
+		// If an area is already in the field, for example from the previous product
+		// or because the customer typed before choosing the variation, it stays and
+		// determines the quantity. Otherwise choosing the variation would overwrite
+		// the input with "1 piece".
+		// WooCommerce and the theme reset the quantity field to the minimum
+		// themselves after show_variation. Hence one tick later, otherwise
+		// the right side shows 1 again while the price already counts 16.
 		var self = this;
 
 		window.setTimeout( function () {
@@ -595,7 +595,7 @@
 	};
 
 	/**
-	 * Variantenauswahl zurueckgesetzt.
+	 * Variation selection was reset.
 	 */
 	Calculator.prototype.onVariationCleared = function () {
 		if ( ! this.data.useVariation ) {
@@ -612,9 +612,9 @@
 	};
 
 	/**
-	 * Schreibt eine Menge in das Feld des Themes und meldet die Aenderung.
+	 * Writes a quantity into the theme's field and reports the change.
 	 *
-	 * @param {number} quantity Menge.
+	 * @param {number} quantity Quantity.
 	 */
 	Calculator.prototype.setQuantity = function ( quantity ) {
 		if ( ! this.qtyEl ) {
@@ -636,10 +636,10 @@
 			return quantity;
 		}
 
-		this.schreibtMenge = true;
+		this.settingQuantity = true;
 		this.qtyEl.value = String( quantity );
 
-		// Andere Skripte, etwa das Theme, hoeren auf change.
+		// Other scripts, such as the theme, listen for change.
 		try {
 			if ( $ ) {
 				$( this.qtyEl ).trigger( 'change' );
@@ -647,14 +647,14 @@
 				this.qtyEl.dispatchEvent( new Event( 'change', { bubbles: true } ) );
 			}
 		} finally {
-			this.schreibtMenge = false;
+			this.settingQuantity = false;
 		}
 
 		return quantity;
 	};
 
 	/**
-	 * Zeigt, wie viel in einem Stueck steckt und was die Menge abdeckt.
+	 * Shows how much one piece contains and what the quantity covers.
 	 */
 	Calculator.prototype.renderHint = function () {
 		if ( ! this.hintEl || ! this.data.i18n ) {
@@ -673,10 +673,10 @@
 			return;
 		}
 
-		// Meterware wird nach Mass verkauft. Dort ist die hinterlegte Groesse
-		// die Laenge einer Leiste, keine Verkaufseinheit. Ein fester Text aus
-		// den Einstellungen geht vor, etwa wenn die Laengen je Lieferung
-		// schwanken und eine Spanne genannt werden soll.
+		// Goods sold by the meter are cut to measure. There the stored size
+		// is the length of one board, not a sales unit. A fixed text from
+		// the settings takes precedence, for example when lengths vary per
+		// delivery and a range should be stated.
 		if ( 'length' === this.data.hint ) {
 			if ( this.data.lengthHint ) {
 				this.hintEl.textContent = this.data.lengthHint;
@@ -698,7 +698,7 @@
 	};
 
 	/**
-	 * Hinweis auf den Klebstoffbedarf.
+	 * Notice about the adhesive required.
 	 *
 	 * @return {string} Text.
 	 */
@@ -717,9 +717,9 @@
 	};
 
 	/**
-	 * Meldung unter dem Eingabefeld.
+	 * Message below the input field.
 	 *
-	 * @param {string} message Text, leer blendet aus.
+	 * @param {string} message Text, empty hides it.
 	 */
 	Calculator.prototype.renderNote = function ( message ) {
 		if ( this.noteEl ) {
@@ -728,7 +728,7 @@
 	};
 
 	/**
-	 * Gesamtpreis.
+	 * Total price.
 	 */
 	Calculator.prototype.renderTotal = function () {
 		if ( ! this.totalEl ) {
@@ -757,10 +757,10 @@
 	};
 
 	/**
-	 * Regulaerer Gesamtpreis und Ersparnis bei reduzierten Artikeln.
+	 * Regular total price and savings for discounted items.
 	 *
-	 * @param {number|null} quantity Menge.
-	 * @param {number|null} total    Gesamtpreis zum Aktionspreis.
+	 * @param {number|null} quantity Quantity.
+	 * @param {number|null} total    Total price at the sale price.
 	 */
 	Calculator.prototype.renderSaving = function ( quantity, total ) {
 		if ( ! this.savingEl ) {
@@ -775,8 +775,8 @@
 			return;
 		}
 
-		// Der Text kommt aus der Übersetzung. Er wird als Text eingesetzt, nur
-		// die beiden Preise bekommen ihr Element.
+		// The text comes from the translation. It is inserted as text, only
+		// the two prices get their own element.
 		var values = {
 			'%1$s': [ 's', math.formatPrice( regularTotal, this.data.priceFormat ) ],
 			'%2$s': [ 'strong', math.formatPrice( regularTotal - total, this.data.priceFormat ) ],
@@ -800,16 +800,16 @@
 	};
 
 	/**
-	 * Ist der Verschnitt angehakt?
+	 * Is the waste checkbox ticked?
 	 *
-	 * @return {boolean} true wenn aktiv.
+	 * @return {boolean} true if active.
 	 */
 	Calculator.prototype.wasteActive = function () {
 		return !! ( this.wasteEl && this.wasteEl.checked );
 	};
 
 	/**
-	 * Startet alle Rechner auf der Seite.
+	 * Starts all calculators on the page.
 	 */
 	function boot() {
 		Array.prototype.forEach.call( document.querySelectorAll( '.caqc[data-caqc]' ), function ( root ) {
@@ -828,7 +828,7 @@
 		boot();
 	}
 
-	// Themes, die das Formular per AJAX nachladen, etwa in einer Schnellansicht.
+	// Themes that reload the form via AJAX, for example in a quick view.
 	if ( $ ) {
 		$( document.body ).on( 'wc_variation_form quick_view_displayed', boot );
 	}

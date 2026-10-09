@@ -1,9 +1,9 @@
 <?php
 /**
- * Typtabelle: die einzige Stelle, an der eine Warengruppe entsteht.
+ * Type table: the only place where a product group is defined.
  *
- * Jeder Typ beschreibt, welche Eingabefelder die Produktseite zeigt, wie die
- * Einheit heisst und ob Verschnitt und Raumrechner angeboten werden.
+ * Each type describes which input fields the product page shows, what the
+ * unit is called and whether waste allowance and room calculator are offered.
  *
  * @package FlooringCalculator
  */
@@ -13,50 +13,50 @@ declare( strict_types = 1 );
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Registry der Mengentypen.
+ * Registry of quantity types.
  */
 final class CAQC_Types {
 
 	/**
-	 * Zwischenspeicher der Typtabelle.
+	 * Cache of the type table.
 	 *
 	 * @var array<string, array<string, mixed>>|null
 	 */
 	private static $cache = null;
 
 	/**
-	 * Feldart des linken Eingabeblocks.
+	 * Field kind of the left input block.
 	 */
 	const INPUT_NONE  = 'none';
-	const INPUT_AREA  = 'area';   // Flaeche in m².
-	const INPUT_METER = 'meter';  // Laufende Meter.
-	const INPUT_GLUE  = 'glue';   // Zu verklebende Flaeche in m².
+	const INPUT_AREA  = 'area';   // Area in m².
+	const INPUT_METER = 'meter';  // Running meters.
+	const INPUT_GLUE  = 'glue';   // Area to be glued in m².
 
 	/**
-	 * Weitere Merkmale je Typ, die an mehreren Stellen gebraucht werden:
+	 * Further per-type properties that are needed in several places:
 	 *
-	 *   stock_in_size  Lagerbestand in der Groesse statt in Stueck anzeigen
-	 *   cart_label     Beschriftung der Angabe im Block-Checkout
-	 *   cart_note      Angabe im Warenkorb ueberhaupt zeigen
-	 *   needs_size     ohne Groesse je Stueck kein Rechner
-	 *   qty_unit       Einheit rechts neben dem Mengenfeld, wenn die Menge
-	 *                  selbst ein Mass ist (Meterware)
+	 *   stock_in_size  show stock in the size instead of pieces
+	 *   cart_label     label of the info in the block checkout
+	 *   cart_note      whether to show the info in the cart at all
+	 *   needs_size     no calculator without a size per piece
+	 *   qty_unit       unit to the right of the quantity field when the quantity
+	 *                  itself is a measure (goods sold by the meter)
 	 *
-	 * Art des Hinweises unter dem Mengenfeld.
+	 * Kind of note below the quantity field.
 	 */
-	const HINT_PIECE  = 'piece';   // "1 Paket = 0,46 m²"
-	const HINT_LENGTH = 'length';  // "Meterweise bestellbar, Leistenlänge ca. 2,70 m"
+	const HINT_PIECE  = 'piece';   // "1 package = 0.46 m²"
+	const HINT_LENGTH = 'length';  // "Sold by the meter, board length approx. 2.70 m"
 	const HINT_NONE   = 'none';
 
 	/**
-	 * Art des Raumrechners.
+	 * Kind of room calculator.
 	 */
 	const ROOM_NONE      = '';
-	const ROOM_PERIMETER = 'perimeter'; // Umfang: 2 * (L + B).
-	const ROOM_AREA      = 'area';      // Flaeche: L * B.
+	const ROOM_PERIMETER = 'perimeter'; // Perimeter: 2 * (L + W).
+	const ROOM_AREA      = 'area';      // Area: L * W.
 
 	/**
-	 * Liefert die vollstaendige Typtabelle.
+	 * Returns the full type table.
 	 *
 	 * @return array<string, array<string, mixed>>
 	 */
@@ -202,9 +202,9 @@ final class CAQC_Types {
 		);
 
 		/**
-		 * Erlaubt weiteren Shops, eigene Warengruppen zu ergaenzen.
+		 * Allows other shops to add their own product groups.
 		 *
-		 * @param array<string, array<string, mixed>> $types Typtabelle.
+		 * @param array<string, array<string, mixed>> $types Type table.
 		 */
 		$types = apply_filters( 'caqc_types', $types );
 
@@ -214,16 +214,16 @@ final class CAQC_Types {
 	}
 
 	/**
-	 * Verwirft den Zwischenspeicher, etwa nach einer Einstellungsaenderung.
+	 * Discards the cache, e.g. after a settings change.
 	 */
 	public static function flush(): void {
 		self::$cache = null;
 	}
 
 	/**
-	 * Gibt die Definition eines Typs zurueck, oder die des Standardtyps.
+	 * Returns the definition of a type, or that of the default type.
 	 *
-	 * @param string $key Typschluessel.
+	 * @param string $key Type key.
 	 * @return array<string, mixed>
 	 */
 	public static function get( string $key ): array {
@@ -233,40 +233,40 @@ final class CAQC_Types {
 	}
 
 	/**
-	 * Prueft, ob ein Typschluessel bekannt ist.
+	 * Checks whether a type key is known.
 	 *
-	 * @param string $key Typschluessel.
+	 * @param string $key Type key.
 	 */
 	public static function exists( string $key ): bool {
 		return isset( self::all()[ $key ] );
 	}
 
 	/**
-	 * Schluessel des Standardtyps.
+	 * Key of the default type.
 	 */
 	public static function default_key(): string {
 		return 'stk';
 	}
 
 	/**
-	 * Auswahlliste fuer das Backend-Dropdown.
+	 * Options for the admin dropdown.
 	 *
-	 * Ein Shop braucht selten alle Warengruppen. Was unter den Einstellungen
-	 * abgewaehlt ist, erscheint hier nicht mehr. Die Logik kennt die Typen
-	 * weiterhin, damit bereits gepflegte Produkte nicht umkippen.
+	 * A shop rarely needs all product groups. Whatever is deselected in the
+	 * settings no longer appears here. The logic still knows the types,
+	 * so that already maintained products do not break.
 	 *
-	 * @param bool $alle Auch abgewaehlte Typen aufnehmen.
+	 * @param bool $include_all Include deselected types as well.
 	 * @return array<string, string>
 	 */
-	public static function options( bool $alle = false ): array {
-		$erlaubt = $alle || ! class_exists( 'CAQC_Settings' )
+	public static function options( bool $include_all = false ): array {
+		$allowed = $include_all || ! class_exists( 'CAQC_Settings' )
 			? array()
 			: CAQC_Settings::enabled_types();
 
 		$options = array();
 
 		foreach ( self::all() as $key => $type ) {
-			if ( ! empty( $erlaubt ) && ! in_array( $key, $erlaubt, true ) ) {
+			if ( ! empty( $allowed ) && ! in_array( $key, $allowed, true ) ) {
 				continue;
 			}
 

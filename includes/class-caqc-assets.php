@@ -1,11 +1,11 @@
 <?php
 /**
- * Einbindung von Skript und Stil.
+ * Enqueues script and style.
  *
- * Beide Dateien tragen eine Versionsnummer, damit ein Browser-Cache nach einer
- * Aenderung tatsaechlich neu laedt. Die Vorlage im Child-Theme liess die
- * Version auf null und hatte ausserdem die Abhaengigkeit von jQuery vergessen,
- * obwohl die Datei mit jQuery(document).ready beginnt.
+ * Both files carry a version number so that the browser cache really
+ * reloads after a change. The template in the child theme left the
+ * version at null and also forgot the jQuery dependency,
+ * even though the file starts with jQuery(document).ready.
  *
  * @package FlooringCalculator
  */
@@ -15,12 +15,12 @@ declare( strict_types = 1 );
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Frontend-Assets.
+ * Frontend assets.
  */
 final class CAQC_Assets {
 
 	/**
-	 * Haengt die Einbindung ein.
+	 * Hooks in the enqueueing.
 	 */
 	public static function init(): void {
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue' ) );
@@ -28,7 +28,7 @@ final class CAQC_Assets {
 	}
 
 	/**
-	 * Laedt Skript und Stil auf Produkt-, Warenkorb- und Kassenseiten.
+	 * Loads script and style on product, cart and checkout pages.
 	 */
 	public static function enqueue(): void {
 		if ( ! function_exists( 'is_product' ) ) {
@@ -71,9 +71,9 @@ final class CAQC_Assets {
 	}
 
 	/**
-	 * Kleines Stylesheet fuer die Produktfelder im Backend.
+	 * Small stylesheet for the product fields in the admin.
 	 *
-	 * @param string $hook Aktuelle Admin-Seite.
+	 * @param string $hook Current admin page.
 	 */
 	public static function enqueue_admin( $hook ): void {
 		if ( 'post.php' !== $hook && 'post-new.php' !== $hook ) {
@@ -93,9 +93,9 @@ final class CAQC_Assets {
 	}
 
 	/**
-	 * Versionsnummer aus dem Aenderungsdatum, im Zweifel die Plugin-Version.
+	 * Version number from the modification time, falling back to the plugin version.
 	 *
-	 * @param string $relative Pfad innerhalb des Plugins.
+	 * @param string $relative Path inside the plugin.
 	 */
 	private static function version( string $relative ): string {
 		$path = CAQC_PLUGIN_DIR . $relative;

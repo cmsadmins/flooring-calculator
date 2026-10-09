@@ -1,10 +1,10 @@
 <?php
 /**
- * Lesezugriff auf die Mengendaten eines Produkts.
+ * Read access to a product's quantity data.
  *
- * Diese Klasse ist die einzige Stelle, die Meta-Keys kennt. Produktseite,
- * Warenkorb, Checkout, Bestellmail und Lagertext fragen hier, statt die
- * Aufloesung von Produkt- und Variantengroesse jeweils selbst zu wiederholen.
+ * This class is the only place that knows the meta keys. Product page,
+ * cart, checkout, order email and stock text ask here instead of each
+ * repeating the resolution of product and variation size themselves.
  *
  * @package FlooringCalculator
  */
@@ -14,7 +14,7 @@ declare( strict_types = 1 );
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Mengendaten eines Produkts.
+ * Quantity data of a product.
  */
 final class CAQC_Product {
 
@@ -26,9 +26,9 @@ final class CAQC_Product {
 	const META_PACK_SIZE     = '_caqc_pack_size';
 
 	/**
-	 * Typschluessel eines Produkts.
+	 * Type key of a product.
 	 *
-	 * @param WC_Product|int $product Produkt oder Produkt-ID.
+	 * @param WC_Product|int $product Product or product ID.
 	 */
 	public static function type( $product ): string {
 		$value = self::meta( $product, self::META_TYPE );
@@ -37,9 +37,9 @@ final class CAQC_Product {
 	}
 
 	/**
-	 * Typdefinition eines Produkts.
+	 * Type definition of a product.
 	 *
-	 * @param WC_Product|int $product Produkt oder Produkt-ID.
+	 * @param WC_Product|int $product Product or product ID.
 	 * @return array<string, mixed>
 	 */
 	public static function type_config( $product ): array {
@@ -47,24 +47,24 @@ final class CAQC_Product {
 	}
 
 	/**
-	 * Nutzt das Produkt die Groessen seiner Varianten?
+	 * Does the product use the sizes of its variations?
 	 *
-	 * @param WC_Product|int $product Produkt oder Produkt-ID.
+	 * @param WC_Product|int $product Product or product ID.
 	 */
 	public static function uses_variation_size( $product ): bool {
 		return 'yes' === self::meta( $product, self::META_USE_VARIATION );
 	}
 
 	/**
-	 * Groesse, die in einem Stueck steckt.
+	 * Size contained in one piece.
 	 *
-	 * Ist eine Variante angegeben, gilt deren Wert. Nutzt das Produkt
-	 * Variantengroessen, ohne dass eine Variante feststeht, gibt es null,
-	 * weil die Groesse erst mit der Auswahl feststeht.
+	 * If a variation is given, its value applies. If the product uses
+	 * variation sizes and no variation is set, the result is null,
+	 * because the size is only known once one is selected.
 	 *
-	 * @param WC_Product|int $product      Produkt oder Produkt-ID.
-	 * @param int            $variation_id Variante, 0 fuer keine.
-	 * @return float|null Positive Zahl, oder null wenn nicht nutzbar.
+	 * @param WC_Product|int $product      Product or product ID.
+	 * @param int            $variation_id Variation, 0 for none.
+	 * @return float|null Positive number, or null if not usable.
 	 */
 	public static function size_per_piece( $product, int $variation_id = 0 ): ?float {
 		if ( self::uses_variation_size( $product ) ) {
@@ -79,9 +79,9 @@ final class CAQC_Product {
 	}
 
 	/**
-	 * Groessen aller Varianten, fuer das data-Attribut der Produktseite.
+	 * Sizes of all variations, for the data attribute of the product page.
 	 *
-	 * @param WC_Product $product Variables Produkt.
+	 * @param WC_Product $product Variable product.
 	 * @return array<int, array{id: int, size: float}>
 	 */
 	public static function variation_sizes( $product ): array {
@@ -112,12 +112,12 @@ final class CAQC_Product {
 	}
 
 	/**
-	 * Klebstoffdaten: Verbrauch in kg je m² und Gebindeinhalt in kg.
+	 * Adhesive data: consumption in kg per m² and container content in kg.
 	 *
-	 * Beide Werte sind Pflicht. Fehlt einer, faellt das Produkt auf reine
-	 * Stueckeingabe zurueck, statt einen Rechner mit falschen Zahlen zu zeigen.
+	 * Both values are required. If one is missing, the product falls back to
+	 * plain piece input instead of showing a calculator with wrong numbers.
 	 *
-	 * @param WC_Product|int $product Produkt oder Produkt-ID.
+	 * @param WC_Product|int $product Product or product ID.
 	 * @return array{consumption: float, pack_size: float}|null
 	 */
 	public static function glue( $product ): ?array {
@@ -135,9 +135,9 @@ final class CAQC_Product {
 	}
 
 	/**
-	 * Zeigt dieses Produkt einen Rechner?
+	 * Does this product show a calculator?
 	 *
-	 * @param WC_Product|int $product Produkt oder Produkt-ID.
+	 * @param WC_Product|int $product Product or product ID.
 	 */
 	public static function has_calculator( $product ): bool {
 		$type   = self::type( $product );
@@ -160,10 +160,10 @@ final class CAQC_Product {
 	}
 
 	/**
-	 * Einheit in Ein- oder Mehrzahl.
+	 * Unit in singular or plural.
 	 *
-	 * @param WC_Product|int $product  Produkt oder Produkt-ID.
-	 * @param float          $quantity Menge.
+	 * @param WC_Product|int $product  Product or product ID.
+	 * @param float          $quantity Quantity.
 	 */
 	public static function unit( $product, float $quantity ): string {
 		$config = self::type_config( $product );
@@ -172,10 +172,10 @@ final class CAQC_Product {
 	}
 
 	/**
-	 * Liest ein Meta-Feld als getrimmten String.
+	 * Reads a meta field as a trimmed string.
 	 *
-	 * @param WC_Product|int $product Produkt oder Produkt-ID.
-	 * @param string         $key     Meta-Key.
+	 * @param WC_Product|int $product Product or product ID.
+	 * @param string         $key     Meta key.
 	 */
 	private static function meta( $product, string $key ): string {
 		if ( $product instanceof WC_Product ) {
@@ -190,13 +190,13 @@ final class CAQC_Product {
 	}
 
 	/**
-	 * Wandelt eine Eingabe in eine positive Zahl.
+	 * Converts input to a positive number.
 	 *
-	 * Komma und Punkt gelten beide als Dezimaltrennzeichen, weil die Felder
-	 * im Backend seit jeher beides erlauben.
+	 * Comma and dot both count as decimal separators, because the admin
+	 * fields have always allowed both.
 	 *
-	 * @param mixed $value Rohwert.
-	 * @return float|null Positive Zahl, oder null.
+	 * @param mixed $value Raw value.
+	 * @return float|null Positive number, or null.
 	 */
 	public static function to_float( $value ): ?float {
 		if ( ! is_scalar( $value ) ) {

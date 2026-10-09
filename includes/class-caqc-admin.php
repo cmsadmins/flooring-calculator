@@ -1,10 +1,10 @@
 <?php
 /**
- * Komfort in der Produktliste: Spalte, Schnellbearbeitung, Massenbearbeitung.
+ * Product list conveniences: column, quick edit, bulk edit.
  *
- * Ein Shop mit zweitausend Produkten laesst sich nicht Produkt fuer Produkt
- * einstellen. Ohne diese Klasse ist die Einfuehrung in einem neuen Shop
- * Tagesarbeit, mit ihr eine Sache von Minuten.
+ * A shop with two thousand products cannot be configured product by
+ * product. Without this class, rolling out in a new shop takes a full
+ * day of work; with it, a matter of minutes.
  *
  * @package FlooringCalculator
  */
@@ -14,14 +14,14 @@ declare( strict_types = 1 );
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Werkzeuge in der Produktliste.
+ * Tools in the product list.
  */
 final class CAQC_Admin {
 
 	const NONCE = 'caqc_bulk';
 
 	/**
-	 * Haengt alles in die Produktliste.
+	 * Hooks everything into the product list.
 	 */
 	public static function init(): void {
 		add_filter( 'manage_edit-product_columns', array( __CLASS__, 'column' ), 20 );
@@ -40,34 +40,34 @@ final class CAQC_Admin {
 	}
 
 	/**
-	 * Spalte hinter dem Lagerbestand.
+	 * Column after the stock column.
 	 *
-	 * @param array $columns Vorhandene Spalten.
+	 * @param array $columns Existing columns.
 	 * @return array
 	 */
 	public static function column( $columns ) {
-		$neu = array();
+		$new_columns = array();
 
 		foreach ( $columns as $key => $label ) {
-			$neu[ $key ] = $label;
+			$new_columns[ $key ] = $label;
 
 			if ( 'is_in_stock' === $key ) {
-				$neu['caqc'] = __( 'Quantity type', 'flooring-calculator' );
+				$new_columns['caqc'] = __( 'Quantity type', 'flooring-calculator' );
 			}
 		}
 
-		if ( ! isset( $neu['caqc'] ) ) {
-			$neu['caqc'] = __( 'Quantity type', 'flooring-calculator' );
+		if ( ! isset( $new_columns['caqc'] ) ) {
+			$new_columns['caqc'] = __( 'Quantity type', 'flooring-calculator' );
 		}
 
-		return $neu;
+		return $new_columns;
 	}
 
 	/**
-	 * Inhalt der Spalte: Typ und Groesse, oder was fehlt.
+	 * Column content: type and size, or what is missing.
 	 *
-	 * @param string $column  Spaltenname.
-	 * @param int    $post_id Produkt.
+	 * @param string $column  Column name.
+	 * @param int    $post_id Product.
 	 */
 	public static function column_content( $column, $post_id ): void {
 		if ( 'caqc' !== $column ) {
@@ -96,7 +96,7 @@ final class CAQC_Admin {
 			$glue = CAQC_Product::glue( $product );
 
 			if ( null === $glue ) {
-				self::hinweis( __( 'Coverage or container size missing', 'flooring-calculator' ) );
+				self::missing_hint( __( 'Coverage or container size missing', 'flooring-calculator' ) );
 
 				return;
 			}
@@ -125,7 +125,7 @@ final class CAQC_Admin {
 		$size = CAQC_Product::size_per_piece( $product );
 
 		if ( null === $size ) {
-			self::hinweis( __( 'Size per unit missing', 'flooring-calculator' ) );
+			self::missing_hint( __( 'Size per unit missing', 'flooring-calculator' ) );
 
 			return;
 		}
@@ -138,35 +138,35 @@ final class CAQC_Admin {
 	}
 
 	/**
-	 * Ein Hinweis, der ins Auge faellt, ohne zu schreien.
+	 * A notice that catches the eye without shouting.
 	 *
 	 * @param string $text Text.
 	 */
-	private static function hinweis( string $text ): void {
+	private static function missing_hint( string $text ): void {
 		printf( '<small class="caqc-col-missing">%s</small>', esc_html( $text ) );
 	}
 
 	/**
-	 * Felder in der Schnellbearbeitung.
+	 * Fields in quick edit.
 	 */
 	public static function quick_edit_fields(): void {
-		self::felder( 'quick' );
+		self::edit_fields( 'quick' );
 	}
 
 	/**
-	 * Felder in der Massenbearbeitung.
+	 * Fields in bulk edit.
 	 */
 	public static function bulk_edit_fields(): void {
-		self::felder( 'bulk' );
+		self::edit_fields( 'bulk' );
 	}
 
 	/**
-	 * Gemeinsames Markup beider Bearbeitungsformen.
+	 * Markup shared by both edit forms.
 	 *
-	 * @param string $modus quick oder bulk.
+	 * @param string $mode quick or bulk.
 	 */
-	private static function felder( string $modus ): void {
-		$optionen = CAQC_Types::options();
+	private static function edit_fields( string $mode ): void {
+		$type_options = CAQC_Types::options();
 
 		wp_nonce_field( self::NONCE, '_caqc_nonce', false );
 
@@ -177,12 +177,12 @@ final class CAQC_Admin {
 
 		printf(
 			'<option value="">%s</option>',
-			'bulk' === $modus
+			'bulk' === $mode
 				? esc_html__( '— No change —', 'flooring-calculator' )
 				: esc_html__( '— Select —', 'flooring-calculator' )
 		);
 
-		foreach ( $optionen as $key => $label ) {
+		foreach ( $type_options as $key => $label ) {
 			printf( '<option value="%s">%s</option>', esc_attr( $key ), esc_html( $label ) );
 		}
 
@@ -192,7 +192,7 @@ final class CAQC_Admin {
 			. esc_html__( 'Size per unit', 'flooring-calculator' ) . '</span>';
 		printf(
 			'<span class="input-text-wrap"><input type="text" name="_caqc_size" class="text" value="" placeholder="%s"></span>',
-			'bulk' === $modus
+			'bulk' === $mode
 				? esc_attr__( 'no change', 'flooring-calculator' )
 				: ''
 		);
@@ -202,33 +202,33 @@ final class CAQC_Admin {
 	}
 
 	/**
-	 * Schnellbearbeitung speichern.
+	 * Saves quick edit.
 	 *
-	 * @param WC_Product $product Produkt.
+	 * @param WC_Product $product Product.
 	 */
 	public static function save_quick_edit( $product ): void {
-		self::speichern( $product, false );
+		self::save_edit( $product, false );
 	}
 
 	/**
-	 * Massenbearbeitung speichern.
+	 * Saves bulk edit.
 	 *
-	 * @param WC_Product $product Produkt.
+	 * @param WC_Product $product Product.
 	 */
 	public static function save_bulk_edit( $product ): void {
-		self::speichern( $product, true );
+		self::save_edit( $product, true );
 	}
 
 	/**
-	 * Uebernimmt die Werte, wenn welche gesetzt sind.
+	 * Applies the values if any are set.
 	 *
-	 * Ein leeres Feld bedeutet in der Massenbearbeitung "unveraendert lassen".
-	 * Dort ohne diese Regel zu speichern wuerde reihenweise Groessen loeschen.
+	 * In bulk edit an empty field means "leave unchanged".
+	 * Saving there without this rule would wipe sizes across many products.
 	 *
-	 * @param WC_Product $product Produkt.
-	 * @param bool       $bulk    Massenbearbeitung.
+	 * @param WC_Product $product Product.
+	 * @param bool       $bulk    Bulk edit.
 	 */
-	private static function speichern( $product, bool $bulk ): void {
+	private static function save_edit( $product, bool $bulk ): void {
 		if ( ! $product instanceof WC_Product ) {
 			return;
 		}
@@ -252,16 +252,16 @@ final class CAQC_Admin {
 		}
 
 		if ( isset( $_REQUEST['_caqc_size'] ) ) {
-			$roh = trim( sanitize_text_field( wp_unslash( $_REQUEST['_caqc_size'] ) ) );
+			$raw_size = trim( sanitize_text_field( wp_unslash( $_REQUEST['_caqc_size'] ) ) );
 
-			if ( '' !== $roh ) {
-				$size = CAQC_Product::to_float( $roh );
+			if ( '' !== $raw_size ) {
+				$size = CAQC_Product::to_float( $raw_size );
 
 				if ( null !== $size ) {
-					$product->update_meta_data( CAQC_Product::META_SIZE, str_replace( ',', '.', $roh ) );
+					$product->update_meta_data( CAQC_Product::META_SIZE, str_replace( ',', '.', $raw_size ) );
 				}
 			} elseif ( ! $bulk ) {
-				// In der Schnellbearbeitung heisst leer tatsaechlich leer.
+				// In quick edit, empty really does mean empty.
 				$product->delete_meta_data( CAQC_Product::META_SIZE );
 			}
 		}
@@ -270,12 +270,12 @@ final class CAQC_Admin {
 	}
 
 	/**
-	 * Füllt die Schnellbearbeitung mit den Werten der Zeile.
+	 * Fills quick edit with the values of the row.
 	 *
-	 * WordPress liefert dafür keine Daten mit, deshalb werden sie aus der
-	 * Spalte gelesen, die ohnehin in der Tabelle steht.
+	 * WordPress does not pass any data for this, so they are read from the
+	 * column that is in the table anyway.
 	 *
-	 * @param string $hook Aktuelle Admin-Seite.
+	 * @param string $hook Current admin page.
 	 */
 	public static function quick_edit_script( $hook ): void {
 		if ( 'edit.php' !== $hook ) {
@@ -305,7 +305,7 @@ final class CAQC_Admin {
 	}
 
 	/**
-	 * Auswahlfeld über der Produktliste, um nach Mengenangabe zu filtern.
+	 * Dropdown above the product list to filter by quantity type.
 	 */
 	public static function filter_dropdown(): void {
 		global $typenow;
@@ -314,9 +314,9 @@ final class CAQC_Admin {
 			return;
 		}
 
-		// Reiner Lesefilter der Produktliste, ändert nichts.
+		// Read-only filter of the product list, changes nothing.
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$aktuell = isset( $_GET['caqc_type'] ) ? sanitize_key( wp_unslash( $_GET['caqc_type'] ) ) : '';
+		$current = isset( $_GET['caqc_type'] ) ? sanitize_key( wp_unslash( $_GET['caqc_type'] ) ) : '';
 
 		echo '<select name="caqc_type">';
 		printf(
@@ -328,14 +328,14 @@ final class CAQC_Admin {
 			printf(
 				'<option value="%s"%s>%s</option>',
 				esc_attr( $key ),
-				selected( $aktuell, $key, false ),
+				selected( $current, $key, false ),
 				esc_html( $label )
 			);
 		}
 
 		printf(
 			'<option value="_missing"%s>%s</option>',
-			selected( $aktuell, '_missing', false ),
+			selected( $current, '_missing', false ),
 			esc_html__( 'Size per unit missing', 'flooring-calculator' )
 		);
 
@@ -343,29 +343,29 @@ final class CAQC_Admin {
 	}
 
 	/**
-	 * Wertet den Filter aus.
+	 * Applies the filter.
 	 *
-	 * @param array $vars Abfrageparameter.
+	 * @param array $vars Query vars.
 	 * @return array
 	 */
 	public static function filter_query( $vars ) {
 		global $typenow;
 
-		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Lesefilter, siehe filter_dropdown().
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Read-only filter, see filter_dropdown().
 		if ( 'product' !== $typenow || empty( $_GET['caqc_type'] ) ) {
 			return $vars;
 		}
 
-		$wert = sanitize_key( wp_unslash( $_GET['caqc_type'] ) );
+		$filter_value = sanitize_key( wp_unslash( $_GET['caqc_type'] ) );
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
-		if ( '_missing' === $wert ) {
-			// Produkte, deren Typ eine Groesse braucht, aber keine hat.
-			$braucht = array();
+		if ( '_missing' === $filter_value ) {
+			// Products whose type needs a size but has none.
+			$needs_size = array();
 
 			foreach ( CAQC_Types::all() as $key => $config ) {
 				if ( ! empty( $config['needs_size'] ) ) {
-					$braucht[] = $key;
+					$needs_size[] = $key;
 				}
 			}
 
@@ -373,7 +373,7 @@ final class CAQC_Admin {
 				'relation' => 'AND',
 				array(
 					'key'     => CAQC_Product::META_TYPE,
-					'value'   => $braucht,
+					'value'   => $needs_size,
 					'compare' => 'IN',
 				),
 				array(
@@ -404,11 +404,11 @@ final class CAQC_Admin {
 			return $vars;
 		}
 
-		if ( CAQC_Types::exists( $wert ) ) {
+		if ( CAQC_Types::exists( $filter_value ) ) {
 			$vars['meta_query'] = array(
 				array(
 					'key'   => CAQC_Product::META_TYPE,
-					'value' => $wert,
+					'value' => $filter_value,
 				),
 			);
 		}

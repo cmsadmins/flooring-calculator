@@ -6,27 +6,27 @@
 	}
 
 	window.inlineEditPost.edit = function ( id ) {
-		var ergebnis = inlineEdit.apply( this, arguments );
-		var beitrag  = typeof id === 'object' ? this.getId( id ) : id;
+		var result = inlineEdit.apply( this, arguments );
+		var postId = typeof id === 'object' ? this.getId( id ) : id;
 
-		if ( ! beitrag ) {
-			return ergebnis;
+		if ( ! postId ) {
+			return result;
 		}
 
-		var zeile   = document.getElementById( 'post-' + beitrag );
-		var formular = document.getElementById( 'edit-' + beitrag );
+		var row  = document.getElementById( 'post-' + postId );
+		var form = document.getElementById( 'edit-' + postId );
 
-		if ( ! zeile || ! formular ) {
-			return ergebnis;
+		if ( ! row || ! form ) {
+			return result;
 		}
 
-		var typ   = zeile.querySelector( '.caqc-col-type' );
-		var feld  = formular.querySelector( 'select[name="_caqc_type"]' );
+		var type  = row.querySelector( '.caqc-col-type' );
+		var field = form.querySelector( 'select[name="_caqc_type"]' );
 
-		if ( typ && feld ) {
-			feld.value = typ.getAttribute( 'data-type' ) || '';
+		if ( type && field ) {
+			field.value = type.getAttribute( 'data-type' ) || '';
 		}
 
-		return ergebnis;
+		return result;
 	};
 }() );

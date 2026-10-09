@@ -1,14 +1,14 @@
 <?php
 /**
- * Uebernahme von Feldern aus einer frueheren Loesung.
+ * Migration of fields from an earlier solution.
  *
- * Manche Shops haben den Rechner vorher im Child-Theme stehen gehabt, mit
- * eigenen Meta-Keys. Diese Klasse benennt sie einmalig um.
+ * Some shops previously ran the calculator in their child theme, with
+ * their own meta keys. This class renames them once.
  *
- * Wichtig fuer den Einsatz in einem neuen Shop: **es wird nur umbenannt, was
- * tatsaechlich vorhanden ist.** Findet sich kein einziger alter Schluessel,
- * passiert nichts, und es wird auch nichts vermerkt, damit eine spaetere
- * Uebernahme noch moeglich bleibt.
+ * Important when used in a new shop: **only what actually exists
+ * gets renamed.** If not a single old key is found,
+ * nothing happens and nothing is recorded, so that a later
+ * migration remains possible.
  *
  * @package FlooringCalculator
  */
@@ -18,7 +18,7 @@ declare( strict_types = 1 );
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Datenuebernahme.
+ * Data migration.
  */
 final class CAQC_Migrate {
 
@@ -27,35 +27,35 @@ final class CAQC_Migrate {
 	const VERSION       = 1;
 
 	/**
-	 * Alte auf neue Meta-Keys.
+	 * Old to new meta keys.
 	 *
-	 * Ab Werk leer. Ein Shop, der den Rechner vorher mit eigenen Feldern
-	 * betrieben hat, trägt seine alten Namen über den Filter ein, etwa:
+	 * Empty by default. A shop that previously ran the calculator with its own
+	 * fields adds its old names through the filter, for example:
 	 *
 	 *     add_filter( 'caqc_migration_map', function ( $map ) {
 	 *         $map['_my_quantity_type'] = CAQC_Product::META_TYPE;
 	 *         return $map;
 	 *     } );
 	 *
-	 * Feste Namen ab Werk wären gefährlich: ein generischer Schlüssel wie
-	 * _custom_product_quantity_type kann in einem fremden Shop einem anderen
-	 * Plugin gehören.
+	 * Fixed names by default would be dangerous: a generic key like
+	 * _custom_product_quantity_type may belong to another plugin in someone
+	 * else's shop.
 	 *
 	 * @return array<string, string>
 	 */
 	public static function map(): array {
 		/**
-		 * Erlaubt, eigene Altfelder zu übernehmen.
+		 * Allows migrating custom legacy fields.
 		 *
-		 * @param array<string, string> $map Alter Name zu neuem Namen.
+		 * @param array<string, string> $map Old name to new name.
 		 */
 		return (array) apply_filters( 'caqc_migration_map', array() );
 	}
 
 	/**
-	 * Zaehlt, wie viele Zeilen unter den alten Namen liegen.
+	 * Counts how many rows exist under the old names.
 	 *
-	 * @return array<string, int> Nur Schluessel mit Treffern.
+	 * @return array<string, int> Only keys with matches.
 	 */
 	public static function pending(): array {
 		global $wpdb;
@@ -63,7 +63,7 @@ final class CAQC_Migrate {
 		$found = array();
 
 		foreach ( array_keys( self::map() ) as $old ) {
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- einmalige Zählung bei Aktivierung und auf der Einstellungsseite.
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- one-off count on activation and on the settings page.
 			$count = (int) $wpdb->get_var(
 				$wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->postmeta} WHERE meta_key = %s", $old )
 			);
@@ -77,10 +77,10 @@ final class CAQC_Migrate {
 	}
 
 	/**
-	 * Laeuft bei der Aktivierung.
+	 * Runs on activation.
 	 *
-	 * Tut nichts, solange es nichts zu uebernehmen gibt. Ein frischer Shop
-	 * merkt von dieser Klasse also gar nichts.
+	 * Does nothing as long as there is nothing to migrate. A fresh shop
+	 * never notices this class at all.
 	 */
 	public static function maybe_run(): void {
 		if ( (int) get_option( self::OPTION_DONE, 0 ) >= self::VERSION ) {
@@ -98,21 +98,21 @@ final class CAQC_Migrate {
 	}
 
 	/**
-	 * Fuehrt die Umbenennung durch.
+	 * Performs the rename.
 	 *
-	 * @return array<string, int> Anzahl je Schluessel.
+	 * @return array<string, int> Count per key.
 	 */
 	public static function run(): array {
 		global $wpdb;
 
 		$report = array();
 
-		// Umbenennen über alle Produkte in einem Rutsch, die Meta-API kann das
-		// nicht. Läuft einmal bei der Aktivierung.
+		// Rename across all products in one go, the meta API cannot do
+		// that. Runs once on activation.
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		foreach ( self::map() as $old => $new ) {
-			// Zeilen, die den neuen Namen schon tragen, wuerden sonst doppelt
-			// liegen. Sie stammen aus einem bereits gelaufenen Versuch.
+			// Rows that already carry the new name would otherwise exist
+			// twice. They come from a previous attempt.
 			$wpdb->query(
 				$wpdb->prepare(
 					"DELETE old FROM {$wpdb->postmeta} old

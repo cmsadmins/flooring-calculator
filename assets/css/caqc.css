@@ -1,10 +1,10 @@
 /**
- * Mengenrechner, funktionales Grundlayout.
+ * Quantity calculator, functional base layout.
  *
- * Bewusst zurueckhaltend: Farben und Rahmen kommen aus Variablen, damit ein
- * Shop sie ueberschreiben kann, ohne Selektoren zu jagen. Das Mengenfeld in
- * der rechten Spalte gehoert dem Theme und wird nur eingebettet, nicht
- * umgestaltet.
+ * Deliberately restrained: colors and borders come from variables so a
+ * shop can override them without chasing selectors. The quantity field in
+ * the right column belongs to the theme and is only embedded, not
+ * restyled.
  */
 
 .caqc,
@@ -17,8 +17,8 @@
 	--caqc-hover: rgba(0, 0, 0, 0.04);
 }
 
-/* Bei Varianten steht der Rechner in einem Flex-Container des Themes. Ohne
-   min-width wird er so breit wie sein Inhalt und ragt mobil über den Rand. */
+/* For variable products the calculator sits in a flex container of the theme. Without
+   min-width it grows as wide as its content and overflows the edge on mobile. */
 .caqc,
 .caqc-footer {
 	flex: 1 1 100%;
@@ -69,8 +69,8 @@
 	align-items: stretch;
 	min-width: 0;
 	max-width: 190px;
-	/* Gleiche Höhe wie das Mengenfeld rechts, sonst stehen die beiden
-	   Spalten sichtbar versetzt. */
+	/* Same height as the quantity field on the right, otherwise the two
+	   columns are visibly offset. */
 	min-height: var(--caqc-field-height, 47px);
 	border: 1px solid var(--caqc-border);
 	background: var(--caqc-bg);
@@ -101,8 +101,8 @@
 	color: inherit;
 }
 
-/* Themes setzen Eingabefeldern gern eine feste Breite. Die Angaben hier
-   brauchen deshalb etwas mehr Gewicht als eine einzelne Klasse. */
+/* Themes like to give input fields a fixed width. The rules here
+   therefore need a little more weight than a single class. */
 .caqc .caqc-input-row .caqc-amount {
 	flex: 1 1 auto;
 	width: auto;
@@ -131,8 +131,8 @@
 	white-space: nowrap;
 }
 
-/* Themes wie Woodmart setzen dem Mengenfeld eine order (form.cart div.quantity
-   { order: 5 }). Ohne eigene Reihenfolge rutscht die Einheit davor. */
+/* Themes like Woodmart give the quantity field an order (form.cart div.quantity
+   { order: 5 }). Without an order of its own, the unit slips in front of it. */
 .caqc .caqc-input-row > .caqc-unit {
 	order: 99;
 }
@@ -154,10 +154,10 @@
 }
 
 /*
- * Das Mengenfeld in der rechten Spalte gehört dem Theme. Damit beide Spalten
- * gleich aussehen, bekommt es hier die Maße und die Optik des linken Steppers.
- * Themes bauen dieses Feld sehr unterschiedlich, deshalb die ausführlichen
- * Angaben und das Zurücksetzen von Position und Breite.
+ * The quantity field in the right column belongs to the theme. So that both columns
+ * look the same, it gets the dimensions and look of the left stepper here.
+ * Themes build this field in very different ways, hence the detailed
+ * rules and the reset of position and width.
  */
 .caqc .caqc-field--qty .quantity {
 	display: flex;
@@ -258,8 +258,8 @@
 	border-top: 1px solid var(--caqc-border);
 }
 
-/* Die Beschriftung trägt die Trefferfläche. Die Checkbox allein ist auf
-   einem Handy zu klein, um sie sicher zu treffen. */
+/* The label carries the hit area. The checkbox alone is too small
+   to hit reliably on a phone. */
 .caqc-waste label {
 	flex: 1 1 auto;
 	margin: 0;
@@ -275,7 +275,7 @@
 	cursor: pointer;
 }
 
-/* Ergebnis mit Verschnitt in einer eigenen Zeile unter dem Haken. */
+/* Result with waste in a separate line below the checkbox. */
 .caqc-waste-result {
 	flex: 1 0 100%;
 	margin-top: -8px;
@@ -322,7 +322,7 @@
 	font-weight: 400;
 }
 
-/* Feld mit Einheit darin, gleiche Optik wie der Stepper oben. */
+/* Field with the unit inside, same look as the stepper above. */
 .caqc-room-field {
 	display: flex;
 	align-items: stretch;
@@ -387,7 +387,7 @@
 	margin: 0;
 }
 
-/* Preisbox und Warenkorb-Schaltflaeche nebeneinander. */
+/* Price box and add to cart button side by side. */
 .caqc-footer {
 	display: flex;
 	flex-wrap: wrap;
@@ -396,15 +396,15 @@
 	margin-bottom: 15px;
 }
 
-/* Themes geben Kindern von form.cart seitliche Abstände. Dann steht die
-   Preisbox eingerückt unter dem Rechner. */
+/* Themes give children of form.cart horizontal margins. Then the
+   price box sits indented below the calculator. */
 form.cart .caqc-footer.caqc-footer {
 	margin-right: 0;
 	margin-left: 0;
 }
 
-/* Feste Ordnung statt Umbruch nach Laune der Preislänge: Beschriftung links,
-   Summe rechts, Steuerhinweis unter der Summe, Ersparnis darunter. */
+/* Fixed order instead of wrapping at the whim of the price length: label left,
+   total right, tax note below the total, savings below that. */
 .caqc-total {
 	display: grid;
 	flex: 1 1 240px;
@@ -443,7 +443,7 @@ form.cart .caqc-footer.caqc-footer {
 	white-space: nowrap;
 }
 
-/* Regulärer Preis und Ersparnis in einer eigenen Zeile unter der Summe. */
+/* Regular price and savings in a separate line below the total. */
 .caqc-total-saving {
 	grid-area: saving;
 	margin-top: 4px;
@@ -466,7 +466,7 @@ form.cart .caqc-footer.caqc-footer {
 	font-size: 0.8em;
 }
 
-/* Ohne gewaehlte Variante steht die Groesse noch nicht fest. */
+/* Without a selected variation the size is not known yet. */
 .caqc--no-variation .caqc-field--amount {
 	opacity: 0.55;
 }
@@ -495,15 +495,15 @@ form.cart .caqc-footer.caqc-footer {
 		padding-right: 16px;
 	}
 
-	/* Untereinander steht die volle Breite zur Verfügung. Ein 109 Pixel
-	   breites Feld in einer 360 Pixel breiten Spalte sieht verloren aus
-	   und trifft sich schlechter. */
+	/* Stacked, the full width is available. A 109 pixel
+	   wide field in a 360 pixel wide column looks lost
+	   and is harder to hit. */
 	.caqc-stepper,
 	.caqc .caqc-field--qty .quantity {
 		max-width: none;
 	}
 
-	/* Steht eine Einheit daneben, teilt sich das Feld die Zeile mit ihr. */
+	/* With a unit next to it, the field shares the line with it. */
 	.caqc .caqc-input-row > .quantity {
 		flex: 1 1 auto;
 		min-width: 0;
@@ -516,7 +516,7 @@ form.cart .caqc-footer.caqc-footer {
 		width: 56px;
 	}
 
-	/* Länge und Breite nebeneinander, Übernehmen darunter auf voller Breite. */
+	/* Length and width side by side, Apply below at full width. */
 	.caqc .caqc-room-label {
 		flex: 1 1 calc(50% - 6px);
 	}

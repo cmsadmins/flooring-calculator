@@ -1,14 +1,14 @@
 <?php
 /**
- * Lagerbestand in der Einheit des Produkts.
+ * Stock in the product's unit.
  *
- * Statt "534 vorrätig" steht bei Flaechenware "534,06 m² vorrätig".
+ * Instead of "534 in stock", area goods show "534.06 m² in stock".
  *
- * Anders als die Vorlage im Child-Theme ersetzt dieser Filter den Text nur
- * dann, wenn wirklich eine Flaechenangabe vorliegt. Alle anderen Faelle reicht
- * er unveraendert durch. Die Vorlage hat den Text pauschal neu gebaut und dabei
- * "Auf Lager" shopweit unterdrueckt, auch bei Produkten ohne Rechner. Dieses
- * Verhalten ist eine Entscheidung des Shops und gehoert deshalb ins Theme.
+ * Unlike the template in the child theme, this filter replaces the text only
+ * when there really is an area value. All other cases are passed
+ * through unchanged. The template rebuilt the text across the board and in doing so
+ * suppressed "In stock" shop-wide, even for products without a calculator. That
+ * behaviour is the shop's decision and therefore belongs in the theme.
  *
  * @package FlooringCalculator
  */
@@ -18,22 +18,22 @@ declare( strict_types = 1 );
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Lagertext.
+ * Stock text.
  */
 final class CAQC_Stock {
 
 	/**
-	 * Haengt den Filter ein.
+	 * Hooks in the filter.
 	 */
 	public static function init(): void {
 		add_filter( 'woocommerce_get_availability_text', array( __CLASS__, 'availability_text' ), 10, 2 );
 	}
 
 	/**
-	 * Ersetzt die Stueckzahl durch die Flaeche.
+	 * Replaces the piece count with the area.
 	 *
-	 * @param string     $text    Bisheriger Text.
-	 * @param WC_Product $product Produkt.
+	 * @param string     $text    Existing text.
+	 * @param WC_Product $product Product.
 	 * @return string
 	 */
 	public static function availability_text( $text, $product ) {
@@ -54,17 +54,17 @@ final class CAQC_Stock {
 		$config = CAQC_Product::type_config( $owner['product_id'] );
 		$unit   = (string) $config['size_unit'];
 
-		// Nur Warengruppen, deren Typ das vorsieht. Meter- und Stueckware
-		// zeigen ohnehin schon die Zahl, die im Warenkorb landet.
+		// Only product groups whose type provides for it. Goods sold by the meter or
+		// by the piece already show the number that ends up in the cart.
 		if ( empty( $config['stock_in_size'] ) || '' === $unit ) {
 			return $text;
 		}
 
 		/**
-		 * Erlaubt, die Umrechnung des Lagertextes abzuschalten.
+		 * Allows disabling the conversion of the stock text.
 		 *
-		 * @param bool       $an      Umrechnen.
-		 * @param WC_Product $product Produkt.
+		 * @param bool       $convert  Whether to convert.
+		 * @param WC_Product $product Product.
 		 */
 		if ( ! apply_filters( 'caqc_stock_in_size', CAQC_Settings::stock_in_size(), $product ) ) {
 			return $text;
@@ -94,9 +94,9 @@ final class CAQC_Stock {
 	}
 
 	/**
-	 * Ermittelt, zu welchem Produkt und welcher Variante der Bestand gehoert.
+	 * Determines which product and variation the stock belongs to.
 	 *
-	 * @param WC_Product $product Produkt oder Variante.
+	 * @param WC_Product $product Product or variation.
 	 * @return array{product_id: int, variation_id: int}|null
 	 */
 	private static function owner( WC_Product $product ): ?array {

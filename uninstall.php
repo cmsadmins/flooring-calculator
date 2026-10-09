@@ -1,10 +1,10 @@
 <?php
 /**
- * Aufräumen beim Löschen des Plugins.
+ * Cleanup when the plugin is deleted.
  *
- * Die Produktdaten bleiben stehen. Sie gehören dem Shop, nicht dem Plugin,
- * und ein versehentliches Löschen würde jedes gepflegte Produkt unbrauchbar
- * machen. Entfernt werden nur die eigenen Optionen.
+ * Product data stays in place. It belongs to the shop, not the plugin,
+ * and deleting it by accident would break every maintained product.
+ * Only the plugin's own options are removed.
  *
  * @package FlooringCalculator
  */

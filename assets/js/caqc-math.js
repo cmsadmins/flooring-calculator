@@ -1,22 +1,22 @@
 /**
- * Reine Rechenfunktionen des Mengenrechners.
+ * Pure calculation functions of the quantity calculator.
  *
- * Keine DOM-Zugriffe, kein jQuery. Dadurch laeuft die Datei auch unter node
- * und der Selbsttest in tests/caqc-math.test.js kann sie ohne Browser pruefen.
+ * No DOM access, no jQuery. That way the file also runs under node
+ * and the self-test in tests/caqc-math.test.js can check it without a browser.
  */
 ( function ( root ) {
 	'use strict';
 
-	// Toleranz gegen Gleitkomma-Rundung. Ohne sie ergibt 50,04 / 0,36 den Wert
-	// 139.00000000000003 und Math.ceil macht daraus 140 statt 139.
+	// Tolerance against floating-point rounding. Without it, 50.04 / 0.36 yields
+	// 139.00000000000003 and Math.ceil turns that into 140 instead of 139.
 	var EPS = 1e-9;
 
 	/**
-	 * Liest eine Zahl aus Benutzereingabe. Komma und Punkt gelten beide als
-	 * Dezimaltrennzeichen, Leerzeichen werden verworfen.
+	 * Reads a number from user input. Comma and dot are both accepted as
+	 * decimal separator, spaces are dropped.
 	 *
-	 * @param {string|number} value Eingabe.
-	 * @return {number} Zahl, oder NaN wenn nicht lesbar.
+	 * @param {string|number} value Input.
+	 * @return {number} Number, or NaN if unreadable.
 	 */
 	function parseNumber( value ) {
 		if ( typeof value === 'number' ) {
@@ -39,61 +39,61 @@
 	}
 
 	/**
-	 * Aufrunden mit Toleranz gegen Gleitkomma-Artefakte.
+	 * Rounds up with tolerance against floating-point artifacts.
 	 *
-	 * @param {number} value Wert.
-	 * @return {number} Aufgerundeter Wert.
+	 * @param {number} value Value.
+	 * @return {number} Rounded-up value.
 	 */
 	function ceil( value ) {
 		return Math.ceil( value - EPS );
 	}
 
 	/**
-	 * Rundet auf zwei Nachkommastellen.
+	 * Rounds to two decimal places.
 	 *
-	 * @param {number} value Wert.
-	 * @return {number} Gerundeter Wert.
+	 * @param {number} value Value.
+	 * @return {number} Rounded value.
 	 */
 	function round2( value ) {
 		return Math.round( ( value + Number.EPSILON ) * 100 ) / 100;
 	}
 
 	/**
-	 * Prueft, ob ein Wert als Groessenangabe taugt.
+	 * Checks whether a value is usable as a size.
 	 *
-	 * @param {number} value Wert.
-	 * @return {boolean} true wenn positiv und endlich.
+	 * @param {number} value Value.
+	 * @return {boolean} true if positive and finite.
 	 */
 	function isUsableSize( value ) {
 		return 'number' === typeof value && isFinite( value ) && value > 0;
 	}
 
 	/**
-	 * Menge aus einer Flaechen- oder Laengenangabe.
+	 * Quantity from an area or length.
 	 *
-	 * @param {number} amount       Flaeche in m² oder Laenge in m.
-	 * @param {number} sizePerPiece Groesse, die in einem Stueck steckt.
-	 * @param {boolean} addWaste    Verschnitt aufschlagen.
-	 * @param {number} percent      Verschnitt in Prozent, Vorgabe 5.
-	 * @return {number|null} Ganze Menge ab 1, oder null wenn nicht berechenbar.
+	 * @param {number} amount       Area in m² or length in m.
+	 * @param {number} sizePerPiece Size contained in one piece.
+	 * @param {boolean} addWaste    Add waste.
+	 * @param {number} percent      Waste in percent, default 5.
+	 * @return {number|null} Whole quantity of at least 1, or null if not computable.
 	 */
 	function quantityFromAmount( amount, sizePerPiece, addWaste, percent ) {
 		if ( ! isUsableSize( sizePerPiece ) || ! isFinite( amount ) || amount <= 0 ) {
 			return null;
 		}
 
-		var zuschlag = 'number' === typeof percent && isFinite( percent ) && percent >= 0 ? percent : 5;
-		var needed   = addWaste ? amount * ( 1 + zuschlag / 100 ) : amount;
+		var surcharge = 'number' === typeof percent && isFinite( percent ) && percent >= 0 ? percent : 5;
+		var needed    = addWaste ? amount * ( 1 + surcharge / 100 ) : amount;
 
 		return Math.max( 1, ceil( needed / sizePerPiece ) );
 	}
 
 	/**
-	 * Flaeche einschliesslich Verschnitt.
+	 * Area including waste.
 	 *
-	 * @param {number} amount  Eingegebene Flaeche.
-	 * @param {number} percent Verschnitt in Prozent.
-	 * @return {number|null} Wert auf zwei Nachkommastellen, oder null.
+	 * @param {number} amount  Entered area.
+	 * @param {number} percent Waste in percent.
+	 * @return {number|null} Value to two decimal places, or null.
 	 */
 	function amountWithWaste( amount, percent ) {
 		if ( ! isFinite( amount ) || amount <= 0 || ! isFinite( percent ) || percent < 0 ) {
@@ -104,11 +104,11 @@
 	}
 
 	/**
-	 * Flaeche ohne Verschnitt, die Umkehrung von amountWithWaste.
+	 * Area without waste, the inverse of amountWithWaste.
 	 *
-	 * @param {number} amount  Flaeche mit Verschnitt.
-	 * @param {number} percent Verschnitt in Prozent.
-	 * @return {number|null} Wert auf zwei Nachkommastellen, oder null.
+	 * @param {number} amount  Area including waste.
+	 * @param {number} percent Waste in percent.
+	 * @return {number|null} Value to two decimal places, or null.
 	 */
 	function amountWithoutWaste( amount, percent ) {
 		if ( ! isFinite( amount ) || amount <= 0 || ! isFinite( percent ) || percent < 0 ) {
@@ -119,11 +119,11 @@
 	}
 
 	/**
-	 * Flaeche oder Laenge, die eine Menge abdeckt.
+	 * Area or length covered by a quantity.
 	 *
-	 * @param {number} quantity     Menge in Stueck.
-	 * @param {number} sizePerPiece Groesse je Stueck.
-	 * @return {number|null} Wert auf zwei Nachkommastellen, oder null.
+	 * @param {number} quantity     Quantity in pieces.
+	 * @param {number} sizePerPiece Size per piece.
+	 * @return {number|null} Value to two decimal places, or null.
 	 */
 	function amountFromQuantity( quantity, sizePerPiece ) {
 		if ( ! isUsableSize( sizePerPiece ) || ! isFinite( quantity ) || quantity <= 0 ) {
@@ -134,12 +134,12 @@
 	}
 
 	/**
-	 * Gebinde aus zu verklebender Flaeche.
+	 * Packs needed for the area to be glued.
 	 *
-	 * @param {number} area        Flaeche in m².
-	 * @param {number} consumption Verbrauch in kg je m².
-	 * @param {number} packSize    Inhalt eines Gebindes in kg.
-	 * @return {number|null} Ganze Gebinde ab 1, oder null.
+	 * @param {number} area        Area in m².
+	 * @param {number} consumption Consumption in kg per m².
+	 * @param {number} packSize    Content of one pack in kg.
+	 * @return {number|null} Whole packs, at least 1, or null.
 	 */
 	function quantityFromGlue( area, consumption, packSize ) {
 		if ( ! isUsableSize( consumption ) || ! isUsableSize( packSize ) ) {
@@ -154,13 +154,13 @@
 	}
 
 	/**
-	 * Flaeche, die eine Anzahl Gebinde verklebt, die Umkehrung von quantityFromGlue.
-	 * Abgerundet, damit die Flaeche zurueckgerechnet wieder genau diese Menge ergibt.
+	 * Area glued by a number of packs, the inverse of quantityFromGlue.
+	 * Rounded down so that converting the area back yields exactly this quantity again.
 	 *
-	 * @param {number} quantity    Gebinde.
-	 * @param {number} consumption Verbrauch in kg je m².
-	 * @param {number} packSize    Inhalt eines Gebindes in kg.
-	 * @return {number|null} Flaeche auf zwei Nachkommastellen, oder null.
+	 * @param {number} quantity    Packs.
+	 * @param {number} consumption Consumption in kg per m².
+	 * @param {number} packSize    Content of one pack in kg.
+	 * @return {number|null} Area to two decimal places, or null.
 	 */
 	function areaFromGlue( quantity, consumption, packSize ) {
 		if ( ! isUsableSize( consumption ) || ! isUsableSize( packSize ) || ! isFinite( quantity ) || quantity <= 0 ) {
@@ -171,11 +171,11 @@
 	}
 
 	/**
-	 * Benoetigte Kilogramm fuer eine Flaeche, als Zwischenanzeige.
+	 * Kilograms needed for an area, shown as an intermediate value.
 	 *
-	 * @param {number} area        Flaeche in m².
-	 * @param {number} consumption Verbrauch in kg je m².
-	 * @return {number|null} Kilogramm auf zwei Nachkommastellen, oder null.
+	 * @param {number} area        Area in m².
+	 * @param {number} consumption Consumption in kg per m².
+	 * @return {number|null} Kilograms to two decimal places, or null.
 	 */
 	function glueWeight( area, consumption ) {
 		if ( ! isUsableSize( consumption ) || ! isFinite( area ) || area <= 0 ) {
@@ -186,11 +186,11 @@
 	}
 
 	/**
-	 * Raumumfang fuer Sockelleisten.
+	 * Room perimeter for skirting boards.
 	 *
-	 * @param {number} length Raumlaenge in m.
-	 * @param {number} width  Raumbreite in m.
-	 * @return {number|null} Umfang auf zwei Nachkommastellen, oder null.
+	 * @param {number} length Room length in m.
+	 * @param {number} width  Room width in m.
+	 * @return {number|null} Perimeter to two decimal places, or null.
 	 */
 	function perimeter( length, width ) {
 		if ( ! isUsableSize( length ) || ! isUsableSize( width ) ) {
@@ -201,11 +201,11 @@
 	}
 
 	/**
-	 * Raumflaeche.
+	 * Room area.
 	 *
-	 * @param {number} length Raumlaenge in m.
-	 * @param {number} width  Raumbreite in m.
-	 * @return {number|null} Flaeche auf zwei Nachkommastellen, oder null.
+	 * @param {number} length Room length in m.
+	 * @param {number} width  Room width in m.
+	 * @return {number|null} Area to two decimal places, or null.
 	 */
 	function roomArea( length, width ) {
 		if ( ! isUsableSize( length ) || ! isUsableSize( width ) ) {
@@ -216,11 +216,11 @@
 	}
 
 	/**
-	 * Gesamtpreis.
+	 * Total price.
 	 *
-	 * @param {number} quantity  Menge.
-	 * @param {number} unitPrice Einzelpreis.
-	 * @return {number|null} Preis auf zwei Nachkommastellen, oder null.
+	 * @param {number} quantity  Quantity.
+	 * @param {number} unitPrice Unit price.
+	 * @return {number|null} Price to two decimal places, or null.
 	 */
 	function total( quantity, unitPrice ) {
 		if ( ! isFinite( quantity ) || ! isFinite( unitPrice ) || quantity <= 0 || unitPrice < 0 ) {
@@ -231,11 +231,11 @@
 	}
 
 	/**
-	 * Formatiert eine Zahl nach den Einstellungen des Shops.
+	 * Formats a number according to the shop settings.
 	 *
-	 * @param {number} value    Wert.
+	 * @param {number} value    Value.
 	 * @param {object} settings decimals, decimalSeparator, thousandSeparator.
-	 * @return {string} Formatierte Zahl.
+	 * @return {string} Formatted number.
 	 */
 	function formatNumber( value, settings ) {
 		var config   = settings || {};
@@ -255,11 +255,11 @@
 	}
 
 	/**
-	 * Setzt den Preis in das Muster von WooCommerce ein.
+	 * Inserts the price into the WooCommerce price pattern.
 	 *
-	 * @param {number} value    Betrag.
-	 * @param {object} settings Wie formatNumber, zusaetzlich symbol und format.
-	 * @return {string} Formatierter Preis.
+	 * @param {number} value    Amount.
+	 * @param {object} settings Like formatNumber, plus symbol and format.
+	 * @return {string} Formatted price.
 	 */
 	function formatPrice( value, settings ) {
 		var config = settings || {};

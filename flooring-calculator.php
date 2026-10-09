@@ -41,12 +41,12 @@ require_once CAQC_PLUGIN_DIR . 'includes/class-caqc-settings.php';
 require_once CAQC_PLUGIN_DIR . 'includes/class-caqc-admin.php';
 
 /**
- * Einstiegspunkt.
+ * Entry point.
  */
 final class CAQC_Plugin {
 
 	/**
-	 * Startet das Plugin, sobald WooCommerce bereit ist.
+	 * Boots the plugin once WooCommerce is ready.
 	 */
 	public static function boot(): void {
 		add_action( 'plugins_loaded', array( __CLASS__, 'init' ), 20 );
@@ -54,7 +54,7 @@ final class CAQC_Plugin {
 	}
 
 	/**
-	 * Hängt alle Bestandteile ein.
+	 * Hooks in all components.
 	 */
 	public static function init(): void {
 		if ( ! class_exists( 'WooCommerce' ) ) {
@@ -73,8 +73,8 @@ final class CAQC_Plugin {
 	}
 
 	/**
-	 * Das Plugin liest Bestellungen nur über die WooCommerce-API und verträgt
-	 * deshalb HPOS und den Block-Checkout.
+	 * The plugin reads orders only through the WooCommerce API and is therefore
+	 * compatible with HPOS and the block checkout.
 	 */
 	public static function declare_compatibility(): void {
 		if ( ! class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
@@ -86,17 +86,17 @@ final class CAQC_Plugin {
 	}
 
 	/**
-	 * Verschnitt in Prozent.
+	 * Waste allowance in percent.
 	 *
-	 * Liegt in den Einstellungen, hier steht nur die Weiterleitung, damit alter
-	 * Code, der diese Methode kennt, weiter funktioniert.
+	 * Stored in the settings. This is only a pass-through so that old code that
+	 * knows this method keeps working.
 	 */
 	public static function waste_percent(): float {
 		return CAQC_Settings::waste_percent();
 	}
 
 	/**
-	 * Hinweis, wenn WooCommerce fehlt.
+	 * Notice when WooCommerce is missing.
 	 */
 	public static function notice_missing_woocommerce(): void {
 		echo '<div class="notice notice-error"><p>'
@@ -105,7 +105,7 @@ final class CAQC_Plugin {
 	}
 
 	/**
-	 * Läuft bei der Aktivierung.
+	 * Runs on activation.
 	 */
 	public static function activate(): void {
 		require_once CAQC_PLUGIN_DIR . 'includes/class-caqc-types.php';

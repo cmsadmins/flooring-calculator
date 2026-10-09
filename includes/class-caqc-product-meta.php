@@ -1,10 +1,10 @@
 <?php
 /**
- * Felder im Produkt-Backend.
+ * Fields in the product admin.
  *
- * Gegenueber der Vorlage im Child-Theme behoben: fehlende isset-Pruefungen,
- * fehlendes Whitelisting des Typs, und das Verhalten, dass ein geleertes Feld
- * den alten Wert nie loeschen konnte.
+ * Fixed compared to the template in the child theme: missing isset checks,
+ * missing whitelisting of the type, and the behaviour that a cleared field
+ * could never delete the old value.
  *
  * @package FlooringCalculator
  */
@@ -14,12 +14,12 @@ declare( strict_types = 1 );
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Produkt- und Variantenfelder.
+ * Product and variation fields.
  */
 final class CAQC_Product_Meta {
 
 	/**
-	 * Haengt die Felder in die Produktverwaltung.
+	 * Hooks the fields into product management.
 	 */
 	public static function init(): void {
 		add_action( 'woocommerce_product_options_general_product_data', array( __CLASS__, 'render_product_fields' ) );
@@ -30,7 +30,7 @@ final class CAQC_Product_Meta {
 	}
 
 	/**
-	 * Felder auf der Registerkarte Allgemein.
+	 * Fields on the General tab.
 	 */
 	public static function render_product_fields(): void {
 		echo '<div class="options_group caqc-product-options">';
@@ -96,23 +96,23 @@ final class CAQC_Product_Meta {
 	}
 
 	/**
-	 * Speichert die Produktfelder.
+	 * Saves the product fields.
 	 *
-	 * @param int $post_id Produkt-ID.
+	 * @param int $post_id Product ID.
 	 */
 	public static function save_product_fields( $post_id ): void {
 		$post_id = (int) $post_id;
 
-		// WooCommerce prüft Nonce und Berechtigung schon vor diesem Hook. Die
-		// Prüfung steht hier trotzdem, damit der Hook nicht von anderswo ohne
-		// Nonce ausgelöst werden kann.
+		// WooCommerce checks nonce and capability before this hook. The
+		// check is repeated here anyway so that the hook cannot be triggered
+		// from elsewhere without a nonce.
 		$nonce = isset( $_POST['woocommerce_meta_nonce'] ) ? sanitize_key( wp_unslash( $_POST['woocommerce_meta_nonce'] ) ) : '';
 
 		if ( ! wp_verify_nonce( $nonce, 'woocommerce_save_data' ) || ! current_user_can( 'edit_product', $post_id ) ) {
 			return;
 		}
 
-		// Der Feldsatz kann trotzdem fehlen, etwa bei einem Import.
+		// The field set can still be missing, e.g. during an import.
 		if ( ! isset( $_POST[ CAQC_Product::META_TYPE ] ) ) {
 			return;
 		}
@@ -137,11 +137,11 @@ final class CAQC_Product_Meta {
 	}
 
 	/**
-	 * Feld an der einzelnen Variante.
+	 * Field on a single variation.
 	 *
-	 * @param int     $loop           Index der Variante im Formular.
-	 * @param array   $variation_data Rohdaten, von WooCommerce uebergeben.
-	 * @param WP_Post $variation      Variante.
+	 * @param int     $loop           Index of the variation in the form.
+	 * @param array   $variation_data Raw data passed by WooCommerce.
+	 * @param WP_Post $variation      Variation.
 	 */
 	public static function render_variation_field( $loop, $variation_data, $variation ): void {
 		woocommerce_wp_text_input(
@@ -159,15 +159,15 @@ final class CAQC_Product_Meta {
 	}
 
 	/**
-	 * Speichert das Variantenfeld.
+	 * Saves the variation field.
 	 *
-	 * @param int $variation_id Varianten-ID.
-	 * @param int $loop         Index im Formular.
+	 * @param int $variation_id Variation ID.
+	 * @param int $loop         Index in the form.
 	 */
 	public static function save_variation_field( $variation_id, $loop ): void {
 		$key = CAQC_Product::META_VARIATION;
 
-		// Varianten speichert WooCommerce per Ajax mit eigener Nonce.
+		// WooCommerce saves variations via Ajax with its own nonce.
 		if ( ! check_ajax_referer( 'save-variations', 'security', false ) || ! current_user_can( 'edit_product', (int) $variation_id ) ) {
 			return;
 		}
@@ -180,13 +180,13 @@ final class CAQC_Product_Meta {
 	}
 
 	/**
-	 * Liest ein Zahlenfeld aus dem Formular und schreibt es.
+	 * Reads a number field from the form and writes it.
 	 *
-	 * @param int    $post_id Beitrags-ID.
-	 * @param string $key     Meta-Key.
+	 * @param int    $post_id Post ID.
+	 * @param string $key     Meta key.
 	 */
 	private static function save_number( int $post_id, string $key ): void {
-		// Die Nonce hat save_product_fields() geprüft.
+		// The nonce was checked by save_product_fields().
 		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		if ( ! isset( $_POST[ $key ] ) ) {
 			return;
@@ -197,15 +197,15 @@ final class CAQC_Product_Meta {
 	}
 
 	/**
-	 * Schreibt eine Zahl, oder loescht das Feld bei leerer Eingabe.
+	 * Writes a number, or deletes the field on empty input.
 	 *
-	 * Ein geleertes Feld muss den Wert entfernen. Der Altcode pruefte auf
-	 * !empty() und liess den alten Wert stehen, sodass eine falsche Groesse
-	 * nicht mehr zu entfernen war.
+	 * A cleared field must remove the value. The legacy code checked for
+	 * !empty() and kept the old value, so a wrong size
+	 * could no longer be removed.
 	 *
-	 * @param int    $post_id Beitrags-ID.
-	 * @param string $key     Meta-Key.
-	 * @param mixed  $raw     Rohwert aus dem Formular.
+	 * @param int    $post_id Post ID.
+	 * @param string $key     Meta key.
+	 * @param mixed  $raw     Raw value from the form.
 	 */
 	private static function write_number( int $post_id, string $key, $raw ): void {
 		$value = is_scalar( $raw ) ? trim( (string) $raw ) : '';
@@ -224,8 +224,8 @@ final class CAQC_Product_Meta {
 			return;
 		}
 
-		// Eingabe mit Komma bleibt lesbar gespeichert, gerechnet wird ohnehin
-		// ueber CAQC_Product::to_float().
+		// Input with a comma is stored as typed, calculations go through
+		// CAQC_Product::to_float() anyway.
 		update_post_meta( $post_id, $key, str_replace( ',', '.', $value ) );
 	}
 }
