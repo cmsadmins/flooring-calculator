@@ -34,3 +34,5 @@ Thumbs.db
 README.md
 CHANGELOG.md
 languages/readme
+.claude
+languages/*.po

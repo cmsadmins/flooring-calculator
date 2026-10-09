@@ -90,6 +90,15 @@ Map your old meta keys to the plugin's keys with the filter `caqc_migration_map`
 
 The plugin removes its own settings only. Sizes and quantity types stay with the products, so reinstalling restores everything.
 
+== Screenshots ==
+
+1. Flooring: enter the area, get the number of packs and the total price, optionally with waste.
+2. Skirting boards: the room calculator turns length and width into running meters.
+3. Adhesive: coverage per square meter and container size give the number of containers.
+4. Cart: the delivered area is shown with every line item and saved with the order.
+5. Product data: choose the quantity type and the size of one sales unit.
+6. Settings under WooCommerce, Products, Flooring calculator.
+
 == Changelog ==
 
 = 1.0.3 =
