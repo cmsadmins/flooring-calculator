@@ -38,6 +38,7 @@ final class CAQC_Types {
 	 *   stock_in_size  show stock in the size instead of pieces
 	 *   cart_label     label of the info in the block checkout
 	 *   cart_note      whether to show the info in the cart at all
+	 *   waste          waste group (WASTE_AREA, WASTE_LENGTH) or false
 	 *   needs_size     no calculator without a size per piece
 	 *   qty_unit       unit to the right of the quantity field when the quantity
 	 *                  itself is a measure (goods sold by the meter)
@@ -54,6 +55,12 @@ final class CAQC_Types {
 	const ROOM_NONE      = '';
 	const ROOM_PERIMETER = 'perimeter'; // Perimeter: 2 * (L + W).
 	const ROOM_AREA      = 'area';      // Area: L * W.
+
+	/**
+	 * Waste group of a type. Each group has its own default in the settings.
+	 */
+	const WASTE_AREA   = 'area';   // Floor, underlay, panels.
+	const WASTE_LENGTH = 'length'; // Skirting boards, goods sold by the meter.
 
 	/**
 	 * Returns the full type table.
@@ -80,7 +87,7 @@ final class CAQC_Types {
 				'cart_label'    => __( 'Area', 'flooring-calculator' ),
 				'hint'          => self::HINT_PIECE,
 				'cart_note'     => true,
-				'waste'         => true,
+				'waste'         => self::WASTE_AREA,
 				'needs_size'    => true,
 				'room'          => self::ROOM_AREA,
 				'room_label'    => __( 'Calculate from room dimensions', 'flooring-calculator' ),
@@ -99,7 +106,7 @@ final class CAQC_Types {
 				'cart_label'    => __( 'Area', 'flooring-calculator' ),
 				'hint'          => self::HINT_PIECE,
 				'cart_note'     => true,
-				'waste'         => true,
+				'waste'         => self::WASTE_AREA,
 				'needs_size'    => true,
 				'room'          => self::ROOM_AREA,
 				'room_label'    => __( 'Calculate from room dimensions', 'flooring-calculator' ),
@@ -118,7 +125,7 @@ final class CAQC_Types {
 				'cart_label'    => __( 'Area', 'flooring-calculator' ),
 				'hint'          => self::HINT_PIECE,
 				'cart_note'     => true,
-				'waste'         => true,
+				'waste'         => self::WASTE_AREA,
 				'needs_size'    => true,
 				'room'          => self::ROOM_AREA,
 				'room_label'    => __( 'Calculate panels needed', 'flooring-calculator' ),
@@ -137,7 +144,7 @@ final class CAQC_Types {
 				'cart_label'    => __( 'Quantity', 'flooring-calculator' ),
 				'hint'          => self::HINT_PIECE,
 				'cart_note'     => true,
-				'waste'         => false,
+				'waste'         => self::WASTE_LENGTH,
 				'needs_size'    => true,
 				'room'          => self::ROOM_PERIMETER,
 				'room_label'    => __( 'Calculate from room dimensions', 'flooring-calculator' ),
@@ -157,7 +164,7 @@ final class CAQC_Types {
 				'cart_label'    => __( 'Quantity', 'flooring-calculator' ),
 				'hint'          => self::HINT_LENGTH,
 				'cart_note'     => false,
-				'waste'         => false,
+				'waste'         => self::WASTE_LENGTH,
 				'needs_size'    => false,
 				'room'          => self::ROOM_PERIMETER,
 				'room_label'    => __( 'Calculate from room dimensions', 'flooring-calculator' ),
