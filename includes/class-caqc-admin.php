@@ -179,8 +179,8 @@ final class CAQC_Admin {
 		printf(
 			'<option value="">%s</option>',
 			'bulk' === $mode
-				? esc_html__( '— No change —', 'flooring-calculator' )
-				: esc_html__( '— Select —', 'flooring-calculator' )
+				? esc_html__( 'No change', 'flooring-calculator' )
+				: esc_html__( 'Select', 'flooring-calculator' )
 		);
 
 		foreach ( $type_options as $key => $label ) {
@@ -199,12 +199,13 @@ final class CAQC_Admin {
 		);
 		echo '</label>';
 
-		echo '<label class="alignleft"><span class="title">'
+		// A div, not a label: in bulk edit a click on the title would land on the select.
+		echo '<div class="alignleft caqc-inline-field"><span class="title">'
 			. esc_html__( 'Waste (%)', 'flooring-calculator' ) . '</span><span class="input-text-wrap">';
 
 		if ( 'bulk' === $mode ) {
 			echo '<select name="_caqc_waste_mode">';
-			printf( '<option value="">%s</option>', esc_html__( '— No change —', 'flooring-calculator' ) );
+			printf( '<option value="">%s</option>', esc_html__( 'No change', 'flooring-calculator' ) );
 			printf( '<option value="set">%s</option>', esc_html__( 'Set to', 'flooring-calculator' ) );
 			printf( '<option value="reset">%s</option>', esc_html__( 'Reset to shop default', 'flooring-calculator' ) );
 			echo '</select> ';
@@ -214,7 +215,7 @@ final class CAQC_Admin {
 			'<input type="text" name="_caqc_waste" class="text caqc-waste-input" value="" placeholder="%s">',
 			'bulk' === $mode ? '' : esc_attr__( 'Shop default', 'flooring-calculator' )
 		);
-		echo '</span></label>';
+		echo '</span></div>';
 
 		echo '</div>';
 	}

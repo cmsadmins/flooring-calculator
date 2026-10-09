@@ -237,8 +237,9 @@ final class CAQC_Settings {
 		 *
 		 * @param float           $percent Percentage.
 		 * @param WC_Product|null $product Product, null for the shop default.
+		 * @param string          $group   Waste group, CAQC_Types::WASTE_AREA or WASTE_LENGTH.
 		 */
-		return (float) apply_filters( 'caqc_waste_percent', self::waste_default( CAQC_Types::WASTE_AREA ), null );
+		return (float) apply_filters( 'caqc_waste_percent', self::waste_default( CAQC_Types::WASTE_AREA ), null, CAQC_Types::WASTE_AREA );
 	}
 
 	/**

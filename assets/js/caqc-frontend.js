@@ -352,15 +352,28 @@
 			return;
 		}
 
-		var quantity  = math.parseNumber( this.qtyEl.value );
-		var separator = this.data.priceFormat ? this.data.priceFormat.thousandSeparator : '.';
+		this.wasteOut.textContent = this.wasteLine( gross, this.data.inputUnit, math.parseNumber( this.qtyEl.value ) );
+	};
 
-		this.wasteOut.textContent = this.data.i18n.wasteResult
+	/**
+	 * Text of the waste line, e.g. "incl. 7,5% waste: 41,25 m², 24 packs".
+	 *
+	 * @param {number} gross    Amount including waste.
+	 * @param {string} unit     Unit of the amount.
+	 * @param {number} quantity Ordered quantity.
+	 * @return {string} Text.
+	 */
+	Calculator.prototype.wasteLine = function ( gross, unit, quantity ) {
+		var format  = this.data.priceFormat || {};
+		var percent = this.data.wastePercent;
+		var whole   = { decimals: 0, thousandSeparator: format.thousandSeparator };
+
+		return this.data.i18n.wasteResult
 			.replace( '%%', '%' )
-			.replace( '%1$s', math.formatNumber( this.data.wastePercent, { decimals: 0, thousandSeparator: separator } ) )
-			.replace( '%2$s', math.formatNumber( gross, this.data.priceFormat ) )
-			.replace( '%3$s', this.data.inputUnit || '' )
-			.replace( '%4$s', math.formatNumber( quantity, { decimals: 0, thousandSeparator: separator } ) )
+			.replace( '%1$s', math.formatNumber( percent, { decimals: percent % 1 ? 1 : 0, decimalSeparator: format.decimalSeparator, thousandSeparator: format.thousandSeparator } ) )
+			.replace( '%2$s', math.formatNumber( gross, format ) )
+			.replace( '%3$s', unit || '' )
+			.replace( '%4$s', math.formatNumber( quantity, whole ) )
 			.replace( '%5$s', quantity > 1 ? this.data.unitMany : this.data.unitOne );
 	};
 
@@ -418,6 +431,11 @@
 	Calculator.prototype.syncFromQuantity = function () {
 		if ( ! this.qtyEl || this.settingQuantity ) {
 			return;
+		}
+
+		// Meters typed by hand no longer match the room calculator result.
+		if ( ! this.amountEl && this.wasteOut ) {
+			this.wasteOut.textContent = '';
 		}
 
 		var quantity = math.parseNumber( this.qtyEl.value );
@@ -568,15 +586,7 @@
 			return;
 		}
 
-		var separator = this.data.priceFormat ? this.data.priceFormat.thousandSeparator : '.';
-
-		this.wasteOut.textContent = this.data.i18n.wasteResult
-			.replace( '%%', '%' )
-			.replace( '%1$s', math.formatNumber( this.data.wastePercent, { decimals: 0, thousandSeparator: separator } ) )
-			.replace( '%2$s', math.formatNumber( math.amountWithWaste( length, this.data.wastePercent ), this.data.priceFormat ) )
-			.replace( '%3$s', this.data.sizeUnit || '' )
-			.replace( '%4$s', math.formatNumber( meters, { decimals: 0, thousandSeparator: separator } ) )
-			.replace( '%5$s', meters > 1 ? this.data.unitMany : this.data.unitOne );
+		this.wasteOut.textContent = this.wasteLine( math.amountWithWaste( length, this.data.wastePercent ), this.data.sizeUnit, meters );
 	};
 
 	/**

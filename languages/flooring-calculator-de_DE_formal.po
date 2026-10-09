@@ -64,7 +64,7 @@ msgstr "/&nbsp;Rolle"
 msgid "Add %s%% for waste"
 msgstr "%s %% Verschnitt hinzufügen"
 
-#: includes/class-caqc-admin.php:377
+#: includes/class-caqc-admin.php:378
 msgid "All quantity types"
 msgstr "Alle Mengenangaben"
 
@@ -139,7 +139,7 @@ msgstr ""
 "Fester Text unter dem Mengenfeld der Warengruppe Meter. Leer lassen, dann "
 "steht dort die Leistenlänge des Produkts."
 
-#: flooring-calculator.php:103
+#: flooring-calculator.php:101
 msgid ""
 "Flooring Calculator for WooCommerce needs WooCommerce to be installed and "
 "active."
@@ -313,7 +313,7 @@ msgstr ""
 msgid "Size per unit"
 msgstr "Größe pro Stück"
 
-#: includes/class-caqc-admin.php:129 includes/class-caqc-admin.php:392
+#: includes/class-caqc-admin.php:129 includes/class-caqc-admin.php:393
 msgid "Size per unit missing"
 msgstr "Größe pro Stück fehlt"
 
@@ -444,14 +444,6 @@ msgstr "Rolle"
 msgid "rolls"
 msgstr "Rollen"
 
-#: includes/class-caqc-admin.php:182 includes/class-caqc-admin.php:207
-msgid "— No change —"
-msgstr "— unverändert —"
-
-#: includes/class-caqc-admin.php:183
-msgid "— Select —"
-msgstr "— bitte wählen —"
-
 #. translators: %d: number of meta keys.
 #: includes/class-caqc-settings.php:181
 #, php-format
@@ -532,19 +524,19 @@ msgstr ""
 msgid "Weight"
 msgstr "Gewicht"
 
-#: includes/class-caqc-admin.php:203 includes/class-caqc-product-meta.php:70
+#: includes/class-caqc-admin.php:204 includes/class-caqc-product-meta.php:70
 msgid "Waste (%)"
 msgstr "Verschnitt (%)"
 
-#: includes/class-caqc-admin.php:208
+#: includes/class-caqc-admin.php:209
 msgid "Set to"
 msgstr "Setzen auf"
 
-#: includes/class-caqc-admin.php:209
+#: includes/class-caqc-admin.php:210
 msgid "Reset to shop default"
 msgstr "Auf Shop-Vorgabe zurücksetzen"
 
-#: includes/class-caqc-admin.php:215 includes/class-caqc-product-meta.php:74
+#: includes/class-caqc-admin.php:216 includes/class-caqc-product-meta.php:74
 msgid "Shop default"
 msgstr "Shop-Vorgabe"
 
@@ -587,3 +579,11 @@ msgstr ""
 #: includes/class-caqc-settings.php:118
 msgid "Applies to meters / pieces and meters. 0 hides the checkbox."
 msgstr "Gilt für Meter / Stück und Meter. 0 blendet den Haken aus."
+
+#: includes/class-caqc-admin.php:182 includes/class-caqc-admin.php:208
+msgid "No change"
+msgstr "Keine Änderung"
+
+#: includes/class-caqc-admin.php:183
+msgid "Select"
+msgstr "Auswählen"

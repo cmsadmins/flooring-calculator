@@ -149,6 +149,7 @@ The plugin removes its own settings only. Sizes, waste values and quantity types
 * Separate waste default for skirting boards and goods sold by the meter (off by default).
 * Goods sold by the meter: waste checkbox inside the room calculator.
 * Quick edit and bulk edit for the waste percentage.
+* The filter `caqc_waste_percent` now also receives the product and the waste group. It no longer applies to adhesive and piece products.
 * Adhesive: changing the number of containers updates the area to be glued.
 * Cart, checkout and order show the total weight for adhesives.
 * Layout: calculator, total price box and room calculator look consistent in more themes, also on mobile and on variable products.

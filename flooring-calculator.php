@@ -86,10 +86,8 @@ final class CAQC_Plugin {
 	}
 
 	/**
-	 * Waste allowance in percent.
-	 *
-	 * Stored in the settings. This is only a pass-through so that old code that
-	 * knows this method keeps working.
+	 * Shop default waste for area products, kept for older code.
+	 * Product values come from CAQC_Product::waste_percent().
 	 */
 	public static function waste_percent(): float {
 		return CAQC_Settings::waste_percent();

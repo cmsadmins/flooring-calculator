@@ -158,15 +158,16 @@ final class CAQC_Product {
 
 		$group = self::type_config( $product )['waste'] ?? false;
 
+		// Adhesive and pieces never get waste, not even through the filter.
 		if ( ! is_string( $group ) ) {
-			$percent = 0.0;
-		} else {
-			$own     = self::to_percent( self::meta( $product, self::META_WASTE ) );
-			$percent = null !== $own ? $own : CAQC_Settings::waste_default( $group );
+			return 0.0;
 		}
 
+		$own     = self::to_percent( self::meta( $product, self::META_WASTE ) );
+		$percent = null !== $own ? $own : CAQC_Settings::waste_default( $group );
+
 		/** This filter is documented in includes/class-caqc-settings.php */
-		return (float) apply_filters( 'caqc_waste_percent', $percent, $product );
+		return (float) apply_filters( 'caqc_waste_percent', $percent, $product, $group );
 	}
 
 	/**
@@ -271,6 +272,6 @@ final class CAQC_Product {
 
 		$number = (float) $normalized;
 
-		return ( $number >= 0 && $number <= 100 ) ? $number : null;
+		return ( $number >= 0 && $number <= 100 ) ? round( $number, 1 ) : null;
 	}
 }
