@@ -140,6 +140,8 @@
 .caqc-hint,
 .caqc-note {
 	display: block;
+	/* Some themes float the quantity field, the note still belongs below it. */
+	clear: both;
 	margin-top: 8px;
 	min-height: 1.2em;
 	color: var(--caqc-muted);
@@ -162,7 +164,7 @@
 .caqc .caqc-field--qty .quantity {
 	display: flex;
 	align-items: stretch;
-	width: auto;
+	width: 100%;
 	max-width: 190px;
 	height: auto;
 	min-height: var(--caqc-field-height, 47px);
