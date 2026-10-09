@@ -285,7 +285,6 @@ final class CAQC_Render {
 			'unitMany'      => (string) $config['unit_many'],
 			'inputUnit'     => (string) $config['input_unit'],
 			'sizeUnit'      => (string) $config['size_unit'],
-			'waste'         => ! empty( $config['waste'] ),
 			'wastePercent'  => CAQC_Product::waste_percent( $product ),
 			'room'          => (string) $config['room'],
 			'hint'          => (string) $config['hint'],

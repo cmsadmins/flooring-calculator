@@ -525,6 +525,10 @@
 				resultEl.textContent = '';
 			}
 
+			if ( ! this.amountEl && this.wasteOut ) {
+				this.wasteOut.textContent = '';
+			}
+
 			return;
 		}
 
@@ -537,6 +541,7 @@
 
 			this.setQuantity( null !== meters ? meters : Math.max( 1, Math.ceil( value ) ) );
 			this.syncFromQuantity();
+			this.renderRoomWaste( value, meters );
 		}
 
 		if ( resultEl && this.data.i18n ) {
@@ -544,6 +549,34 @@
 				.replace( '%1$s', math.formatNumber( value, this.data.priceFormat ) )
 				.replace( '%2$s', this.data.inputUnit || this.data.sizeUnit || '' );
 		}
+	};
+
+	/**
+	 * Goods sold by the meter: explains the extra meters next to the checkbox.
+	 *
+	 * @param {number}      length Room result in m.
+	 * @param {number|null} meters Ordered meters including waste, null without.
+	 */
+	Calculator.prototype.renderRoomWaste = function ( length, meters ) {
+		if ( ! this.wasteOut ) {
+			return;
+		}
+
+		if ( null === meters || ! this.data.i18n ) {
+			this.wasteOut.textContent = '';
+
+			return;
+		}
+
+		var separator = this.data.priceFormat ? this.data.priceFormat.thousandSeparator : '.';
+
+		this.wasteOut.textContent = this.data.i18n.wasteResult
+			.replace( '%%', '%' )
+			.replace( '%1$s', math.formatNumber( this.data.wastePercent, { decimals: 0, thousandSeparator: separator } ) )
+			.replace( '%2$s', math.formatNumber( math.amountWithWaste( length, this.data.wastePercent ), this.data.priceFormat ) )
+			.replace( '%3$s', this.data.sizeUnit || '' )
+			.replace( '%4$s', math.formatNumber( meters, { decimals: 0, thousandSeparator: separator } ) )
+			.replace( '%5$s', meters > 1 ? this.data.unitMany : this.data.unitOne );
 	};
 
 	/**
