@@ -212,7 +212,7 @@ final class CAQC_Admin {
 
 		printf(
 			'<input type="text" name="_caqc_waste" class="text caqc-waste-input" value="" placeholder="%s">',
-			esc_attr__( 'Shop default', 'flooring-calculator' )
+			'bulk' === $mode ? '' : esc_attr__( 'Shop default', 'flooring-calculator' )
 		);
 		echo '</span></label>';
 
