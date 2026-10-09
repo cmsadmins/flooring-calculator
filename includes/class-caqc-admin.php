@@ -423,6 +423,7 @@ final class CAQC_Admin {
 				}
 			}
 
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Admin product list filter, only runs when the shop manager picks it.
 			$vars['meta_query'] = array(
 				'relation' => 'AND',
 				array(
@@ -459,6 +460,7 @@ final class CAQC_Admin {
 		}
 
 		if ( CAQC_Types::exists( $filter_value ) ) {
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Admin product list filter, only runs when the shop manager picks it.
 			$vars['meta_query'] = array(
 				array(
 					'key'   => CAQC_Product::META_TYPE,
