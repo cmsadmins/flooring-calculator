@@ -24,6 +24,7 @@ final class CAQC_Product {
 	const META_VARIATION     = '_caqc_variation_size';
 	const META_CONSUMPTION   = '_caqc_consumption';
 	const META_PACK_SIZE     = '_caqc_pack_size';
+	const META_WASTE         = '_caqc_waste';
 
 	/**
 	 * Type key of a product.
@@ -135,6 +136,29 @@ final class CAQC_Product {
 	}
 
 	/**
+	 * Waste allowance of a product in percent.
+	 *
+	 * Own value first, then the default of the type's waste group. Types
+	 * without a group (adhesive, pieces) always get 0. Variations use the
+	 * value of the parent product.
+	 *
+	 * @param WC_Product|int $product Product or product ID.
+	 */
+	public static function waste_percent( $product ): float {
+		$group = self::type_config( $product )['waste'] ?? false;
+
+		if ( ! is_string( $group ) || '' === $group ) {
+			$percent = 0.0;
+		} else {
+			$own     = self::to_percent( self::meta( $product, self::META_WASTE ) );
+			$percent = null !== $own ? $own : CAQC_Settings::waste_default( $group );
+		}
+
+		/** This filter is documented in includes/class-caqc-settings.php */
+		return (float) apply_filters( 'caqc_waste_percent', $percent, $product instanceof WC_Product ? $product : wc_get_product( (int) $product ) );
+	}
+
+	/**
 	 * Does this product show a calculator?
 	 *
 	 * @param WC_Product|int $product Product or product ID.
@@ -212,5 +236,30 @@ final class CAQC_Product {
 		$number = (float) $normalized;
 
 		return $number > 0 ? $number : null;
+	}
+
+	/**
+	 * Converts input to a percentage from 0 to 100.
+	 *
+	 * Unlike to_float(), zero is valid here: it switches the waste checkbox
+	 * off for a single product.
+	 *
+	 * @param mixed $value Raw value.
+	 * @return float|null Percentage, or null if empty or invalid.
+	 */
+	public static function to_percent( $value ): ?float {
+		if ( ! is_scalar( $value ) ) {
+			return null;
+		}
+
+		$normalized = str_replace( ',', '.', trim( (string) $value ) );
+
+		if ( '' === $normalized || ! is_numeric( $normalized ) ) {
+			return null;
+		}
+
+		$number = (float) $normalized;
+
+		return ( $number >= 0 && $number <= 100 ) ? $number : null;
 	}
 }
