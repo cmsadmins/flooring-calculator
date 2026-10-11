@@ -81,6 +81,14 @@ jobs:
           extensions: mysqli
           coverage: none
           tools: wp-cli
+      - name: Ensure WP-CLI
+        # setup-php occasionally fails to fetch wp-cli without failing itself.
+        run: |
+          if ! command -v wp >/dev/null; then
+            curl -fsSL --retry 3 -o /tmp/wp-cli.phar https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+            sudo install -m 755 /tmp/wp-cli.phar /usr/local/bin/wp
+          fi
+          wp --version
       - name: Set up WordPress
         run: |
           wp core download --version=latest --path=wp
