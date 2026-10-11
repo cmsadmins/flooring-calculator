@@ -1,0 +1,1000 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Flooring Calculator for WooCommerce readme 1.0.4\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/flooring-calculator\n"
+"Last-Translator: Patrick Schlesinger <ps@cms-admins.de>\n"
+"Language-Team: es_ES\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: flooring-calculator\n"
+
+#. Short description.
+msgid ""
+"Square meter calculator for WooCommerce flooring shops: customers enter "
+"their room size, the product page shows packs, waste and total price."
+msgstr ""
+"Calculadora de m² para tiendas de suelos con WooCommerce: el cliente indica "
+"la superficie y la ficha muestra paquetes, merma y precio total."
+
+#. Plugin name.
+msgid "Flooring Calculator for WooCommerce"
+msgstr "Calculadora de suelos para WooCommerce: de m² a paquetes"
+
+#. Found in faq paragraph.
+msgid ""
+"The plugin removes its own settings only. Sizes, waste values and quantity "
+"types stay with the products, so reinstalling restores everything."
+msgstr ""
+"El plugin elimina solo sus propios ajustes. Los tamaños, los valores de "
+"merma y los tipos de cantidad se conservan en los productos, así que al "
+"reinstalarlo se recupera todo."
+
+#. Found in faq paragraph.
+msgid ""
+"Map your old meta keys to the plugin's keys with the filter "
+"<code>caqc_migration_map</code>. On the next activation the plugin renames "
+"them once. Nothing happens without that filter."
+msgstr ""
+"Asocia tus antiguas claves meta con las del plugin mediante el filtro "
+"<code>caqc_migration_map</code>. En la siguiente activación el plugin las "
+"renombra una sola vez. Sin ese filtro no ocurre nada."
+
+#. Found in faq paragraph.
+msgid ""
+"Yes, through the filter <code>caqc_types</code>. The waste percentage can be"
+" changed with the filter <code>caqc_waste_percent</code>, the stock display "
+"with <code>caqc_stock_in_size</code>."
+msgstr ""
+"Sí, mediante el filtro <code>caqc_types</code>. El porcentaje de merma se "
+"puede cambiar con el filtro <code>caqc_waste_percent</code> y la "
+"visualización del stock con <code>caqc_stock_in_size</code>."
+
+#. Found in faq paragraph.
+msgid "No. All features are in this plugin."
+msgstr "No. Todas las funciones están incluidas en este plugin."
+
+#. Found in faq paragraph.
+msgid "No. It makes no external requests and stores no personal data."
+msgstr "No. No realiza peticiones externas y no almacena datos personales."
+
+#. Found in faq paragraph.
+msgid ""
+"Either the quantity type is set to Pieces, or the size per unit is missing. "
+"For adhesives both coverage and container size are required. The product "
+"list has a filter \"Size per unit missing\" to find these products."
+msgstr ""
+"O bien el tipo de cantidad está en Piezas, o bien falta el tamaño por "
+"unidad. En los adhesivos son obligatorios tanto el rendimiento como el "
+"tamaño del envase. La lista de productos tiene un filtro «Falta el tamaño "
+"por unidad» para encontrar estos productos."
+
+#. Found in faq paragraph.
+msgid ""
+"Yes. Variations can have their own size per unit, for example skirting "
+"boards in 2.40 m and 2.70 m lengths."
+msgstr ""
+"Sí. Las variaciones pueden tener su propio tamaño por unidad, por ejemplo "
+"rodapiés de 2,40 m y de 2,70 m de largo."
+
+#. Found in faq paragraph.
+msgid ""
+"Yes. The area, length or weight appears in the classic and the block based "
+"cart and checkout and is saved with each order line, so it also shows in the"
+" order screen and in order emails."
+msgstr ""
+"Sí. La superficie, la longitud o el peso aparecen en el carrito y en la "
+"finalización de compra, tanto clásicos como basados en bloques, y se guardan"
+" en cada línea del pedido, por lo que también se ven en la pantalla del "
+"pedido y en los correos de pedido."
+
+#. Found in faq paragraph.
+msgid ""
+"The plugin takes the coverage in kg per m² from the product and the "
+"container size, then calculates the required weight and the number of "
+"containers. If the manufacturer gives a range, enter the upper value so the "
+"amount is sufficient."
+msgstr ""
+"El plugin toma del producto el rendimiento en kg por m² y el tamaño del "
+"envase, y calcula el peso necesario y el número de envases. Si el fabricante"
+" indica un intervalo, introduce el valor superior para que la cantidad sea "
+"suficiente."
+
+#. Found in faq paragraph.
+msgid ""
+"Yes. The customer enters running meters or the room size, the plugin "
+"calculates the perimeter and the number of boards. Skirting boards have "
+"their own waste default."
+msgstr ""
+"Sí. El cliente introduce los metros lineales o las medidas de la estancia, y"
+" el plugin calcula el perímetro y el número de rodapiés. Los rodapiés tienen"
+" su propio valor de merma predeterminado."
+
+#. Found in faq paragraph.
+msgid ""
+"Yes. Tiles sold per box work like flooring packs: enter the m² per box, the "
+"customer enters the wall or floor area and gets the number of boxes, with an"
+" optional waste allowance for cuts."
+msgstr ""
+"Sí. Las baldosas que se venden por caja funcionan como los paquetes de "
+"suelo: indicas los m² por caja, el cliente introduce la superficie de la "
+"pared o del suelo y obtiene el número de cajas, con una merma opcional para "
+"los cortes."
+
+#. Found in faq paragraph.
+msgid ""
+"Yes. Each product has a \"Waste (%)\" field. Leave it empty to use the shop "
+"default, set 0 to hide the waste checkbox for that product. Quick edit and "
+"bulk edit change it for many products at once."
+msgstr ""
+"Sí. Cada producto tiene un campo «Merma (%)». Déjalo vacío para usar el "
+"valor de la tienda y pon 0 para ocultar la casilla de merma en ese producto."
+" La edición rápida y la edición en lote lo cambian en muchos productos a la "
+"vez."
+
+#. Found in faq paragraph.
+msgid ""
+"That depends on the product and the laying pattern. Common values are 5 % "
+"for straight laying of click vinyl or laminate and 10 to 15 % for diagonal "
+"laying, herringbone or tiles. Set a shop default and override it per product"
+" where needed."
+msgstr ""
+"Depende del producto y del patrón de colocación. Los valores habituales son "
+"un 5 % para la colocación recta de vinilo click o laminado y entre un 10 y "
+"un 15 % para la colocación en diagonal, en espiga o con baldosas. Define un "
+"valor predeterminado para la tienda y ajústalo por producto cuando haga "
+"falta."
+
+#. Found in faq paragraph.
+msgid ""
+"Packs = room area ÷ m² per pack, rounded up to the next whole pack. With "
+"waste: room area × (1 + waste percentage) ÷ m² per pack, rounded up. The "
+"plugin does this live on the product page, including a room calculator for "
+"length × width."
+msgstr ""
+"Paquetes = superficie de la estancia ÷ m² por paquete, redondeado al "
+"siguiente paquete entero. Con merma: superficie de la estancia × (1 + "
+"porcentaje de merma) ÷ m² por paquete, redondeado hacia arriba. El plugin lo"
+" calcula en directo en la ficha del producto, con una calculadora de "
+"estancia para largo × ancho."
+
+#. Found in faq paragraph.
+msgid ""
+"Keep the price per pack and let the customer enter square meters. Set the "
+"product's quantity type to \"Square meters / packs\" and enter the m² per "
+"pack. The product page then converts the area into packs and shows the total"
+" price, and the cart shows the delivered area."
+msgstr ""
+"Mantén el precio por paquete y deja que el cliente introduzca metros "
+"cuadrados. Define el tipo de cantidad del producto como «Metros cuadrados / "
+"paquetes» e indica los m² por paquete. La ficha del producto convierte "
+"entonces la superficie en paquetes y muestra el precio total, y el carrito "
+"muestra la superficie entregada."
+
+#. Found in faq header.
+msgid "What happens to my product data when I delete the plugin?"
+msgstr "¿Qué pasa con los datos de mis productos si elimino el plugin?"
+
+#. Found in faq header.
+msgid "I used custom fields for the calculation before. Can I keep the data?"
+msgstr ""
+"Antes usaba campos personalizados para el cálculo. ¿Puedo conservar los "
+"datos?"
+
+#. Found in faq header.
+msgid "Can I add my own quantity type?"
+msgstr "¿Puedo añadir mi propio tipo de cantidad?"
+
+#. Found in faq header.
+msgid "Is there a Pro version?"
+msgstr "¿Hay una versión Pro?"
+
+#. Found in faq header.
+msgid "Does the plugin send data to external services?"
+msgstr "¿El plugin envía datos a servicios externos?"
+
+#. Found in faq header.
+msgid "Why does a product show no calculator?"
+msgstr "¿Por qué un producto no muestra la calculadora?"
+
+#. Found in faq header.
+msgid "Does it work with variable products?"
+msgstr "¿Funciona con productos variables?"
+
+#. Found in faq header.
+msgid "Does it work with the block cart and checkout?"
+msgstr "¿Funciona con el carrito y la finalización de compra por bloques?"
+
+#. Found in faq header.
+msgid "How much adhesive do I need per square meter?"
+msgstr "¿Cuánto adhesivo necesito por metro cuadrado?"
+
+#. Found in faq header.
+msgid "Does it work for skirting boards?"
+msgstr "¿Funciona con rodapiés?"
+
+#. Found in faq header.
+msgid "Can I use it as a tile calculator?"
+msgstr "¿Puedo usarlo como calculadora de baldosas?"
+
+#. Found in faq header.
+msgid "Can I set a different waste percentage per product?"
+msgstr "¿Puedo definir una merma distinta por producto?"
+
+#. Found in faq header.
+msgid "How much waste should I add for flooring?"
+msgstr "¿Cuánta merma debo añadir en un suelo?"
+
+#. Found in faq header.
+msgid "How many packs do I need for my room?"
+msgstr "¿Cuántos paquetes necesito para mi estancia?"
+
+#. Found in faq header.
+msgid "How do I sell flooring by the square meter in WooCommerce?"
+msgstr "¿Cómo vendo suelos por metro cuadrado en WooCommerce?"
+
+#. Found in installation paragraph.
+msgid ""
+"For many products at once, filter the product list by quantity type and use "
+"bulk edit."
+msgstr ""
+"Para muchos productos a la vez, filtra la lista de productos por tipo de "
+"cantidad y usa la edición en lote."
+
+#. Found in installation list item.
+msgid ""
+"Edit a product. Under Product data, General, choose a quantity type and "
+"enter the size per unit, for example 2.13 for a pack of 2.13 m²."
+msgstr ""
+"Edita un producto. En Datos del producto, General, elige un tipo de cantidad"
+" e introduce el tamaño por unidad, por ejemplo 2,13 para un paquete de 2,13 "
+"m²."
+
+#. Found in installation list item.
+msgid ""
+"Go to WooCommerce, Settings, Products, Flooring calculator to set the waste "
+"defaults and choose which quantity types your shop uses."
+msgstr ""
+"Ve a WooCommerce, Ajustes, Productos, Calculadora de suelos para definir los"
+" valores de merma predeterminados y elegir qué tipos de cantidad usa tu "
+"tienda."
+
+#. Found in installation list item.
+msgid ""
+"Install the plugin through Plugins, Add New, or upload the ZIP file, then "
+"activate it."
+msgstr ""
+"Instala el plugin desde Plugins, Añadir nuevo, o sube el archivo ZIP, y "
+"actívalo."
+
+#. Found in installation list item.
+msgid "Install and activate WooCommerce."
+msgstr "Instala y activa WooCommerce."
+
+#. Found in description paragraph.
+msgid ""
+"Copyright (C) 2026 Patrick Schlesinger, <a href=\"https://www.cms-"
+"admins.de/\">cms-admins.de</a>. Released under the GNU General Public "
+"License v2 or later."
+msgstr ""
+"Copyright (C) 2026 Patrick Schlesinger, <a href=\"https://www.cms-"
+"admins.de/\">cms-admins.de</a>. Publicado bajo la licencia GNU General "
+"Public License v2 o posterior."
+
+#. Found in description paragraph.
+msgid ""
+"WooCommerce is a registered trademark of Automattic Inc. This plugin is not "
+"affiliated with or endorsed by Automattic or WooCommerce."
+msgstr ""
+"WooCommerce es una marca registrada de Automattic Inc. Este plugin no está "
+"afiliado a Automattic ni a WooCommerce, ni cuenta con su respaldo."
+
+#. Found in description paragraph.
+msgid ""
+"The calculator gives an estimate based on the sizes, coverage values and "
+"waste percentages entered by the shop. Shop owners are responsible for "
+"correct product data and prices and should advise customers to check "
+"quantities before laying. The plugin is provided \"as is\", without warranty"
+" of any kind, as stated in the GNU General Public License."
+msgstr ""
+"La calculadora ofrece una estimación basada en los tamaños, los rendimientos"
+" y los porcentajes de merma que introduce la tienda. Los responsables de la "
+"tienda son responsables de que los datos y los precios de los productos sean"
+" correctos, y deben aconsejar a los clientes que comprueben las cantidades "
+"antes de la colocación. El plugin se ofrece «tal cual», sin garantía de "
+"ningún tipo, como establece la licencia GNU General Public License."
+
+#. Found in description paragraph.
+msgid ""
+"Questions and bug reports are welcome in the support forum on wordpress.org."
+" For anything else, write to flooring-calculator@cms-admins.de. Setup help "
+"and custom development for WooCommerce shops: <a href=\"https://www.cms-"
+"admins.de/\">CMS ADMINS</a>."
+msgstr ""
+"Las preguntas y los informes de errores son bienvenidos en el foro de "
+"soporte de wordpress.org. Para cualquier otra cosa, escribe a flooring-"
+"calculator@cms-admins.de. Ayuda con la configuración y desarrollo a medida "
+"para tiendas WooCommerce: <a href=\"https://www.cms-admins.de/\">CMS "
+"ADMINS</a>."
+
+#. Found in description paragraph.
+msgid ""
+"No external requests, no tracking, no personal data stored. The entered area"
+" is kept in the browser's session storage for the current visit only. There "
+"is no Pro version and no upsell."
+msgstr ""
+"Sin peticiones externas, sin seguimiento y sin datos personales almacenados."
+" La superficie introducida se guarda en el almacenamiento de sesión del "
+"navegador solo durante la visita actual. No hay versión Pro ni ventas "
+"adicionales."
+
+#. Found in description paragraph.
+msgid ""
+"The calculator uses the standard WooCommerce add to cart hooks and wraps the"
+" theme's quantity field instead of replacing it, so the theme's plus and "
+"minus buttons keep working. Tested with Storefront and Woodmart, on desktop "
+"and mobile."
+msgstr ""
+"La calculadora usa los hooks estándar de WooCommerce para añadir al carrito "
+"y envuelve el campo de cantidad del tema en lugar de sustituirlo, por lo que"
+" los botones de más y menos del tema siguen funcionando. Probado con "
+"Storefront y Woodmart, en ordenador y en móvil."
+
+#. Found in description paragraph.
+msgid ""
+"Each product gets one quantity type. The type decides which fields the "
+"customer sees."
+msgstr ""
+"Cada producto tiene un tipo de cantidad. El tipo decide qué campos ve el "
+"cliente."
+
+#. Found in description paragraph.
+msgid "The same logic covers the other product groups:"
+msgstr "La misma lógica cubre los demás grupos de productos:"
+
+#. Found in description paragraph.
+msgid "A customer needs 37.5 m² of laminate. One pack holds 1.74 m²."
+msgstr "Un cliente necesita 37,5 m² de laminado. Un paquete contiene 1,74 m²."
+
+#. Found in description paragraph.
+msgid ""
+"No calculate button and no formulas to write: choose a quantity type, enter "
+"the size of one pack, done. The calculation works in both directions, so "
+"changing the number of packs updates the area as well."
+msgstr ""
+"Sin botón de calcular y sin fórmulas que escribir: elige un tipo de "
+"cantidad, introduce el tamaño de un paquete y listo. El cálculo funciona en "
+"ambos sentidos, de modo que al cambiar el número de paquetes también se "
+"actualiza la superficie."
+
+#. Found in description paragraph.
+msgid ""
+"Flooring Calculator for WooCommerce turns the area a customer needs into the"
+" number of packs, rolls, panels, pieces or containers your shop sells, and "
+"shows the total price while they type. It is built for shops selling "
+"laminate, vinyl, parquet, tiles, underlay, adhesives, skirting boards and "
+"wall panels, where customers know their room in square meters but the "
+"product is sold per pack."
+msgstr ""
+"Flooring Calculator for WooCommerce convierte la superficie que necesita un "
+"cliente en el número de paquetes, rollos, paneles, piezas o envases que "
+"vende tu tienda, y muestra el precio total mientras escribe. Está pensado "
+"para tiendas que venden laminado, vinilo, parquet, baldosas, base aislante, "
+"adhesivos, rodapiés y paneles de pared, donde los clientes conocen su "
+"estancia en metros cuadrados pero el producto se vende por paquete."
+
+#. Found in description list item.
+msgid "Translation ready, German included (formal and informal)"
+msgstr "Listo para traducir, con alemán incluido (formal e informal)"
+
+#. Found in description list item.
+msgid "PHP 7.4 to 8.5, WordPress 6.5 or later, WooCommerce 8.0 or later"
+msgstr "PHP 7.4 a 8.5, WordPress 6.5 o posterior, WooCommerce 8.0 o posterior"
+
+#. Found in description list item.
+msgid ""
+"Compatible with High-Performance Order Storage (HPOS) and the cart and "
+"checkout blocks"
+msgstr ""
+"Compatible con el almacenamiento de pedidos de alto rendimiento (HPOS) y con"
+" los bloques de carrito y finalización de compra"
+
+#. Found in description list item.
+msgid ""
+"No template overrides: the calculator uses the standard add to cart hooks"
+msgstr ""
+"Sin sobrescribir plantillas: la calculadora usa los hooks estándar de añadir"
+" al carrito"
+
+#. Found in description list item.
+msgid ""
+"Filters <code>caqc_types</code> (own quantity types), "
+"<code>caqc_waste_percent</code> (waste per product or group), "
+"<code>caqc_stock_in_size</code> (stock display) and "
+"<code>caqc_migration_map</code> (migration of old meta keys)"
+msgstr ""
+"Filtros <code>caqc_types</code> (tipos de cantidad propios), "
+"<code>caqc_waste_percent</code> (merma por producto o grupo), "
+"<code>caqc_stock_in_size</code> (visualización del stock) y "
+"<code>caqc_migration_map</code> (migración de antiguas claves meta)"
+
+#. Found in description list item.
+msgid "Uninstalling removes only the plugin's settings, product data stays"
+msgstr ""
+"Al desinstalar solo se eliminan los ajustes del plugin; los datos de los "
+"productos se conservan"
+
+#. Found in description list item.
+msgid ""
+"Existing custom fields from a previous solution can be migrated once with a "
+"filter"
+msgstr ""
+"Los campos personalizados existentes de una solución anterior se pueden "
+"migrar una vez con un filtro"
+
+#. Found in description list item.
+msgid ""
+"Settings: waste defaults, total price on or off, stock display, note for "
+"goods sold by the meter, available quantity types"
+msgstr ""
+"Ajustes: valores de merma predeterminados, precio total activado o "
+"desactivado, visualización del stock, nota para artículos que se venden por "
+"metros, tipos de cantidad disponibles"
+
+#. Found in description list item.
+msgid ""
+"Quick edit and bulk edit for quantity type, size per unit and waste, for "
+"hundreds of products at once"
+msgstr ""
+"Edición rápida y edición en lote del tipo de cantidad, el tamaño por unidad "
+"y la merma, para cientos de productos a la vez"
+
+#. Found in description list item.
+msgid ""
+"Product list column showing type and size, plus a filter \"Size per unit "
+"missing\" to find incomplete products"
+msgstr ""
+"Columna en la lista de productos con el tipo y el tamaño, y un filtro «Falta"
+" el tamaño por unidad» para encontrar productos incompletos"
+
+#. Found in description list item.
+msgid ""
+"Waste percentage per product, for example 15 % for herringbone and 5 % for "
+"click vinyl, with shop defaults for area products and for skirting boards"
+msgstr ""
+"Porcentaje de merma por producto, por ejemplo un 15 % para la espiga y un 5 "
+"% para el vinilo click, con valores predeterminados de la tienda para "
+"productos por superficie y para rodapiés"
+
+#. Found in description list item.
+msgid ""
+"Quantity type, size per unit and waste percentage per product, in the "
+"product data panel"
+msgstr ""
+"Tipo de cantidad, tamaño por unidad y porcentaje de merma por producto, en "
+"el panel de datos del producto"
+
+#. Found in description list item.
+msgid ""
+"Respects minimum and maximum quantities and stock limits set by WooCommerce "
+"or other plugins"
+msgstr ""
+"Respeta las cantidades mínimas y máximas y los límites de stock definidos "
+"por WooCommerce u otros plugins"
+
+#. Found in description list item.
+msgid ""
+"Stock shown in m² instead of packs, for example \"534.06 m² in stock\" "
+"(optional)"
+msgstr ""
+"Stock mostrado en m² en lugar de paquetes, por ejemplo «534,06 m² en stock» "
+"(opcional)"
+
+#. Found in description list item.
+msgid ""
+"The value is saved with each order line, so it appears in the order screen, "
+"in order emails and on invoices"
+msgstr ""
+"El valor se guarda en cada línea del pedido, por lo que aparece en la "
+"pantalla del pedido, en los correos de pedido y en las facturas"
+
+#. Found in description list item.
+msgid ""
+"Works in the classic cart and checkout and in the block based cart and "
+"checkout"
+msgstr ""
+"Funciona en el carrito y la finalización de compra clásicos y en los basados"
+" en bloques"
+
+#. Found in description list item.
+msgid ""
+"Delivered area, length or weight shown with every line item, for example "
+"\"Area: 38.28 m²\" or \"equals 77.00 kg\""
+msgstr ""
+"Superficie, longitud o peso entregados, mostrados en cada línea, por ejemplo"
+" «Superficie: 38,28 m²» o «equivale a 77,00 kg»"
+
+#. Found in description list item.
+msgid ""
+"Mobile friendly: the calculator stacks into one column with large touch "
+"targets"
+msgstr ""
+"Adaptado a móviles: la calculadora se apila en una sola columna con áreas "
+"táctiles grandes"
+
+#. Found in description list item.
+msgid "Prefilled fields are selected on tap, typing replaces the old value"
+msgstr ""
+"Los campos rellenados previamente se seleccionan al tocarlos, y al escribir "
+"se sustituye el valor anterior"
+
+#. Found in description list item.
+msgid ""
+"The entered area is remembered during the visit, so comparing floors or "
+"adding the matching underlay and adhesive is instant"
+msgstr ""
+"La superficie introducida se recuerda durante la visita, por lo que comparar"
+" suelos o añadir la base aislante y el adhesivo correspondientes es "
+"inmediato"
+
+#. Found in description list item.
+msgid ""
+"Goods sold by the meter: a fixed note such as \"Sold by the meter. Length "
+"per piece approx. 2.40 to 2.70 meters.\""
+msgstr ""
+"Artículos que se venden por metros: una nota fija como «Se vende por metros."
+" Longitud por pieza aprox. de 2,40 a 2,70 metros.»"
+
+#. Found in description list item.
+msgid "Price suffix per unit on variations, for example \"29.50 € / pack\""
+msgstr ""
+"Sufijo de precio por unidad en las variaciones, por ejemplo «29,50 € / "
+"paquete»"
+
+#. Found in description list item.
+msgid ""
+"Variable products: each variation can have its own size per unit, the "
+"calculator switches with the selection"
+msgstr ""
+"Productos variables: cada variación puede tener su propio tamaño por unidad,"
+" y la calculadora cambia según la selección"
+
+#. Found in description list item.
+msgid ""
+"Notices when a minimum quantity applies or when stock is lower than the "
+"requested amount"
+msgstr ""
+"Avisos cuando se aplica una cantidad mínima o cuando el stock es inferior a "
+"la cantidad solicitada"
+
+#. Found in description list item.
+msgid ""
+"Live total price including tax; on sale items also the regular total and the"
+" saving"
+msgstr ""
+"Precio total en directo con impuestos incluidos; en artículos en oferta, "
+"también el total regular y el ahorro"
+
+#. Found in description list item.
+msgid ""
+"Room calculator: length × width for floors and panels, perimeter for "
+"skirting boards, area for adhesives"
+msgstr ""
+"Calculadora de estancia: largo × ancho para suelos y paneles, perímetro para"
+" rodapiés, superficie para adhesivos"
+
+#. Found in description list item.
+msgid ""
+"Waste checkbox, for example \"Add 10% for waste\", with a line showing the "
+"area and packs including waste"
+msgstr ""
+"Casilla de merma, por ejemplo «Añadir un 10 % de merma», con una línea que "
+"muestra la superficie y los paquetes con la merma incluida"
+
+#. Found in description list item.
+msgid ""
+"Hint below the quantity field, for example \"1 pack = 1.74 m²\" or the "
+"required adhesive weight \"Required: 50 kg\""
+msgstr ""
+"Indicación bajo el campo de cantidad, por ejemplo «1 paquete = 1,74 m²» o el"
+" peso de adhesivo necesario «Necesario: 50 kg»"
+
+#. Found in description list item.
+msgid "Plus and minus buttons on the area field step by exactly one pack"
+msgstr ""
+"Los botones de más y menos del campo de superficie avanzan exactamente un "
+"paquete"
+
+#. Found in description list item.
+msgid ""
+"Always rounded up to whole packs, rolls, panels, pieces or containers, so "
+"the customer never orders too little"
+msgstr ""
+"Siempre se redondea hacia arriba a paquetes, rollos, paneles, piezas o "
+"envases enteros, para que el cliente nunca pida de menos"
+
+#. Found in description list item.
+msgid ""
+"Two way calculation: enter the area to get packs, or change the packs to see"
+" the area they cover"
+msgstr ""
+"Cálculo en ambos sentidos: introduce la superficie para obtener los "
+"paquetes, o cambia los paquetes para ver la superficie que cubren"
+
+#. Found in description list item.
+msgid ""
+"Delivered area = packs × size per pack (shown in cart and saved with the "
+"order)"
+msgstr ""
+"Superficie entregada = paquetes × tamaño por paquete (se muestra en el "
+"carrito y se guarda con el pedido)"
+
+#. Found in description list item.
+msgid ""
+"Adhesive containers = area × coverage in kg per m² ÷ container size in kg, "
+"rounded up"
+msgstr ""
+"Envases de adhesivo = superficie × rendimiento en kg por m² ÷ tamaño del "
+"envase en kg, redondeado hacia arriba"
+
+#. Found in description list item.
+msgid ""
+"Skirting boards = 2 × (room length + room width) ÷ length per board, rounded"
+" up"
+msgstr ""
+"Rodapiés = 2 × (largo de la estancia + ancho de la estancia) ÷ longitud por "
+"rodapié, redondeado hacia arriba"
+
+#. Found in description list item.
+msgid "With waste = area × (1 + waste %) ÷ size per pack, rounded up"
+msgstr ""
+"Con merma = superficie × (1 + % de merma) ÷ tamaño por paquete, redondeado "
+"hacia arriba"
+
+#. Found in description list item.
+msgid "Packs = area ÷ size per pack, rounded up"
+msgstr "Paquetes = superficie ÷ tamaño por paquete, redondeado hacia arriba"
+
+#. Found in description list item.
+msgid ""
+"Any WooCommerce shop that sells per pack, roll, box or bucket while "
+"customers think in square meters or running meters"
+msgstr ""
+"Cualquier tienda WooCommerce que venda por paquete, rollo, caja o cubo "
+"mientras los clientes piensan en metros cuadrados o metros lineales"
+
+#. Found in description list item.
+msgid ""
+"Shops selling skirting boards, profiles, transition strips and wall or "
+"acoustic panels"
+msgstr ""
+"Tiendas que venden rodapiés, perfiles, perfiles de transición y paneles de "
+"pared o acústicos"
+
+#. Found in description list item.
+msgid ""
+"Building material shops: underlay, insulation, adhesives, fillers, levelling"
+" compound"
+msgstr ""
+"Tiendas de materiales de construcción: base aislante, aislamiento, "
+"adhesivos, masillas, mortero autonivelante"
+
+#. Found in description list item.
+msgid "Tile shops selling tiles per box"
+msgstr "Tiendas de baldosas que venden por caja"
+
+#. Found in description list item.
+msgid ""
+"Flooring shops: laminate, vinyl and LVT, parquet, linoleum, carpet tiles, "
+"cork"
+msgstr ""
+"Tiendas de suelos: laminado, vinilo y LVT, parquet, linóleo, losetas de "
+"moqueta, corcho"
+
+#. Found in description list item.
+msgid "<strong>Pieces</strong>: the plain WooCommerce quantity field"
+msgstr "<strong>Piezas</strong>: el campo de cantidad normal de WooCommerce"
+
+#. Found in description list item.
+msgid ""
+"<strong>Coverage / container</strong>: adhesives and fillers, from coverage "
+"in kg per m² and container size"
+msgstr ""
+"<strong>Rendimiento / envase</strong>: adhesivos y masillas, a partir del "
+"rendimiento en kg por m² y del tamaño del envase"
+
+#. Found in description list item.
+msgid "<strong>Meters</strong>: goods sold by the running meter"
+msgstr "<strong>Metros</strong>: artículos que se venden por metro lineal"
+
+#. Found in description list item.
+msgid ""
+"<strong>Meters / pieces</strong>: skirting boards and profiles sold per "
+"piece of fixed length"
+msgstr ""
+"<strong>Metros / piezas</strong>: rodapiés y perfiles que se venden por "
+"pieza de longitud fija"
+
+#. Found in description list item.
+msgid ""
+"<strong>Square meters / panels</strong>: acoustic and wall panels, sizes per"
+" variation supported"
+msgstr ""
+"<strong>Metros cuadrados / paneles</strong>: paneles acústicos y de pared, "
+"con tamaños por variación"
+
+#. Found in description list item.
+msgid ""
+"<strong>Square meters / rolls</strong>: underlay, insulation, rolled goods"
+msgstr ""
+"<strong>Metros cuadrados / rollos</strong>: base aislante, aislamiento y "
+"artículos en rollo"
+
+#. Found in description list item.
+msgid ""
+"<strong>Square meters / packs</strong>: laminate, vinyl, parquet, tiles, "
+"carpet tiles"
+msgstr ""
+"<strong>Metros cuadrados / paquetes</strong>: laminado, vinilo, parquet, "
+"baldosas, losetas de moqueta"
+
+#. Found in description list item.
+msgid ""
+"<strong>Underlay rolls and wall panels</strong>: area divided by the size of"
+" one roll or panel, rounded up."
+msgstr ""
+"<strong>Rollos de base aislante y paneles de pared</strong>: la superficie "
+"dividida por el tamaño de un rollo o de un panel, redondeada hacia arriba."
+
+#. Found in description list item.
+msgid ""
+"<strong>Adhesive</strong>: 50 m² at 1 kg per m² in 25 kg buckets is 2 "
+"containers."
+msgstr ""
+"<strong>Adhesivo</strong>: 50 m² con 1 kg por m² en cubos de 25 kg son 2 "
+"envases."
+
+#. Found in description list item.
+msgid ""
+"<strong>Skirting boards</strong>: a 5 × 4 m room has an 18 m perimeter, at "
+"2.40 m per board that is 8 boards."
+msgstr ""
+"<strong>Rodapiés</strong>: una estancia de 5 × 4 m tiene un perímetro de 18 "
+"m; con 2,40 m por rodapié son 8 rodapiés."
+
+#. Found in description list item.
+msgid ""
+"The total price updates instantly, the cart shows \"Area: 38.28 m²\" next to"
+" the line item."
+msgstr ""
+"El precio total se actualiza al instante y el carrito muestra «Superficie: "
+"38,28 m²» junto a la línea del artículo."
+
+#. Found in description list item.
+msgid ""
+"With 10 % waste ticked: 41.25 m² ÷ 1.74 m² = 23.7, rounded up to <strong>24 "
+"packs</strong>."
+msgstr ""
+"Con un 10 % de merma marcado: 41,25 m² ÷ 1,74 m² = 23,7, redondeado hacia "
+"arriba a <strong>24 paquetes</strong>."
+
+#. Found in description list item.
+msgid ""
+"37.5 m² ÷ 1.74 m² = 21.6, rounded up to <strong>22 packs</strong>, which "
+"cover 38.28 m²."
+msgstr ""
+"37,5 m² ÷ 1,74 m² = 21,6, redondeado hacia arriba a <strong>22 "
+"paquetes</strong>, que cubren 38,28 m²."
+
+#. Found in description header.
+msgid "Copyright"
+msgstr "Copyright"
+
+#. Found in description header.
+msgid "Trademarks"
+msgstr "Marcas registradas"
+
+#. Found in description header.
+msgid "Disclaimer"
+msgstr "Descargo de responsabilidad"
+
+#. Found in description header.
+msgid "Support"
+msgstr "Soporte"
+
+#. Found in description header.
+msgid "Privacy"
+msgstr "Privacidad"
+
+#. Found in description header.
+msgid "Works with your theme"
+msgstr "Funciona con tu tema"
+
+#. Found in description header.
+msgid "For developers"
+msgstr "Para desarrolladores"
+
+#. Found in description header.
+msgid "Features for shop managers"
+msgstr "Funciones para gestores de tiendas"
+
+#. Found in description header.
+msgid "Features in cart, checkout and orders"
+msgstr "Funciones en el carrito, la finalización de compra y los pedidos"
+
+#. Found in description header.
+msgid "Features on the product page"
+msgstr "Funciones en la ficha del producto"
+
+#. Found in description header.
+msgid "Formulas used"
+msgstr "Fórmulas utilizadas"
+
+#. Found in description header.
+msgid "Who it is for"
+msgstr "Para quién es"
+
+#. Found in description header.
+msgid "Quantity types"
+msgstr "Tipos de cantidad"
+
+#. Found in description header.
+msgid "How it works"
+msgstr "Cómo funciona"
+
+#. Screenshot description.
+msgid ""
+"Mobile: the calculator stacks into one column with large touch targets."
+msgstr ""
+"Móvil: la calculadora se apila en una sola columna con áreas táctiles "
+"grandes."
+
+#. Screenshot description.
+msgid ""
+"Settings: waste defaults for area and length products, total price, stock "
+"display and quantity types."
+msgstr ""
+"Ajustes: valores de merma predeterminados para productos por superficie y "
+"por longitud, precio total, visualización del stock y tipos de cantidad."
+
+#. Screenshot description.
+msgid ""
+"Product data: quantity type, size of one sales unit and an optional waste "
+"percentage per product."
+msgstr ""
+"Datos del producto: tipo de cantidad, tamaño de una unidad de venta y un "
+"porcentaje de merma opcional por producto."
+
+#. Screenshot description.
+msgid ""
+"Cart: delivered area, length or weight is shown with every line item and "
+"saved with the order."
+msgstr ""
+"Carrito: la superficie, la longitud o el peso entregados se muestran en cada"
+" línea y se guardan con el pedido."
+
+#. Screenshot description.
+msgid ""
+"Adhesive: coverage per square meter and container size give the number of "
+"containers."
+msgstr ""
+"Adhesivo: el rendimiento por metro cuadrado y el tamaño del envase dan el "
+"número de envases."
+
+#. Screenshot description.
+msgid ""
+"Skirting boards: the room calculator turns length and width into pieces, "
+"with its own waste allowance."
+msgstr ""
+"Rodapiés: la calculadora de estancia convierte largo y ancho en piezas, con "
+"su propia merma."
+
+#. Screenshot description.
+msgid ""
+"Flooring: enter the area, get the number of packs and the total price, "
+"optionally with waste."
+msgstr ""
+"Suelos: introduce la superficie y obtén el número de paquetes y el precio "
+"total, opcionalmente con merma."
+
+#. Found in changelog list item.
+msgid "First public release."
+msgstr "Primera versión pública."
+
+#. Found in changelog list item.
+msgid ""
+"The area or length is now saved with each order line, so it shows in the "
+"order screen, in the order emails to the shop and on invoices."
+msgstr ""
+"La superficie o la longitud ahora se guarda en cada línea del pedido, por lo"
+" que aparece en la pantalla del pedido, en los correos de pedido a la tienda"
+" y en las facturas."
+
+#. Found in changelog list item.
+msgid "Hide the internal marker of saved order lines in the order screen."
+msgstr ""
+"Se oculta el marcador interno de las líneas de pedido guardadas en la "
+"pantalla del pedido."
+
+#. Found in changelog list item.
+msgid ""
+"The unit stays behind the quantity field when the theme reorders the field "
+"(for example Woodmart on variable products)."
+msgstr ""
+"La unidad se mantiene detrás del campo de cantidad cuando el tema reordena "
+"el campo (por ejemplo Woodmart en productos variables)."
+
+#. Found in changelog list item.
+msgid ""
+"Prefilled fields are selected on tap, so typing replaces the old value."
+msgstr ""
+"Los campos rellenados previamente se seleccionan al tocarlos, así que al "
+"escribir se sustituye el valor anterior."
+
+#. Found in changelog list item.
+msgid ""
+"Layout: calculator, total price box and room calculator look consistent in "
+"more themes, also on mobile and on variable products."
+msgstr ""
+"Diseño: la calculadora, el cuadro del precio total y la calculadora de "
+"estancia se ven de forma coherente en más temas, también en móvil y en "
+"productos variables."
+
+#. Found in changelog list item.
+msgid "Cart, checkout and order show the total weight for adhesives."
+msgstr ""
+"El carrito, la finalización de compra y el pedido muestran el peso total de "
+"los adhesivos."
+
+#. Found in changelog list item.
+msgid ""
+"Adhesive: changing the number of containers updates the area to be glued."
+msgstr ""
+"Adhesivo: al cambiar el número de envases se actualiza la superficie que hay"
+" que encolar."
+
+#. Found in changelog list item.
+msgid ""
+"The filter <code>caqc_waste_percent</code> now also receives the product and"
+" the waste group. It no longer applies to adhesive and piece products."
+msgstr ""
+"El filtro <code>caqc_waste_percent</code> ahora recibe también el producto y"
+" el grupo de merma. Ya no se aplica a los productos de adhesivo ni a los de "
+"piezas."
+
+#. Found in changelog list item.
+msgid "Quick edit and bulk edit for the waste percentage."
+msgstr "Edición rápida y edición en lote para el porcentaje de merma."
+
+#. Found in changelog list item.
+msgid "Goods sold by the meter: waste checkbox inside the room calculator."
+msgstr ""
+"Artículos que se venden por metros: casilla de merma dentro de la "
+"calculadora de estancia."
+
+#. Found in changelog list item.
+msgid ""
+"Separate waste default for skirting boards and goods sold by the meter (off "
+"by default)."
+msgstr ""
+"Valor de merma predeterminado independiente para rodapiés y artículos que se"
+" venden por metros (desactivado por defecto)."
+
+#. Found in changelog list item.
+msgid ""
+"Waste per product: each product can set its own waste percentage, an empty "
+"field uses the shop default."
+msgstr ""
+"Merma por producto: cada producto puede definir su propio porcentaje de "
+"merma, y un campo vacío usa el valor de la tienda."
+
+#. Found in description paragraph.
+msgid ""
+"Think of it as a free measurement price calculator made for flooring: an m2 "
+"calculator (m² to packs), a box calculator for tiles, a roll calculator for "
+"underlay and a coverage calculator for adhesives, all in one plugin and "
+"without per square meter pricing tricks."
+msgstr ""

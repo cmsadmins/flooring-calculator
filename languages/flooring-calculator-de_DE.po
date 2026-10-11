@@ -144,8 +144,8 @@ msgid ""
 "Flooring Calculator for WooCommerce needs WooCommerce to be installed and "
 "active."
 msgstr ""
-"CMS ADMINS Mengenrechner benötigt WooCommerce. Das Plugin bleibt ohne "
-"Wirkung."
+"Flooring Calculator for WooCommerce benötigt ein installiertes und "
+"aktiviertes WooCommerce."
 
 #: includes/class-caqc-settings.php:46 includes/class-caqc-settings.php:82
 msgid "Flooring calculator"

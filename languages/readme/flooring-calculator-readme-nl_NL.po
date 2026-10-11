@@ -1,0 +1,984 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Flooring Calculator for WooCommerce readme 1.0.4\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/flooring-calculator\n"
+"Last-Translator: Patrick Schlesinger <ps@cms-admins.de>\n"
+"Language-Team: nl_NL\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: flooring-calculator\n"
+
+#. Short description.
+msgid ""
+"Square meter calculator for WooCommerce flooring shops: customers enter "
+"their room size, the product page shows packs, waste and total price."
+msgstr ""
+"Calculator voor WooCommerce vloerwinkels: de klant voert de ruimte in m² in,"
+" de productpagina toont pakken, snijverlies en totaalprijs."
+
+#. Plugin name.
+msgid "Flooring Calculator for WooCommerce"
+msgstr "Vloer Calculator voor WooCommerce: m² naar pakken"
+
+#. Found in faq paragraph.
+msgid ""
+"The plugin removes its own settings only. Sizes, waste values and quantity "
+"types stay with the products, so reinstalling restores everything."
+msgstr ""
+"De plugin verwijdert alleen zijn eigen instellingen. Maten, "
+"snijverlieswaarden en hoeveelheidstypen blijven bij de producten, dus na een"
+" herinstallatie is alles weer terug."
+
+#. Found in faq paragraph.
+msgid ""
+"Map your old meta keys to the plugin's keys with the filter "
+"<code>caqc_migration_map</code>. On the next activation the plugin renames "
+"them once. Nothing happens without that filter."
+msgstr ""
+"Koppel je oude metasleutels aan de sleutels van de plugin met de filter "
+"<code>caqc_migration_map</code>. Bij de volgende activering hernoemt de "
+"plugin ze eenmalig. Zonder die filter gebeurt er niets."
+
+#. Found in faq paragraph.
+msgid ""
+"Yes, through the filter <code>caqc_types</code>. The waste percentage can be"
+" changed with the filter <code>caqc_waste_percent</code>, the stock display "
+"with <code>caqc_stock_in_size</code>."
+msgstr ""
+"Ja, via de filter <code>caqc_types</code>. Het snijverliespercentage pas je "
+"aan met de filter <code>caqc_waste_percent</code>, de voorraadweergave met "
+"<code>caqc_stock_in_size</code>."
+
+#. Found in faq paragraph.
+msgid "No. All features are in this plugin."
+msgstr "Nee. Alle functies zitten in deze plugin."
+
+#. Found in faq paragraph.
+msgid "No. It makes no external requests and stores no personal data."
+msgstr ""
+"Nee. De plugin doet geen externe verzoeken en slaat geen persoonsgegevens "
+"op."
+
+#. Found in faq paragraph.
+msgid ""
+"Either the quantity type is set to Pieces, or the size per unit is missing. "
+"For adhesives both coverage and container size are required. The product "
+"list has a filter \"Size per unit missing\" to find these products."
+msgstr ""
+"Of het hoeveelheidstype staat op Stuks, of de maat per eenheid ontbreekt. "
+"Bij lijmen zijn zowel de dekking als de emmerinhoud verplicht. In de "
+"productlijst vind je zulke producten met het filter \"Maat per eenheid "
+"ontbreekt\"."
+
+#. Found in faq paragraph.
+msgid ""
+"Yes. Variations can have their own size per unit, for example skirting "
+"boards in 2.40 m and 2.70 m lengths."
+msgstr ""
+"Ja. Variaties kunnen elk hun eigen maat per eenheid hebben, bijvoorbeeld "
+"plinten in lengtes van 2,40 m en 2,70 m."
+
+#. Found in faq paragraph.
+msgid ""
+"Yes. The area, length or weight appears in the classic and the block based "
+"cart and checkout and is saved with each order line, so it also shows in the"
+" order screen and in order emails."
+msgstr ""
+"Ja. De oppervlakte, lengte of het gewicht verschijnt in het klassieke en in "
+"het blokgebaseerde winkelwagentje en de kassa en wordt bij elke bestelregel "
+"opgeslagen, dus ook in het bestelscherm en in de bestelmails."
+
+#. Found in faq paragraph.
+msgid ""
+"The plugin takes the coverage in kg per m² from the product and the "
+"container size, then calculates the required weight and the number of "
+"containers. If the manufacturer gives a range, enter the upper value so the "
+"amount is sufficient."
+msgstr ""
+"De plugin neemt de dekking in kg per m² van het product en de emmerinhoud, "
+"en berekent daarmee het benodigde gewicht en het aantal emmers. Geeft de "
+"fabrikant een bereik op, vul dan de bovengrens in, zodat de hoeveelheid "
+"zeker genoeg is."
+
+#. Found in faq paragraph.
+msgid ""
+"Yes. The customer enters running meters or the room size, the plugin "
+"calculates the perimeter and the number of boards. Skirting boards have "
+"their own waste default."
+msgstr ""
+"Ja. De klant voert strekkende meters of de ruimtemaat in, de plugin berekent"
+" de omtrek en het aantal plinten. Plinten hebben een eigen standaardwaarde "
+"voor snijverlies."
+
+#. Found in faq paragraph.
+msgid ""
+"Yes. Tiles sold per box work like flooring packs: enter the m² per box, the "
+"customer enters the wall or floor area and gets the number of boxes, with an"
+" optional waste allowance for cuts."
+msgstr ""
+"Ja. Tegels die per doos worden verkocht werken net als vloerpakken: vul de "
+"m² per doos in, de klant voert de wand- of vloeroppervlakte in en krijgt het"
+" aantal dozen, optioneel met een snijverlies voor zaagwerk."
+
+#. Found in faq paragraph.
+msgid ""
+"Yes. Each product has a \"Waste (%)\" field. Leave it empty to use the shop "
+"default, set 0 to hide the waste checkbox for that product. Quick edit and "
+"bulk edit change it for many products at once."
+msgstr ""
+"Ja. Elk product heeft een veld \"Snijverlies (%)\". Laat het leeg voor de "
+"winkelstandaard, zet 0 om het selectievakje voor snijverlies bij dat product"
+" te verbergen. Met snel bewerken en bulkbewerking pas je het voor veel "
+"producten tegelijk aan."
+
+#. Found in faq paragraph.
+msgid ""
+"That depends on the product and the laying pattern. Common values are 5 % "
+"for straight laying of click vinyl or laminate and 10 to 15 % for diagonal "
+"laying, herringbone or tiles. Set a shop default and override it per product"
+" where needed."
+msgstr ""
+"Dat hangt af van het product en het legpatroon. Gebruikelijke waarden zijn 5"
+" % voor recht leggen van klikvinyl of laminaat en 10 tot 15 % voor diagonaal"
+" leggen, visgraat of tegels. Stel een winkelstandaard in en wijk per product"
+" af waar nodig."
+
+#. Found in faq paragraph.
+msgid ""
+"Packs = room area ÷ m² per pack, rounded up to the next whole pack. With "
+"waste: room area × (1 + waste percentage) ÷ m² per pack, rounded up. The "
+"plugin does this live on the product page, including a room calculator for "
+"length × width."
+msgstr ""
+"Pakken = oppervlakte van de ruimte ÷ m² per pak, naar boven afgerond op het "
+"volgende hele pak. Met snijverlies: oppervlakte van de ruimte × (1 + "
+"snijverliespercentage) ÷ m² per pak, naar boven afgerond. De plugin rekent "
+"dit live op de productpagina uit, inclusief een ruimtecalculator voor lengte"
+" × breedte."
+
+#. Found in faq paragraph.
+msgid ""
+"Keep the price per pack and let the customer enter square meters. Set the "
+"product's quantity type to \"Square meters / packs\" and enter the m² per "
+"pack. The product page then converts the area into packs and shows the total"
+" price, and the cart shows the delivered area."
+msgstr ""
+"Houd de prijs per pak aan en laat de klant vierkante meters invoeren. Zet "
+"het hoeveelheidstype van het product op \"Vierkante meter / pakken\" en vul "
+"de m² per pak in. De productpagina rekent de oppervlakte dan om naar pakken "
+"en toont de totaalprijs, en het winkelwagentje toont de geleverde "
+"oppervlakte."
+
+#. Found in faq header.
+msgid "What happens to my product data when I delete the plugin?"
+msgstr "Wat gebeurt er met mijn productgegevens als ik de plugin verwijder?"
+
+#. Found in faq header.
+msgid "I used custom fields for the calculation before. Can I keep the data?"
+msgstr ""
+"Ik gebruikte eerder eigen velden voor de berekening. Kan ik die gegevens "
+"behouden?"
+
+#. Found in faq header.
+msgid "Can I add my own quantity type?"
+msgstr "Kan ik een eigen hoeveelheidstype toevoegen?"
+
+#. Found in faq header.
+msgid "Is there a Pro version?"
+msgstr "Is er een Pro-versie?"
+
+#. Found in faq header.
+msgid "Does the plugin send data to external services?"
+msgstr "Stuurt de plugin gegevens naar externe diensten?"
+
+#. Found in faq header.
+msgid "Why does a product show no calculator?"
+msgstr "Waarom toont een product geen calculator?"
+
+#. Found in faq header.
+msgid "Does it work with variable products?"
+msgstr "Werkt het met variabele producten?"
+
+#. Found in faq header.
+msgid "Does it work with the block cart and checkout?"
+msgstr "Werkt het met het blok-winkelwagentje en de blok-kassa?"
+
+#. Found in faq header.
+msgid "How much adhesive do I need per square meter?"
+msgstr "Hoeveel lijm heb ik per vierkante meter nodig?"
+
+#. Found in faq header.
+msgid "Does it work for skirting boards?"
+msgstr "Werkt het voor plinten?"
+
+#. Found in faq header.
+msgid "Can I use it as a tile calculator?"
+msgstr "Kan ik het gebruiken als tegelcalculator?"
+
+#. Found in faq header.
+msgid "Can I set a different waste percentage per product?"
+msgstr "Kan ik per product een ander snijverliespercentage instellen?"
+
+#. Found in faq header.
+msgid "How much waste should I add for flooring?"
+msgstr "Hoeveel snijverlies moet ik bij een vloer rekenen?"
+
+#. Found in faq header.
+msgid "How many packs do I need for my room?"
+msgstr "Hoeveel pakken heb ik nodig voor mijn ruimte?"
+
+#. Found in faq header.
+msgid "How do I sell flooring by the square meter in WooCommerce?"
+msgstr "Hoe verkoop ik vloeren per vierkante meter in WooCommerce?"
+
+#. Found in installation paragraph.
+msgid ""
+"For many products at once, filter the product list by quantity type and use "
+"bulk edit."
+msgstr ""
+"Filter voor veel producten tegelijk de productlijst op hoeveelheidstype en "
+"gebruik bulkbewerking."
+
+#. Found in installation list item.
+msgid ""
+"Edit a product. Under Product data, General, choose a quantity type and "
+"enter the size per unit, for example 2.13 for a pack of 2.13 m²."
+msgstr ""
+"Bewerk een product. Kies onder Productgegevens, Algemeen een "
+"hoeveelheidstype en vul de maat per eenheid in, bijvoorbeeld 2,13 voor een "
+"pak van 2,13 m²."
+
+#. Found in installation list item.
+msgid ""
+"Go to WooCommerce, Settings, Products, Flooring calculator to set the waste "
+"defaults and choose which quantity types your shop uses."
+msgstr ""
+"Ga naar WooCommerce, Instellingen, Producten, Vloercalculator om de "
+"standaardwaarden voor snijverlies in te stellen en te kiezen welke "
+"hoeveelheidstypen je winkel gebruikt."
+
+#. Found in installation list item.
+msgid ""
+"Install the plugin through Plugins, Add New, or upload the ZIP file, then "
+"activate it."
+msgstr ""
+"Installeer de plugin via Plugins, Nieuwe plugin, of upload het ZIP-bestand "
+"en activeer de plugin."
+
+#. Found in installation list item.
+msgid "Install and activate WooCommerce."
+msgstr "Installeer en activeer WooCommerce."
+
+#. Found in description paragraph.
+msgid ""
+"Copyright (C) 2026 Patrick Schlesinger, <a href=\"https://www.cms-"
+"admins.de/\">cms-admins.de</a>. Released under the GNU General Public "
+"License v2 or later."
+msgstr ""
+"Copyright (C) 2026 Patrick Schlesinger, <a href=\"https://www.cms-"
+"admins.de/\">cms-admins.de</a>. Uitgebracht onder de GNU General Public "
+"License v2 of later."
+
+#. Found in description paragraph.
+msgid ""
+"WooCommerce is a registered trademark of Automattic Inc. This plugin is not "
+"affiliated with or endorsed by Automattic or WooCommerce."
+msgstr ""
+"WooCommerce is een geregistreerd handelsmerk van Automattic Inc. Deze plugin"
+" is niet gelieerd aan of goedgekeurd door Automattic of WooCommerce."
+
+#. Found in description paragraph.
+msgid ""
+"The calculator gives an estimate based on the sizes, coverage values and "
+"waste percentages entered by the shop. Shop owners are responsible for "
+"correct product data and prices and should advise customers to check "
+"quantities before laying. The plugin is provided \"as is\", without warranty"
+" of any kind, as stated in the GNU General Public License."
+msgstr ""
+"De calculator geeft een schatting op basis van de maten, dekkingswaarden en "
+"snijverliespercentages die de winkel invoert. Winkeleigenaren zijn "
+"verantwoordelijk voor juiste productgegevens en prijzen en moeten klanten "
+"aanraden de hoeveelheden voor het leggen te controleren. De plugin wordt "
+"geleverd \"as is\", zonder enige garantie, zoals bepaald in de GNU General "
+"Public License."
+
+#. Found in description paragraph.
+msgid ""
+"Questions and bug reports are welcome in the support forum on wordpress.org."
+" For anything else, write to flooring-calculator@cms-admins.de. Setup help "
+"and custom development for WooCommerce shops: <a href=\"https://www.cms-"
+"admins.de/\">CMS ADMINS</a>."
+msgstr ""
+"Vragen en foutmeldingen zijn welkom in het supportforum op wordpress.org. "
+"Voor al het andere schrijf je naar flooring-calculator@cms-admins.de. Hulp "
+"bij de installatie en maatwerk voor WooCommerce-winkels: <a "
+"href=\"https://www.cms-admins.de/\">CMS ADMINS</a>."
+
+#. Found in description paragraph.
+msgid ""
+"No external requests, no tracking, no personal data stored. The entered area"
+" is kept in the browser's session storage for the current visit only. There "
+"is no Pro version and no upsell."
+msgstr ""
+"Geen externe verzoeken, geen tracking, geen opgeslagen persoonsgegevens. De "
+"ingevoerde oppervlakte blijft alleen voor het huidige bezoek in de "
+"sessieopslag van de browser. Er is geen Pro-versie en geen upsell."
+
+#. Found in description paragraph.
+msgid ""
+"The calculator uses the standard WooCommerce add to cart hooks and wraps the"
+" theme's quantity field instead of replacing it, so the theme's plus and "
+"minus buttons keep working. Tested with Storefront and Woodmart, on desktop "
+"and mobile."
+msgstr ""
+"De calculator gebruikt de standaard WooCommerce hooks voor in winkelwagen "
+"plaatsen en omhult het hoeveelheidsveld van het thema in plaats van het te "
+"vervangen, zodat de plus- en minknoppen van het thema blijven werken. Getest"
+" met Storefront en Woodmart, op desktop en mobiel."
+
+#. Found in description paragraph.
+msgid ""
+"Each product gets one quantity type. The type decides which fields the "
+"customer sees."
+msgstr ""
+"Elk product krijgt één hoeveelheidstype. Het type bepaalt welke velden de "
+"klant ziet."
+
+#. Found in description paragraph.
+msgid "The same logic covers the other product groups:"
+msgstr "Dezelfde logica geldt voor de andere productgroepen:"
+
+#. Found in description paragraph.
+msgid "A customer needs 37.5 m² of laminate. One pack holds 1.74 m²."
+msgstr "Een klant heeft 37,5 m² laminaat nodig. Eén pak bevat 1,74 m²."
+
+#. Found in description paragraph.
+msgid ""
+"No calculate button and no formulas to write: choose a quantity type, enter "
+"the size of one pack, done. The calculation works in both directions, so "
+"changing the number of packs updates the area as well."
+msgstr ""
+"Geen berekenknop en geen formules om te schrijven: kies een "
+"hoeveelheidstype, vul de maat van één pak in, klaar. De berekening werkt in "
+"beide richtingen, dus als je het aantal pakken wijzigt, past ook de "
+"oppervlakte zich aan."
+
+#. Found in description paragraph.
+msgid ""
+"Flooring Calculator for WooCommerce turns the area a customer needs into the"
+" number of packs, rolls, panels, pieces or containers your shop sells, and "
+"shows the total price while they type. It is built for shops selling "
+"laminate, vinyl, parquet, tiles, underlay, adhesives, skirting boards and "
+"wall panels, where customers know their room in square meters but the "
+"product is sold per pack."
+msgstr ""
+"Flooring Calculator for WooCommerce rekent de oppervlakte die een klant "
+"nodig heeft om naar het aantal pakken, rollen, panelen, stuks of emmers dat "
+"je winkel verkoopt en toont de totaalprijs tijdens het typen. De plugin is "
+"gemaakt voor winkels die laminaat, vinyl, parket, tegels, ondervloer, "
+"lijmen, plinten en wandpanelen verkopen, waar klanten hun ruimte in "
+"vierkante meters kennen maar het product per pak wordt verkocht."
+
+#. Found in description list item.
+msgid "Translation ready, German included (formal and informal)"
+msgstr "Klaar voor vertaling, Duits inbegrepen (formeel en informeel)"
+
+#. Found in description list item.
+msgid "PHP 7.4 to 8.5, WordPress 6.5 or later, WooCommerce 8.0 or later"
+msgstr "PHP 7.4 tot 8.5, WordPress 6.5 of hoger, WooCommerce 8.0 of hoger"
+
+#. Found in description list item.
+msgid ""
+"Compatible with High-Performance Order Storage (HPOS) and the cart and "
+"checkout blocks"
+msgstr ""
+"Compatibel met High-Performance Order Storage (HPOS) en de blokken voor "
+"winkelwagen en kassa"
+
+#. Found in description list item.
+msgid ""
+"No template overrides: the calculator uses the standard add to cart hooks"
+msgstr ""
+"Geen template-overrides: de calculator gebruikt de standaard hooks voor in "
+"winkelwagen plaatsen"
+
+#. Found in description list item.
+msgid ""
+"Filters <code>caqc_types</code> (own quantity types), "
+"<code>caqc_waste_percent</code> (waste per product or group), "
+"<code>caqc_stock_in_size</code> (stock display) and "
+"<code>caqc_migration_map</code> (migration of old meta keys)"
+msgstr ""
+"Filters <code>caqc_types</code> (eigen hoeveelheidstypen), "
+"<code>caqc_waste_percent</code> (snijverlies per product of groep), "
+"<code>caqc_stock_in_size</code> (voorraadweergave) en "
+"<code>caqc_migration_map</code> (migratie van oude metasleutels)"
+
+#. Found in description list item.
+msgid "Uninstalling removes only the plugin's settings, product data stays"
+msgstr ""
+"Bij verwijderen worden alleen de instellingen van de plugin gewist, "
+"productgegevens blijven behouden"
+
+#. Found in description list item.
+msgid ""
+"Existing custom fields from a previous solution can be migrated once with a "
+"filter"
+msgstr ""
+"Bestaande eigen velden uit een eerdere oplossing kunnen eenmalig met een "
+"filter worden gemigreerd"
+
+#. Found in description list item.
+msgid ""
+"Settings: waste defaults, total price on or off, stock display, note for "
+"goods sold by the meter, available quantity types"
+msgstr ""
+"Instellingen: standaardwaarden voor snijverlies, totaalprijs aan of uit, "
+"voorraadweergave, opmerking voor artikelen per meter, beschikbare "
+"hoeveelheidstypen"
+
+#. Found in description list item.
+msgid ""
+"Quick edit and bulk edit for quantity type, size per unit and waste, for "
+"hundreds of products at once"
+msgstr ""
+"Snel bewerken en bulkbewerking voor hoeveelheidstype, maat per eenheid en "
+"snijverlies, voor honderden producten tegelijk"
+
+#. Found in description list item.
+msgid ""
+"Product list column showing type and size, plus a filter \"Size per unit "
+"missing\" to find incomplete products"
+msgstr ""
+"Kolom in de productlijst met type en maat, plus een filter \"Maat per "
+"eenheid ontbreekt\" om onvolledige producten te vinden"
+
+#. Found in description list item.
+msgid ""
+"Waste percentage per product, for example 15 % for herringbone and 5 % for "
+"click vinyl, with shop defaults for area products and for skirting boards"
+msgstr ""
+"Snijverliespercentage per product, bijvoorbeeld 15 % voor visgraat en 5 % "
+"voor klikvinyl, met winkelstandaarden voor oppervlakteproducten en voor "
+"plinten"
+
+#. Found in description list item.
+msgid ""
+"Quantity type, size per unit and waste percentage per product, in the "
+"product data panel"
+msgstr ""
+"Hoeveelheidstype, maat per eenheid en snijverliespercentage per product, in "
+"het paneel Productgegevens"
+
+#. Found in description list item.
+msgid ""
+"Respects minimum and maximum quantities and stock limits set by WooCommerce "
+"or other plugins"
+msgstr ""
+"Houdt rekening met minimale en maximale hoeveelheden en voorraadlimieten die"
+" WooCommerce of andere plugins instellen"
+
+#. Found in description list item.
+msgid ""
+"Stock shown in m² instead of packs, for example \"534.06 m² in stock\" "
+"(optional)"
+msgstr ""
+"Voorraad in m² in plaats van in pakken, bijvoorbeeld \"534,06 m² op "
+"voorraad\" (optioneel)"
+
+#. Found in description list item.
+msgid ""
+"The value is saved with each order line, so it appears in the order screen, "
+"in order emails and on invoices"
+msgstr ""
+"De waarde wordt bij elke bestelregel opgeslagen, dus ze verschijnt in het "
+"bestelscherm, in bestelmails en op facturen"
+
+#. Found in description list item.
+msgid ""
+"Works in the classic cart and checkout and in the block based cart and "
+"checkout"
+msgstr ""
+"Werkt in het klassieke winkelwagentje en de klassieke kassa en in het "
+"blokgebaseerde winkelwagentje en de blokgebaseerde kassa"
+
+#. Found in description list item.
+msgid ""
+"Delivered area, length or weight shown with every line item, for example "
+"\"Area: 38.28 m²\" or \"equals 77.00 kg\""
+msgstr ""
+"Geleverde oppervlakte, lengte of gewicht bij elke regel getoond, "
+"bijvoorbeeld \"Oppervlakte: 38,28 m²\" of \"gelijk aan 77,00 kg\""
+
+#. Found in description list item.
+msgid ""
+"Mobile friendly: the calculator stacks into one column with large touch "
+"targets"
+msgstr ""
+"Mobielvriendelijk: de calculator schikt zich in één kolom met grote "
+"tikvlakken"
+
+#. Found in description list item.
+msgid "Prefilled fields are selected on tap, typing replaces the old value"
+msgstr ""
+"Vooraf ingevulde velden worden bij het tikken geselecteerd, zodat typen de "
+"oude waarde vervangt"
+
+#. Found in description list item.
+msgid ""
+"The entered area is remembered during the visit, so comparing floors or "
+"adding the matching underlay and adhesive is instant"
+msgstr ""
+"De ingevoerde oppervlakte wordt tijdens het bezoek onthouden, zodat vloeren "
+"vergelijken of de bijpassende ondervloer en lijm toevoegen direct kan"
+
+#. Found in description list item.
+msgid ""
+"Goods sold by the meter: a fixed note such as \"Sold by the meter. Length "
+"per piece approx. 2.40 to 2.70 meters.\""
+msgstr ""
+"Artikelen per meter: een vaste opmerking zoals \"Per meter verkocht. Lengte "
+"per stuk circa 2,40 tot 2,70 meter.\""
+
+#. Found in description list item.
+msgid "Price suffix per unit on variations, for example \"29.50 € / pack\""
+msgstr "Prijstoevoeging per eenheid bij variaties, bijvoorbeeld \"29,50 € / pak\""
+
+#. Found in description list item.
+msgid ""
+"Variable products: each variation can have its own size per unit, the "
+"calculator switches with the selection"
+msgstr ""
+"Variabele producten: elke variatie kan een eigen maat per eenheid hebben, de"
+" calculator schakelt mee met de selectie"
+
+#. Found in description list item.
+msgid ""
+"Notices when a minimum quantity applies or when stock is lower than the "
+"requested amount"
+msgstr ""
+"Meldingen wanneer een minimale hoeveelheid geldt of wanneer de voorraad "
+"lager is dan de gevraagde hoeveelheid"
+
+#. Found in description list item.
+msgid ""
+"Live total price including tax; on sale items also the regular total and the"
+" saving"
+msgstr ""
+"Live totaalprijs inclusief btw; bij aanbiedingen ook het reguliere totaal en"
+" de besparing"
+
+#. Found in description list item.
+msgid ""
+"Room calculator: length × width for floors and panels, perimeter for "
+"skirting boards, area for adhesives"
+msgstr ""
+"Ruimtecalculator: lengte × breedte voor vloeren en panelen, omtrek voor "
+"plinten, oppervlakte voor lijmen"
+
+#. Found in description list item.
+msgid ""
+"Waste checkbox, for example \"Add 10% for waste\", with a line showing the "
+"area and packs including waste"
+msgstr ""
+"Selectievakje voor snijverlies, bijvoorbeeld \"10% snijverlies toevoegen\", "
+"met een regel die de oppervlakte en pakken inclusief snijverlies toont"
+
+#. Found in description list item.
+msgid ""
+"Hint below the quantity field, for example \"1 pack = 1.74 m²\" or the "
+"required adhesive weight \"Required: 50 kg\""
+msgstr ""
+"Hint onder het hoeveelheidsveld, bijvoorbeeld \"1 pak = 1,74 m²\" of het "
+"benodigde lijmgewicht \"Benodigd: 50 kg\""
+
+#. Found in description list item.
+msgid "Plus and minus buttons on the area field step by exactly one pack"
+msgstr ""
+"De plus- en minknoppen in het oppervlakteveld gaan precies één pak per stap"
+
+#. Found in description list item.
+msgid ""
+"Always rounded up to whole packs, rolls, panels, pieces or containers, so "
+"the customer never orders too little"
+msgstr ""
+"Altijd naar boven afgerond op hele pakken, rollen, panelen, stuks of emmers,"
+" zodat de klant nooit te weinig bestelt"
+
+#. Found in description list item.
+msgid ""
+"Two way calculation: enter the area to get packs, or change the packs to see"
+" the area they cover"
+msgstr ""
+"Berekening in twee richtingen: voer de oppervlakte in voor het aantal "
+"pakken, of wijzig de pakken om te zien welke oppervlakte ze dekken"
+
+#. Found in description list item.
+msgid ""
+"Delivered area = packs × size per pack (shown in cart and saved with the "
+"order)"
+msgstr ""
+"Geleverde oppervlakte = pakken × maat per pak (getoond in het winkelwagentje"
+" en opgeslagen bij de bestelling)"
+
+#. Found in description list item.
+msgid ""
+"Adhesive containers = area × coverage in kg per m² ÷ container size in kg, "
+"rounded up"
+msgstr ""
+"Lijmemmers = oppervlakte × dekking in kg per m² ÷ emmerinhoud in kg, naar "
+"boven afgerond"
+
+#. Found in description list item.
+msgid ""
+"Skirting boards = 2 × (room length + room width) ÷ length per board, rounded"
+" up"
+msgstr ""
+"Plinten = 2 × (lengte van de ruimte + breedte van de ruimte) ÷ lengte per "
+"plint, naar boven afgerond"
+
+#. Found in description list item.
+msgid "With waste = area × (1 + waste %) ÷ size per pack, rounded up"
+msgstr ""
+"Met snijverlies = oppervlakte × (1 + snijverlies %) ÷ maat per pak, naar "
+"boven afgerond"
+
+#. Found in description list item.
+msgid "Packs = area ÷ size per pack, rounded up"
+msgstr "Pakken = oppervlakte ÷ maat per pak, naar boven afgerond"
+
+#. Found in description list item.
+msgid ""
+"Any WooCommerce shop that sells per pack, roll, box or bucket while "
+"customers think in square meters or running meters"
+msgstr ""
+"Elke WooCommerce-winkel die per pak, rol, doos of emmer verkoopt terwijl "
+"klanten denken in vierkante meters of strekkende meters"
+
+#. Found in description list item.
+msgid ""
+"Shops selling skirting boards, profiles, transition strips and wall or "
+"acoustic panels"
+msgstr ""
+"Winkels die plinten, profielen, overgangsprofielen en wand- of akoestische "
+"panelen verkopen"
+
+#. Found in description list item.
+msgid ""
+"Building material shops: underlay, insulation, adhesives, fillers, levelling"
+" compound"
+msgstr ""
+"Bouwmaterialenwinkels: ondervloer, isolatie, lijmen, plamuren, "
+"egaliseermiddel"
+
+#. Found in description list item.
+msgid "Tile shops selling tiles per box"
+msgstr "Tegelwinkels die tegels per doos verkopen"
+
+#. Found in description list item.
+msgid ""
+"Flooring shops: laminate, vinyl and LVT, parquet, linoleum, carpet tiles, "
+"cork"
+msgstr ""
+"Vloerenwinkels: laminaat, vinyl en LVT, parket, linoleum, tapijttegels, kurk"
+
+#. Found in description list item.
+msgid "<strong>Pieces</strong>: the plain WooCommerce quantity field"
+msgstr "<strong>Stuks</strong>: het gewone WooCommerce-hoeveelheidsveld"
+
+#. Found in description list item.
+msgid ""
+"<strong>Coverage / container</strong>: adhesives and fillers, from coverage "
+"in kg per m² and container size"
+msgstr ""
+"<strong>Dekking / emmer</strong>: lijmen en plamuren, uit dekking in kg per "
+"m² en emmerinhoud"
+
+#. Found in description list item.
+msgid "<strong>Meters</strong>: goods sold by the running meter"
+msgstr ""
+"<strong>Meter</strong>: artikelen die per strekkende meter worden verkocht"
+
+#. Found in description list item.
+msgid ""
+"<strong>Meters / pieces</strong>: skirting boards and profiles sold per "
+"piece of fixed length"
+msgstr ""
+"<strong>Meter / stuks</strong>: plinten en profielen die per stuk met een "
+"vaste lengte worden verkocht"
+
+#. Found in description list item.
+msgid ""
+"<strong>Square meters / panels</strong>: acoustic and wall panels, sizes per"
+" variation supported"
+msgstr ""
+"<strong>Vierkante meter / panelen</strong>: akoestische panelen en "
+"wandpanelen, maten per variatie mogelijk"
+
+#. Found in description list item.
+msgid ""
+"<strong>Square meters / rolls</strong>: underlay, insulation, rolled goods"
+msgstr ""
+"<strong>Vierkante meter / rollen</strong>: ondervloer, isolatie, rolgoederen"
+
+#. Found in description list item.
+msgid ""
+"<strong>Square meters / packs</strong>: laminate, vinyl, parquet, tiles, "
+"carpet tiles"
+msgstr ""
+"<strong>Vierkante meter / pakken</strong>: laminaat, vinyl, parket, tegels, "
+"tapijttegels"
+
+#. Found in description list item.
+msgid ""
+"<strong>Underlay rolls and wall panels</strong>: area divided by the size of"
+" one roll or panel, rounded up."
+msgstr ""
+"<strong>Ondervloerrollen en wandpanelen</strong>: oppervlakte gedeeld door "
+"de maat van één rol of paneel, naar boven afgerond."
+
+#. Found in description list item.
+msgid ""
+"<strong>Adhesive</strong>: 50 m² at 1 kg per m² in 25 kg buckets is 2 "
+"containers."
+msgstr ""
+"<strong>Lijm</strong>: 50 m² met 1 kg per m² in emmers van 25 kg is 2 "
+"emmers."
+
+#. Found in description list item.
+msgid ""
+"<strong>Skirting boards</strong>: a 5 × 4 m room has an 18 m perimeter, at "
+"2.40 m per board that is 8 boards."
+msgstr ""
+"<strong>Plinten</strong>: een ruimte van 5 × 4 m heeft een omtrek van 18 m, "
+"bij 2,40 m per plint zijn dat 8 plinten."
+
+#. Found in description list item.
+msgid ""
+"The total price updates instantly, the cart shows \"Area: 38.28 m²\" next to"
+" the line item."
+msgstr ""
+"De totaalprijs wordt direct bijgewerkt, het winkelwagentje toont "
+"\"Oppervlakte: 38,28 m²\" naast de regel."
+
+#. Found in description list item.
+msgid ""
+"With 10 % waste ticked: 41.25 m² ÷ 1.74 m² = 23.7, rounded up to <strong>24 "
+"packs</strong>."
+msgstr ""
+"Met 10 % snijverlies aangevinkt: 41,25 m² ÷ 1,74 m² = 23,7, naar boven "
+"afgerond op <strong>24 pakken</strong>."
+
+#. Found in description list item.
+msgid ""
+"37.5 m² ÷ 1.74 m² = 21.6, rounded up to <strong>22 packs</strong>, which "
+"cover 38.28 m²."
+msgstr ""
+"37,5 m² ÷ 1,74 m² = 21,6, naar boven afgerond op <strong>22 pakken</strong>,"
+" die 38,28 m² dekken."
+
+#. Found in description header.
+msgid "Copyright"
+msgstr "Copyright"
+
+#. Found in description header.
+msgid "Trademarks"
+msgstr "Handelsmerken"
+
+#. Found in description header.
+msgid "Disclaimer"
+msgstr "Disclaimer"
+
+#. Found in description header.
+msgid "Support"
+msgstr "Support"
+
+#. Found in description header.
+msgid "Privacy"
+msgstr "Privacy"
+
+#. Found in description header.
+msgid "Works with your theme"
+msgstr "Werkt met je thema"
+
+#. Found in description header.
+msgid "For developers"
+msgstr "Voor ontwikkelaars"
+
+#. Found in description header.
+msgid "Features for shop managers"
+msgstr "Functies voor winkelbeheerders"
+
+#. Found in description header.
+msgid "Features in cart, checkout and orders"
+msgstr "Functies in winkelwagen, kassa en bestellingen"
+
+#. Found in description header.
+msgid "Features on the product page"
+msgstr "Functies op de productpagina"
+
+#. Found in description header.
+msgid "Formulas used"
+msgstr "Gebruikte formules"
+
+#. Found in description header.
+msgid "Who it is for"
+msgstr "Voor wie is het"
+
+#. Found in description header.
+msgid "Quantity types"
+msgstr "Hoeveelheidstypen"
+
+#. Found in description header.
+msgid "How it works"
+msgstr "Zo werkt het"
+
+#. Screenshot description.
+msgid ""
+"Mobile: the calculator stacks into one column with large touch targets."
+msgstr "Mobiel: de calculator schikt zich in één kolom met grote tikvlakken."
+
+#. Screenshot description.
+msgid ""
+"Settings: waste defaults for area and length products, total price, stock "
+"display and quantity types."
+msgstr ""
+"Instellingen: standaardwaarden voor snijverlies bij oppervlakte- en "
+"lengteproducten, totaalprijs, voorraadweergave en hoeveelheidstypen."
+
+#. Screenshot description.
+msgid ""
+"Product data: quantity type, size of one sales unit and an optional waste "
+"percentage per product."
+msgstr ""
+"Productgegevens: hoeveelheidstype, maat van één verkoopeenheid en een "
+"optioneel snijverliespercentage per product."
+
+#. Screenshot description.
+msgid ""
+"Cart: delivered area, length or weight is shown with every line item and "
+"saved with the order."
+msgstr ""
+"Winkelwagen: geleverde oppervlakte, lengte of gewicht staat bij elke regel "
+"en wordt bij de bestelling opgeslagen."
+
+#. Screenshot description.
+msgid ""
+"Adhesive: coverage per square meter and container size give the number of "
+"containers."
+msgstr ""
+"Lijm: dekking per vierkante meter en emmerinhoud geven het aantal emmers."
+
+#. Screenshot description.
+msgid ""
+"Skirting boards: the room calculator turns length and width into pieces, "
+"with its own waste allowance."
+msgstr ""
+"Plinten: de ruimtecalculator rekent lengte en breedte om naar stuks, met een"
+" eigen snijverlies."
+
+#. Screenshot description.
+msgid ""
+"Flooring: enter the area, get the number of packs and the total price, "
+"optionally with waste."
+msgstr ""
+"Vloer: voer de oppervlakte in, krijg het aantal pakken en de totaalprijs, "
+"optioneel met snijverlies."
+
+#. Found in changelog list item.
+msgid "First public release."
+msgstr "Eerste openbare release."
+
+#. Found in changelog list item.
+msgid ""
+"The area or length is now saved with each order line, so it shows in the "
+"order screen, in the order emails to the shop and on invoices."
+msgstr ""
+"De oppervlakte of lengte wordt nu bij elke bestelregel opgeslagen, dus ze "
+"verschijnt in het bestelscherm, in de bestelmails naar de winkel en op "
+"facturen."
+
+#. Found in changelog list item.
+msgid "Hide the internal marker of saved order lines in the order screen."
+msgstr ""
+"Interne markering van opgeslagen bestelregels in het bestelscherm verborgen."
+
+#. Found in changelog list item.
+msgid ""
+"The unit stays behind the quantity field when the theme reorders the field "
+"(for example Woodmart on variable products)."
+msgstr ""
+"De eenheid blijft achter het hoeveelheidsveld staan wanneer het thema het "
+"veld verplaatst (bijvoorbeeld Woodmart bij variabele producten)."
+
+#. Found in changelog list item.
+msgid ""
+"Prefilled fields are selected on tap, so typing replaces the old value."
+msgstr ""
+"Vooraf ingevulde velden worden bij het tikken geselecteerd, zodat typen de "
+"oude waarde vervangt."
+
+#. Found in changelog list item.
+msgid ""
+"Layout: calculator, total price box and room calculator look consistent in "
+"more themes, also on mobile and on variable products."
+msgstr ""
+"Lay-out: calculator, totaalprijsvak en ruimtecalculator zien er in meer "
+"thema's consistent uit, ook op mobiel en bij variabele producten."
+
+#. Found in changelog list item.
+msgid "Cart, checkout and order show the total weight for adhesives."
+msgstr ""
+"Winkelwagen, kassa en bestelling tonen het totale gewicht voor lijmen."
+
+#. Found in changelog list item.
+msgid ""
+"Adhesive: changing the number of containers updates the area to be glued."
+msgstr ""
+"Lijm: als je het aantal emmers wijzigt, past de te lijmen oppervlakte zich "
+"aan."
+
+#. Found in changelog list item.
+msgid ""
+"The filter <code>caqc_waste_percent</code> now also receives the product and"
+" the waste group. It no longer applies to adhesive and piece products."
+msgstr ""
+"De filter <code>caqc_waste_percent</code> ontvangt nu ook het product en de "
+"snijverliesgroep. Hij geldt niet meer voor lijm- en stuksproducten."
+
+#. Found in changelog list item.
+msgid "Quick edit and bulk edit for the waste percentage."
+msgstr "Snel bewerken en bulkbewerking voor het snijverliespercentage."
+
+#. Found in changelog list item.
+msgid "Goods sold by the meter: waste checkbox inside the room calculator."
+msgstr ""
+"Artikelen per meter: selectievakje voor snijverlies in de ruimtecalculator."
+
+#. Found in changelog list item.
+msgid ""
+"Separate waste default for skirting boards and goods sold by the meter (off "
+"by default)."
+msgstr ""
+"Aparte standaardwaarde voor snijverlies bij plinten en artikelen per meter "
+"(standaard uit)."
+
+#. Found in changelog list item.
+msgid ""
+"Waste per product: each product can set its own waste percentage, an empty "
+"field uses the shop default."
+msgstr ""
+"Snijverlies per product: elk product kan een eigen snijverliespercentage "
+"instellen, een leeg veld gebruikt de winkelstandaard."
+
+#. Found in description paragraph.
+msgid ""
+"Think of it as a free measurement price calculator made for flooring: an m2 "
+"calculator (m² to packs), a box calculator for tiles, a roll calculator for "
+"underlay and a coverage calculator for adhesives, all in one plugin and "
+"without per square meter pricing tricks."
+msgstr ""

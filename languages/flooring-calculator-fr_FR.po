@@ -1,0 +1,591 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Flooring Calculator for WooCommerce 1.0.4\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/flooring-calculator\n"
+"Last-Translator: Patrick Schlesinger <ps@cms-admins.de>\n"
+"Language-Team: fr_FR\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Domain: flooring-calculator\n"
+
+#. Plugin Name of the plugin
+#: flooring-calculator.php
+msgid "Flooring Calculator for WooCommerce"
+msgstr "Calculateur de revêtement de sol pour WooCommerce"
+
+#. Description of the plugin
+#: flooring-calculator.php
+msgid ""
+"Converts between area, length and sales unit on WooCommerce product pages "
+"and shows the total price instantly. For flooring, underlay, adhesives, "
+"skirting boards, panels and profiles."
+msgstr ""
+"Convertit surface, longueur et unité de vente sur les pages produit "
+"WooCommerce et affiche le prix total instantanément. Pour sols, sous-"
+"couches, colles, plinthes, panneaux et profilés."
+
+#. Author of the plugin
+#: flooring-calculator.php
+msgid "Patrick Schlesinger"
+msgstr "Patrick Schlesinger"
+
+#. Author URI of the plugin
+#: flooring-calculator.php
+msgid "https://www.cms-admins.de/"
+msgstr "https://www.cms-admins.de/"
+
+#: flooring-calculator.php:108
+msgid ""
+"Flooring Calculator for WooCommerce needs WooCommerce to be installed and "
+"active."
+msgstr ""
+"Calculateur de revêtement de sol pour WooCommerce nécessite que WooCommerce "
+"soit installé et activé."
+
+#: includes/class-caqc-admin.php:51 includes/class-caqc-admin.php:56
+#: includes/class-caqc-admin.php:172 includes/class-caqc-product-meta.php:37
+msgid "Quantity type"
+msgstr "Type de quantité"
+
+#: includes/class-caqc-admin.php:96
+msgid "Coverage or container size missing"
+msgstr "Rendement ou contenance du seau manquant"
+
+#. translators: 1: coverage in kg per m², 2: container size in kg.
+#: includes/class-caqc-admin.php:106
+#, php-format
+msgid "%1$s kg/m², container %2$s kg"
+msgstr "%1$s kg/m², seau de %2$s kg"
+
+#: includes/class-caqc-admin.php:117
+msgid "Size per variation"
+msgstr "Taille par variation"
+
+#: includes/class-caqc-admin.php:125 includes/class-caqc-admin.php:382
+msgid "Size per unit missing"
+msgstr "Taille par unité manquante"
+
+#: includes/class-caqc-admin.php:178 includes/class-caqc-admin.php:204
+msgid "No change"
+msgstr "Aucun changement"
+
+#: includes/class-caqc-admin.php:179
+msgid "Select"
+msgstr "Sélectionner"
+
+#: includes/class-caqc-admin.php:189 includes/class-caqc-product-meta.php:56
+#: includes/class-caqc-product-meta.php:159
+msgid "Size per unit"
+msgstr "Taille par unité"
+
+#: includes/class-caqc-admin.php:193
+msgid "no change"
+msgstr "aucun changement"
+
+#: includes/class-caqc-admin.php:200 includes/class-caqc-product-meta.php:66
+msgid "Waste (%)"
+msgstr "Chutes (%)"
+
+#: includes/class-caqc-admin.php:205
+msgid "Set to"
+msgstr "Définir à"
+
+#: includes/class-caqc-admin.php:206
+msgid "Reset to shop default"
+msgstr "Rétablir la valeur par défaut de la boutique"
+
+#: includes/class-caqc-admin.php:212 includes/class-caqc-product-meta.php:70
+msgid "Shop default"
+msgstr "Valeur par défaut de la boutique"
+
+#: includes/class-caqc-admin.php:367
+msgid "All quantity types"
+msgstr "Tous les types de quantité"
+
+#: includes/class-caqc-cart.php:69 includes/class-caqc-cart.php:134
+#: includes/class-caqc-types.php:134 includes/class-caqc-types.php:154
+#: includes/class-caqc-types.php:192
+msgid "Quantity"
+msgstr "Quantité"
+
+#. translators: %s: total measure with unit, e.g. "41.76 m²".
+#: includes/class-caqc-cart.php:254
+#, php-format
+msgid "equals %s"
+msgstr "équivaut à %s"
+
+#: includes/class-caqc-product-meta.php:40
+msgid "How this product is measured and sold."
+msgstr "Comment ce produit est mesuré et vendu."
+
+#: includes/class-caqc-product-meta.php:47
+msgid "Use \"Size per unit\" from variations"
+msgstr "Utiliser la « Taille par unité » des variations"
+
+#: includes/class-caqc-product-meta.php:49
+msgid ""
+"The calculator uses the \"Size per unit\" of each variation. Useful when "
+"variations differ in size. The field below is ignored then."
+msgstr ""
+"Le calculateur utilise la « Taille par unité » de chaque variation. Utile "
+"lorsque les variations ont des tailles différentes. Le champ ci-dessous est "
+"alors ignoré."
+
+#: includes/class-caqc-product-meta.php:58
+msgid ""
+"Size contained in one unit of this product, for example 0.46 for 0.46 m² per"
+" pack or 8.5 for a roll of 8.5 m²."
+msgstr ""
+"Taille contenue dans une unité de ce produit, par exemple 0,46 pour 0,46 m² "
+"par paquet ou 8,5 pour un rouleau de 8,5 m²."
+
+#: includes/class-caqc-product-meta.php:68
+msgid ""
+"Leave empty to use the shop default. 0 hides the waste checkbox for this "
+"product. Applies to area and length types."
+msgstr ""
+"Laissez vide pour utiliser la valeur par défaut de la boutique. 0 masque la "
+"case des chutes pour ce produit. S'applique aux types surface et longueur."
+
+#: includes/class-caqc-product-meta.php:79
+msgid ""
+"Only for the quantity type \"Coverage / container\". Both fields are "
+"required, otherwise the product page shows the plain quantity field."
+msgstr ""
+"Uniquement pour le type de quantité « Rendement / seau ». Les deux champs "
+"sont obligatoires, sinon la page produit affiche le simple champ de "
+"quantité."
+
+#: includes/class-caqc-product-meta.php:85
+msgid "Coverage in kg per m²"
+msgstr "Rendement en kg par m²"
+
+#: includes/class-caqc-product-meta.php:87
+msgid ""
+"For example 1 for 1 kg per m². If the manufacturer gives a range, enter the "
+"upper value so the amount is sufficient."
+msgstr ""
+"Par exemple 1 pour 1 kg par m². Si le fabricant indique une plage, saisissez"
+" la valeur haute pour que la quantité soit suffisante."
+
+#: includes/class-caqc-product-meta.php:95
+msgid "Container size in kg"
+msgstr "Contenance du seau en kg"
+
+#: includes/class-caqc-product-meta.php:97
+msgid "Content of one container, for example 10 for a 10 kg bucket."
+msgstr "Contenu d'un seau, par exemple 10 pour un seau de 10 kg."
+
+#: includes/class-caqc-product-meta.php:161
+msgid ""
+"Size contained in one unit of this variation, for example 1.63 for a panel "
+"of 1.63 m²."
+msgstr ""
+"Taille contenue dans une unité de cette variation, par exemple 1,63 pour un "
+"panneau de 1,63 m²."
+
+#: includes/class-caqc-render.php:145
+msgid "Decrease amount"
+msgstr "Diminuer la quantité"
+
+#: includes/class-caqc-render.php:153
+msgid "Increase amount"
+msgstr "Augmenter la quantité"
+
+#. translators: %s: waste percentage, e.g. "10".
+#: includes/class-caqc-render.php:186
+#, php-format
+msgid "Add %s%% for waste"
+msgstr "Ajouter %s%% pour les chutes"
+
+#: includes/class-caqc-render.php:204 includes/class-caqc-types.php:83
+#: includes/class-caqc-types.php:102 includes/class-caqc-types.php:140
+#: includes/class-caqc-types.php:160
+msgid "Calculate from room dimensions"
+msgstr "Calculer à partir des dimensions de la pièce"
+
+#: includes/class-caqc-render.php:213
+msgid "Room length"
+msgstr "Longueur de la pièce"
+
+#: includes/class-caqc-render.php:214 includes/class-caqc-render.php:220
+#: includes/class-caqc-types.php:127 includes/class-caqc-types.php:131
+#: includes/class-caqc-types.php:148 includes/class-caqc-types.php:151
+msgid "m"
+msgstr "m"
+
+#: includes/class-caqc-render.php:219
+msgid "Room width"
+msgstr "Largeur de la pièce"
+
+#: includes/class-caqc-render.php:225
+msgid "Apply"
+msgstr "Appliquer"
+
+#: includes/class-caqc-render.php:243
+msgid "Total price"
+msgstr "Prix total"
+
+#: includes/class-caqc-render.php:245
+msgid "incl. VAT"
+msgstr "TTC"
+
+#. translators: 1: sales unit, e.g. "pack", 2: size of one unit, 3: size unit,
+#. e.g. "m²".
+#: includes/class-caqc-render.php:282
+#, php-format
+msgid "1 %1$s = %2$s %3$s"
+msgstr "1 %1$s = %2$s %3$s"
+
+#. translators: 1: length of one piece, 2: length unit, e.g. "m".
+#: includes/class-caqc-render.php:284
+#, php-format
+msgid "Sold by the meter. Length per piece approx. %1$s %2$s."
+msgstr "Vendu au mètre. Longueur par pièce d'environ %1$s %2$s."
+
+#: includes/class-caqc-render.php:285
+msgid "Please select a product variation first."
+msgstr "Veuillez d'abord sélectionner une variation du produit."
+
+#. translators: 1: maximum quantity, 2: sales unit, e.g. "packs".
+#: includes/class-caqc-render.php:287
+#, php-format
+msgid "More than %1$s %2$s are currently not available."
+msgstr "Plus de %1$s %2$s ne sont actuellement pas disponibles."
+
+#. translators: 1: minimum quantity, 2: sales unit, e.g. "rolls".
+#: includes/class-caqc-render.php:289
+#, php-format
+msgid "Minimum order: %1$s %2$s."
+msgstr "Commande minimale : %1$s %2$s."
+
+#. translators: 1: calculated area or length, 2: unit, e.g. "m²".
+#: includes/class-caqc-render.php:291
+#, php-format
+msgid "Required: %1$s %2$s"
+msgstr "Nécessaire : %1$s %2$s"
+
+#. translators: %1$s: adhesive weight.
+#: includes/class-caqc-render.php:293
+#, php-format
+msgid "Required: %1$s kg"
+msgstr "Nécessaire : %1$s kg"
+
+#. translators: 1: waste percentage, 2: area incl. waste, 3: unit, 4:
+#. quantity, 5: sales unit.
+#: includes/class-caqc-render.php:295
+#, php-format
+msgid "incl. %1$s%% waste: %2$s %3$s, %4$s %5$s"
+msgstr "dont %1$s%% de chutes : %2$s %3$s, %4$s %5$s"
+
+#. translators: 1: regular total price, 2: amount saved.
+#: includes/class-caqc-render.php:297
+#, php-format
+msgid "instead of %1$s, you save %2$s"
+msgstr "au lieu de %1$s, vous économisez %2$s"
+
+#: includes/class-caqc-settings.php:46 includes/class-caqc-settings.php:82
+msgid "Flooring calculator"
+msgstr "Calculateur de sol"
+
+#: includes/class-caqc-settings.php:62
+msgid "Settings"
+msgstr "Réglages"
+
+#: includes/class-caqc-settings.php:88
+msgid "Waste for area products (%)"
+msgstr "Chutes pour les produits en surface (%)"
+
+#: includes/class-caqc-settings.php:89
+msgid ""
+"Default the customer can add with a checkbox. Products can set their own "
+"value."
+msgstr ""
+"Valeur par défaut que le client peut ajouter avec une case à cocher. Chaque "
+"produit peut définir sa propre valeur."
+
+#: includes/class-caqc-settings.php:99
+msgid "Applies to packs, rolls and panels. 0 hides the checkbox."
+msgstr ""
+"S'applique aux paquets, rouleaux et panneaux. 0 masque la case à cocher."
+
+#: includes/class-caqc-settings.php:102
+msgid "Waste for skirting and length products (%)"
+msgstr "Chutes pour les plinthes et produits en longueur (%)"
+
+#: includes/class-caqc-settings.php:103
+msgid ""
+"Default for skirting boards and goods sold by the meter. Products can set "
+"their own value."
+msgstr ""
+"Valeur par défaut pour les plinthes et les articles vendus au mètre. Chaque "
+"produit peut définir sa propre valeur."
+
+#: includes/class-caqc-settings.php:113
+msgid "Applies to meters / pieces and meters. 0 hides the checkbox."
+msgstr "S'applique à mètres / pièces et mètres. 0 masque la case à cocher."
+
+#: includes/class-caqc-settings.php:116
+msgid "Show total price"
+msgstr "Afficher le prix total"
+
+#: includes/class-caqc-settings.php:117
+msgid "Show a running total below the calculator"
+msgstr "Afficher un total en direct sous le calculateur"
+
+#: includes/class-caqc-settings.php:121
+msgid "Turn off if your theme already shows a running total."
+msgstr ""
+"Désactivez cette option si votre thème affiche déjà un total en direct."
+
+#: includes/class-caqc-settings.php:124
+msgid "Convert stock display"
+msgstr "Convertir l'affichage du stock"
+
+#: includes/class-caqc-settings.php:125
+msgid "Show stock in the product's measure instead of units"
+msgstr ""
+"Afficher le stock dans l'unité de mesure du produit plutôt qu'en unités de "
+"vente"
+
+#: includes/class-caqc-settings.php:129
+msgid ""
+"\"534 in stock\" becomes \"534.06 m² in stock\". Only affects area based "
+"quantity types."
+msgstr ""
+"« 534 en stock » devient « 534,06 m² en stock ». Concerne uniquement les "
+"types de quantité basés sur la surface."
+
+#: includes/class-caqc-settings.php:132
+msgid "Note for goods sold by the meter"
+msgstr "Remarque pour les articles vendus au mètre"
+
+#: includes/class-caqc-settings.php:133
+msgid ""
+"Fixed text below the quantity field for the type Meters. Leave empty to show"
+" the product's piece length instead."
+msgstr ""
+"Texte fixe sous le champ de quantité pour le type Mètres. Laissez vide pour "
+"afficher à la place la longueur de la pièce du produit."
+
+#: includes/class-caqc-settings.php:137
+msgid "Sold by the meter. Length per piece approx. 2.40 to 2.70 meters."
+msgstr "Vendu au mètre. Longueur par pièce d'environ 2,40 à 2,70 mètres."
+
+#: includes/class-caqc-settings.php:141
+msgid "Available quantity types"
+msgstr "Types de quantité disponibles"
+
+#: includes/class-caqc-settings.php:142
+msgid ""
+"Only the selected types appear in the product dropdown. Values already set "
+"are kept."
+msgstr ""
+"Seuls les types sélectionnés apparaissent dans la liste déroulante du "
+"produit. Les valeurs déjà définies sont conservées."
+
+#: includes/class-caqc-settings.php:163
+msgid ""
+"The calculator appears on a product page once a quantity type is selected "
+"and a size per unit is entered under Product data, General."
+msgstr ""
+"Le calculateur s'affiche sur une page produit dès qu'un type de quantité est"
+" sélectionné et qu'une taille par unité est saisie sous Données du produit, "
+"Général."
+
+#: includes/class-caqc-settings.php:171
+msgid "Data from a previous solution found."
+msgstr "Des données d'une solution précédente ont été trouvées."
+
+#. translators: %d: number of meta keys.
+#: includes/class-caqc-settings.php:175
+#, php-format
+msgid ""
+"%d field still uses an old name. The plugin takes it over on the next "
+"activation."
+msgid_plural ""
+"%d fields still use old names. The plugin takes them over on the next "
+"activation."
+msgstr[0] ""
+"%d champ utilise encore un ancien nom. L'extension le reprendra lors de la "
+"prochaine activation."
+msgstr[1] ""
+"%d champs utilisent encore un ancien nom. L'extension les reprendra lors de "
+"la prochaine activation."
+
+#. translators: %s: remaining stock with unit, e.g. "12.5 m²".
+#: includes/class-caqc-stock.php:80
+#, php-format
+msgid "Only %s left in stock"
+msgstr "Plus que %s en stock"
+
+#. translators: %s: stock with unit, e.g. "534.06 m²".
+#: includes/class-caqc-stock.php:84
+#, php-format
+msgid "%s in stock"
+msgstr "%s en stock"
+
+#: includes/class-caqc-types.php:67
+msgid "Square meters / packs"
+msgstr "Mètres carrés / paquets"
+
+#: includes/class-caqc-types.php:69 includes/class-caqc-types.php:88
+#: includes/class-caqc-types.php:107
+msgid "What area do you need?"
+msgstr "Quelle surface vous faut-il ?"
+
+#: includes/class-caqc-types.php:70 includes/class-caqc-types.php:74
+#: includes/class-caqc-types.php:89 includes/class-caqc-types.php:93
+#: includes/class-caqc-types.php:108 includes/class-caqc-types.php:112
+#: includes/class-caqc-types.php:166
+msgid "m²"
+msgstr "m²"
+
+#: includes/class-caqc-types.php:71
+msgid "How many packs do you need?"
+msgstr "Combien de paquets vous faut-il ?"
+
+#: includes/class-caqc-types.php:72
+msgid "pack"
+msgstr "paquet"
+
+#: includes/class-caqc-types.php:73
+msgid "packs"
+msgstr "paquets"
+
+#: includes/class-caqc-types.php:75
+msgid "/&nbsp;pack"
+msgstr "/&nbsp;paquet"
+
+#: includes/class-caqc-types.php:77 includes/class-caqc-types.php:96
+#: includes/class-caqc-types.php:115
+msgid "Area"
+msgstr "Surface"
+
+#: includes/class-caqc-types.php:86
+msgid "Square meters / rolls"
+msgstr "Mètres carrés / rouleaux"
+
+#: includes/class-caqc-types.php:90
+msgid "How many rolls do you need?"
+msgstr "Combien de rouleaux vous faut-il ?"
+
+#: includes/class-caqc-types.php:91
+msgid "roll"
+msgstr "rouleau"
+
+#: includes/class-caqc-types.php:92
+msgid "rolls"
+msgstr "rouleaux"
+
+#: includes/class-caqc-types.php:94
+msgid "/&nbsp;roll"
+msgstr "/&nbsp;rouleau"
+
+#: includes/class-caqc-types.php:105
+msgid "Square meters / panels"
+msgstr "Mètres carrés / panneaux"
+
+#: includes/class-caqc-types.php:109
+msgid "How many panels do you need?"
+msgstr "Combien de panneaux vous faut-il ?"
+
+#: includes/class-caqc-types.php:110
+msgid "panel"
+msgstr "panneau"
+
+#: includes/class-caqc-types.php:111
+msgid "panels"
+msgstr "panneaux"
+
+#: includes/class-caqc-types.php:113
+msgid "/&nbsp;panel"
+msgstr "/&nbsp;panneau"
+
+#: includes/class-caqc-types.php:121
+msgid "Calculate panels needed"
+msgstr "Calculer les panneaux nécessaires"
+
+#: includes/class-caqc-types.php:124
+msgid "Meters / pieces"
+msgstr "Mètres / pièces"
+
+#: includes/class-caqc-types.php:126 includes/class-caqc-types.php:147
+msgid "How many meters do you need?"
+msgstr "Combien de mètres vous faut-il ?"
+
+#: includes/class-caqc-types.php:128 includes/class-caqc-types.php:186
+msgid "How many pieces do you need?"
+msgstr "Combien de pièces vous faut-il ?"
+
+#: includes/class-caqc-types.php:129 includes/class-caqc-types.php:187
+msgid "piece"
+msgstr "pièce"
+
+#: includes/class-caqc-types.php:130 includes/class-caqc-types.php:188
+msgid "pieces"
+msgstr "pièces"
+
+#: includes/class-caqc-types.php:132
+msgid "/&nbsp;piece"
+msgstr "/&nbsp;pièce"
+
+#: includes/class-caqc-types.php:143
+msgid "Meters"
+msgstr "Mètres"
+
+#: includes/class-caqc-types.php:149
+msgid "meter"
+msgstr "mètre"
+
+#: includes/class-caqc-types.php:150
+msgid "meters"
+msgstr "mètres"
+
+#: includes/class-caqc-types.php:152
+msgid "/&nbsp;meter"
+msgstr "/&nbsp;mètre"
+
+#: includes/class-caqc-types.php:163
+msgid "Coverage / container"
+msgstr "Rendement / seau"
+
+#: includes/class-caqc-types.php:165
+msgid "Area to be glued?"
+msgstr "Surface à encoller ?"
+
+#: includes/class-caqc-types.php:167
+msgid "How many containers do you need?"
+msgstr "Combien de seaux vous faut-il ?"
+
+#: includes/class-caqc-types.php:168
+msgid "container"
+msgstr "seau"
+
+#: includes/class-caqc-types.php:169
+msgid "containers"
+msgstr "seaux"
+
+#: includes/class-caqc-types.php:170
+msgid "kg"
+msgstr "kg"
+
+#: includes/class-caqc-types.php:171
+msgid "/&nbsp;container"
+msgstr "/&nbsp;seau"
+
+#: includes/class-caqc-types.php:173
+msgid "Weight"
+msgstr "Poids"
+
+#: includes/class-caqc-types.php:179
+msgid "Calculate area from room dimensions"
+msgstr "Calculer la surface à partir des dimensions de la pièce"
+
+#: includes/class-caqc-types.php:182
+msgid "Pieces (default)"
+msgstr "Pièces (par défaut)"
