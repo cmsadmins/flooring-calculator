@@ -16,7 +16,7 @@ Flooring Calculator for WooCommerce turns the area a customer needs into the num
 
 No calculate button and no formulas to write: choose a quantity type, enter the size of one pack, done. The calculation works in both directions, so changing the number of packs updates the area as well.
 
-Think of it as a free measurement price calculator made for flooring: an m2 calculator (m² to packs), a box calculator for tiles, a roll calculator for underlay and a coverage calculator for adhesives, all in one plugin and without per square meter pricing tricks.
+Think of it as a free measurement price calculator made for flooring: an m2 calculator (m² to packs), a box calculator for tiles, a roll calculator for underlay and a coverage calculator for adhesives, all in one plugin, while the price stays per pack as set in your shop.
 
 = How it works =
 
