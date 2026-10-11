@@ -42,20 +42,64 @@ Each product gets one quantity type. The type decides which fields the customer 
 * **Coverage / container**: adhesives and fillers, from coverage in kg per m² and container size
 * **Pieces**: the plain WooCommerce quantity field
 
-= Features =
+= Who it is for =
 
-* Two way calculation: area to packs and packs to area, always rounded up to whole units
-* Waste allowance per checkbox, with a shop default for area products and one for skirting boards
-* Waste percentage per product, for example 15 % for herringbone and 5 % for click vinyl
-* Room calculator: length × width for floors, perimeter for skirting boards
-* Live total price including tax, with regular price and saving on sale items
-* Size per variation for products whose variations differ in size
-* Area, length or weight shown in cart, checkout, order details and order emails, and saved with the order
-* Stock shown in m² instead of packs (optional)
-* Classic and block based cart and checkout, High-Performance Order Storage (HPOS)
-* Product list column, filter "Size per unit missing", quick edit and bulk edit for hundreds of products at once
-* Respects minimum and maximum quantities and stock limits
-* German translations included (formal and informal)
+* Flooring shops: laminate, vinyl and LVT, parquet, linoleum, carpet tiles, cork
+* Tile shops selling tiles per box
+* Building material shops: underlay, insulation, adhesives, fillers, levelling compound
+* Shops selling skirting boards, profiles, transition strips and wall or acoustic panels
+* Any WooCommerce shop that sells per pack, roll, box or bucket while customers think in square meters or running meters
+
+= Formulas used =
+
+* Packs = area ÷ size per pack, rounded up
+* With waste = area × (1 + waste %) ÷ size per pack, rounded up
+* Skirting boards = 2 × (room length + room width) ÷ length per board, rounded up
+* Adhesive containers = area × coverage in kg per m² ÷ container size in kg, rounded up
+* Delivered area = packs × size per pack (shown in cart and saved with the order)
+
+= Features on the product page =
+
+* Two way calculation: enter the area to get packs, or change the packs to see the area they cover
+* Always rounded up to whole packs, rolls, panels, pieces or containers, so the customer never orders too little
+* Plus and minus buttons on the area field step by exactly one pack
+* Hint below the quantity field, for example "1 pack = 1.74 m²" or the required adhesive weight "Required: 50 kg"
+* Waste checkbox, for example "Add 10% for waste", with a line showing the area and packs including waste
+* Room calculator: length × width for floors and panels, perimeter for skirting boards, area for adhesives
+* Live total price including tax; on sale items also the regular total and the saving
+* Notices when a minimum quantity applies or when stock is lower than the requested amount
+* Variable products: each variation can have its own size per unit, the calculator switches with the selection
+* Price suffix per unit on variations, for example "29.50 € / pack"
+* Goods sold by the meter: a fixed note such as "Sold by the meter. Length per piece approx. 2.40 to 2.70 meters."
+* The entered area is remembered during the visit, so comparing floors or adding the matching underlay and adhesive is instant
+* Prefilled fields are selected on tap, typing replaces the old value
+* Mobile friendly: the calculator stacks into one column with large touch targets
+
+= Features in cart, checkout and orders =
+
+* Delivered area, length or weight shown with every line item, for example "Area: 38.28 m²" or "equals 77.00 kg"
+* Works in the classic cart and checkout and in the block based cart and checkout
+* The value is saved with each order line, so it appears in the order screen, in order emails and on invoices
+* Stock shown in m² instead of packs, for example "534.06 m² in stock" (optional)
+* Respects minimum and maximum quantities and stock limits set by WooCommerce or other plugins
+
+= Features for shop managers =
+
+* Quantity type, size per unit and waste percentage per product, in the product data panel
+* Waste percentage per product, for example 15 % for herringbone and 5 % for click vinyl, with shop defaults for area products and for skirting boards
+* Product list column showing type and size, plus a filter "Size per unit missing" to find incomplete products
+* Quick edit and bulk edit for quantity type, size per unit and waste, for hundreds of products at once
+* Settings: waste defaults, total price on or off, stock display, note for goods sold by the meter, available quantity types
+* Existing custom fields from a previous solution can be migrated once with a filter
+* Uninstalling removes only the plugin's settings, product data stays
+
+= For developers =
+
+* Filters `caqc_types` (own quantity types), `caqc_waste_percent` (waste per product or group), `caqc_stock_in_size` (stock display) and `caqc_migration_map` (migration of old meta keys)
+* No template overrides: the calculator uses the standard add to cart hooks
+* Compatible with High-Performance Order Storage (HPOS) and the cart and checkout blocks
+* PHP 7.4 to 8.5, WordPress 6.5 or later, WooCommerce 8.0 or later
+* Translation ready, German included (formal and informal)
 
 = Works with your theme =
 
