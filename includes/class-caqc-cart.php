@@ -219,7 +219,6 @@ final class CAQC_Cart {
 
 		$config = CAQC_Product::type_config( $product_id );
 
-		// Goods sold by the meter: the quantity already is the measure.
 		if ( empty( $config['cart_note'] ) ) {
 			return '';
 		}
@@ -228,8 +227,11 @@ final class CAQC_Cart {
 			return '';
 		}
 
-		// Adhesive: weight of all containers, the area depends on consumption.
-		if ( CAQC_Types::INPUT_GLUE === $config['input'] ) {
+		// Goods sold by the meter: the quantity already is the measure, so the note just adds the unit.
+		if ( CAQC_Types::INPUT_NONE === $config['input'] ) {
+			$size = 1.0;
+		} elseif ( CAQC_Types::INPUT_GLUE === $config['input'] ) {
+			// Adhesive: weight of all containers, the area depends on consumption.
 			$glue = CAQC_Product::glue( $product_id );
 			$size = null !== $glue ? (float) $glue['pack_size'] : null;
 		} else {

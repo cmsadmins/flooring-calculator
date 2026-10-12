@@ -4,7 +4,7 @@ Tags: woocommerce, flooring, square meter calculator, area calculator, coverage 
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -210,6 +210,9 @@ The plugin removes its own settings only. Sizes, waste values and quantity types
 
 == Changelog ==
 
+= 1.0.6 =
+* Goods sold by the meter: cart, order, emails and invoices show the ordered length, for example "Length: 6.00 m".
+
 = 1.0.5 =
 * Mobile: the plus and minus buttons of the area field and the quantity field line up.
 * The total price box and add to cart button no longer shift sideways when a product sample plugin adds margins to the cart form.
@@ -238,6 +241,9 @@ The plugin removes its own settings only. Sizes, waste values and quantity types
 * First public release.
 
 == Upgrade Notice ==
+
+= 1.0.6 =
+Orders for goods sold by the meter show the ordered length.
 
 = 1.0.5 =
 Layout fixes: aligned steppers on mobile, total price box aligned next to sample plugins.

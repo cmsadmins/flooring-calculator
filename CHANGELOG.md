@@ -2,6 +2,10 @@
 
 All notable changes to Flooring Calculator for WooCommerce. The wp.org readme carries the same entries in short form.
 
+## 1.0.6
+
+- Goods sold by the meter: cart, order, emails and invoices show the ordered length, for example "Length: 6.00 m".
+
 ## 1.0.5
 
 - Mobile: the plus and minus buttons of the area field and the quantity field line up.

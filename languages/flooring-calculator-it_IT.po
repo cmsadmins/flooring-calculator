@@ -1,7 +1,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Flooring Calculator for WooCommerce 1.0.5\n"
+"Project-Id-Version: Flooring Calculator for WooCommerce 1.0.6\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/flooring-calculator\n"
 "Last-Translator: Patrick Schlesinger <ps@cms-admins.de>\n"
 "Language-Team: it_IT\n"
@@ -107,13 +107,12 @@ msgid "All quantity types"
 msgstr "Tutti i tipi di quantità"
 
 #: includes/class-caqc-cart.php:69 includes/class-caqc-cart.php:134
-#: includes/class-caqc-types.php:134 includes/class-caqc-types.php:154
-#: includes/class-caqc-types.php:192
+#: includes/class-caqc-types.php:134 includes/class-caqc-types.php:192
 msgid "Quantity"
 msgstr "Quantità"
 
 #. translators: %s: total measure with unit, e.g. "41.76 m²".
-#: includes/class-caqc-cart.php:254
+#: includes/class-caqc-cart.php:256
 #, php-format
 msgid "equals %s"
 msgstr "equivale a %s"
@@ -584,3 +583,7 @@ msgstr "Calcola la superficie dalle dimensioni del locale"
 #: includes/class-caqc-types.php:182
 msgid "Pieces (default)"
 msgstr "Pezzi (predefinito)"
+
+#: includes/class-caqc-types.php:154
+msgid "Length"
+msgstr "Lunghezza"

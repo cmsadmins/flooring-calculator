@@ -1,7 +1,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Flooring Calculator for WooCommerce 1.0.5\n"
+"Project-Id-Version: Flooring Calculator for WooCommerce 1.0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-10-08T11:20:36+00:00\n"
 "PO-Revision-Date: 2026-10-08T11:20:36+00:00\n"
@@ -246,8 +246,7 @@ msgid "Please select a product variation first."
 msgstr "Bitte wählen Sie zuerst eine Artikelvariante aus."
 
 #: includes/class-caqc-cart.php:69 includes/class-caqc-cart.php:134
-#: includes/class-caqc-types.php:134 includes/class-caqc-types.php:154
-#: includes/class-caqc-types.php:192
+#: includes/class-caqc-types.php:134 includes/class-caqc-types.php:192
 msgid "Quantity"
 msgstr "Menge"
 
@@ -378,7 +377,7 @@ msgid "containers"
 msgstr "Gebinde"
 
 #. translators: %s: total measure with unit, e.g. "41.76 m²".
-#: includes/class-caqc-cart.php:254
+#: includes/class-caqc-cart.php:256
 #, php-format
 msgid "equals %s"
 msgstr "entspricht %s"
@@ -586,3 +585,7 @@ msgstr "Auswählen"
 #: flooring-calculator.php
 msgid "Patrick Schlesinger"
 msgstr "Patrick Schlesinger"
+
+#: includes/class-caqc-types.php:154
+msgid "Length"
+msgstr "Länge"
