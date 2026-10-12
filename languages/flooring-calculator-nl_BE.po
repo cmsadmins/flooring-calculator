@@ -1,7 +1,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Flooring Calculator for WooCommerce 1.0.4\n"
+"Project-Id-Version: Flooring Calculator for WooCommerce 1.0.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/flooring-calculator\n"
 "Last-Translator: Patrick Schlesinger <ps@cms-admins.de>\n"
 "Language-Team: nl_BE\n"

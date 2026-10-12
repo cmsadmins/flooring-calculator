@@ -2,6 +2,11 @@
 
 All notable changes to Flooring Calculator for WooCommerce. The wp.org readme carries the same entries in short form.
 
+## 1.0.5
+
+- Mobile: the plus and minus buttons of the area field and the quantity field line up.
+- The total price box and add to cart button no longer shift sideways when a product sample plugin adds margins to the cart form.
+
 ## 1.0.4
 
 - Waste per product: each product can set its own waste percentage, an empty field uses the shop default.

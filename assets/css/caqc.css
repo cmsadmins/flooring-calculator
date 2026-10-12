@@ -391,8 +391,8 @@
 	margin-bottom: 15px;
 }
 
-/* Themes add horizontal margins to form.cart children. */
-form.cart .caqc-footer.caqc-footer {
+/* Themes and sample plugins add horizontal margins to form.cart children (.product.has-product-sample form.cart > *). */
+form.cart .caqc-footer.caqc-footer.caqc-footer {
 	margin-right: 0;
 	margin-left: 0;
 }
@@ -496,6 +496,15 @@ form.cart .caqc-footer.caqc-footer {
 	.caqc .caqc-input-row > .quantity {
 		flex: 1 1 auto;
 		min-width: 0;
+	}
+
+	/* Fixed unit slot, mirrored below, so both steppers end on the same line. */
+	.caqc .caqc-field--amount .caqc-unit {
+		flex: 0 0 24px;
+	}
+
+	.caqc .caqc-field--amount + .caqc-field--qty .quantity {
+		width: calc(100% - 32px);
 	}
 
 	.caqc .caqc-stepper .caqc-step,
