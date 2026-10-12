@@ -21,8 +21,8 @@ msgstr ""
 msgid ""
 "Think of it as a free measurement price calculator made for flooring: an m2 "
 "calculator (m² to packs), a box calculator for tiles, a roll calculator for "
-"underlay and a coverage calculator for adhesives, all in one plugin and "
-"without per square meter pricing tricks."
+"underlay and a coverage calculator for adhesives, all in one plugin, while "
+"the price stays per pack as set in your shop."
 msgstr ""
 
 #. Found in faq paragraph.
@@ -687,6 +687,18 @@ msgstr ""
 msgid ""
 "Flooring: enter the area, get the number of packs and the total price, "
 "optionally with waste."
+msgstr ""
+
+#. Found in changelog list item.
+msgid ""
+"The total price box and add to cart button no longer shift sideways when a "
+"product sample plugin adds margins to the cart form."
+msgstr ""
+
+#. Found in changelog list item.
+msgid ""
+"Mobile: the plus and minus buttons of the area field and the quantity field "
+"line up."
 msgstr ""
 
 #. Found in changelog list item.
