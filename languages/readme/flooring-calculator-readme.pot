@@ -1,7 +1,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Flooring Calculator for WooCommerce readme 1.0.6\n"
+"Project-Id-Version: Flooring Calculator for WooCommerce readme 1.0.7\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -687,6 +687,12 @@ msgstr ""
 msgid ""
 "Flooring: enter the area, get the number of packs and the total price, "
 "optionally with waste."
+msgstr ""
+
+#. Found in changelog list item.
+msgid ""
+"Goods sold by the meter: cart, order, emails and invoices show the ordered "
+"length, for example \"Length: 6.00 m\"."
 msgstr ""
 
 #. Found in changelog list item.

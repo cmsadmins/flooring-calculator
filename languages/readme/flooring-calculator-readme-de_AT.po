@@ -1,7 +1,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Flooring Calculator for WooCommerce readme 1.0.6\n"
+"Project-Id-Version: Flooring Calculator for WooCommerce readme 1.0.7\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/flooring-calculator\n"
 "Last-Translator: Patrick Schlesinger <ps@cms-admins.de>\n"
 "Language-Team: de_AT\n"
@@ -1000,3 +1000,11 @@ msgid ""
 msgstr ""
 "Smartphone: Die Plus- und Minus-Knöpfe von Flächenfeld und Mengenfeld stehen"
 " auf einer Linie."
+
+#. Found in changelog list item.
+msgid ""
+"Goods sold by the meter: cart, order, emails and invoices show the ordered "
+"length, for example \"Length: 6.00 m\"."
+msgstr ""
+"Meterware: Warenkorb, Bestellung, E-Mails und Rechnungen zeigen die "
+"bestellte Länge, zum Beispiel „Länge: 6,00 m“."

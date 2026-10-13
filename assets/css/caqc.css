@@ -391,8 +391,12 @@
 	margin-bottom: 15px;
 }
 
-/* Themes and sample plugins add horizontal margins to form.cart children (.product.has-product-sample form.cart > *). */
-form.cart .caqc-footer.caqc-footer.caqc-footer {
+/*
+ * Themes and sample plugins add horizontal margins to form.cart children, on variable products
+ * also inside the variation wrapper (.product.has-product-sample form.cart .woocommerce-variation-add-to-cart > *).
+ */
+form.cart .caqc.caqc.caqc.caqc,
+form.cart .caqc-footer.caqc-footer.caqc-footer.caqc-footer {
 	margin-right: 0;
 	margin-left: 0;
 }

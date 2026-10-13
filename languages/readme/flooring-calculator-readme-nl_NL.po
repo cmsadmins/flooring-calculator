@@ -1,7 +1,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Flooring Calculator for WooCommerce readme 1.0.6\n"
+"Project-Id-Version: Flooring Calculator for WooCommerce readme 1.0.7\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/flooring-calculator\n"
 "Last-Translator: Patrick Schlesinger <ps@cms-admins.de>\n"
 "Language-Team: nl_NL\n"
@@ -1002,3 +1002,11 @@ msgid ""
 msgstr ""
 "Mobiel: de plus- en minknoppen van het oppervlakteveld en het aantalveld "
 "staan op één lijn."
+
+#. Found in changelog list item.
+msgid ""
+"Goods sold by the meter: cart, order, emails and invoices show the ordered "
+"length, for example \"Length: 6.00 m\"."
+msgstr ""
+"Producten per meter: winkelwagen, bestelling, e-mails en facturen tonen de "
+"bestelde lengte, bijvoorbeeld \"Lengte: 6,00 m\"."

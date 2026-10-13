@@ -1,7 +1,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Flooring Calculator for WooCommerce readme 1.0.6\n"
+"Project-Id-Version: Flooring Calculator for WooCommerce readme 1.0.7\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/flooring-calculator\n"
 "Last-Translator: Patrick Schlesinger <ps@cms-admins.de>\n"
 "Language-Team: it_IT\n"
@@ -1017,3 +1017,11 @@ msgid ""
 msgstr ""
 "Mobile: i pulsanti più e meno del campo superficie e del campo quantità sono"
 " allineati."
+
+#. Found in changelog list item.
+msgid ""
+"Goods sold by the meter: cart, order, emails and invoices show the ordered "
+"length, for example \"Length: 6.00 m\"."
+msgstr ""
+"Prodotti venduti al metro: carrello, ordine, e-mail e fatture mostrano la "
+"lunghezza ordinata, ad esempio \"Lunghezza: 6,00 m\"."
